@@ -1,0 +1,30 @@
+{% if exams %}
+<div class="container">
+  <nav id="menu" class="navbar">
+    <div class="navbar-header"><span id="exam" class="visible-xs">{{ text_exam }}</span>
+      <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        {% for exam in exams %}
+        {% if exam.children %}
+        <li class="dropdown"><a href="{{ exam.href }}" class="dropdown-toggle" data-toggle="dropdown">{{ exam.name }}</a>
+          <div class="dropdown-menu">
+            <div class="dropdown-inner"> {% for children in exam.children|batch(exam.children|length / exam.column|round(1, 'ceil')) %}
+              <ul class="list-unstyled">
+                {% for child in children %}
+                <li><a href="{{ child.href }}">{{ child.name }}</a></li>
+                {% endfor %}
+              </ul>
+              {% endfor %}</div>
+            <a href="{{ exam.href }}" class="see-all">{{ text_all }} {{ exam.name }}</a> </div>
+        </li>
+        {% else %}
+        <li><a href="{{ exam.href }}">{{ exam.name }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+</div>
+{% endif %} 
