@@ -26,6 +26,13 @@ class ControllerCatalogAssessment extends Controller {
 
 			$url = '';
 
+			// Nouveau code pour ajouter un filtre exam
+
+			if (isset($this->request->get['filter_exam'])) {
+				$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+			}
+			//  Fin nouveau code
+
 			if (isset($this->request->get['filter_name'])) {
 				$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 			}
@@ -77,6 +84,13 @@ class ControllerCatalogAssessment extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
+
+			// Nouveau code pour ajouter un filtre exam
+
+			if (isset($this->request->get['filter_exam'])) {
+				$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+			}
+			//  Fin nouveau code
 
 			if (isset($this->request->get['filter_name'])) {
 				$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
@@ -132,6 +146,13 @@ class ControllerCatalogAssessment extends Controller {
 
 			$url = '';
 
+			// Nouveau code pour ajouter un filtre exam
+
+			if (isset($this->request->get['filter_exam'])) {
+				$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+			}
+			//  Fin nouveau code
+
 			if (isset($this->request->get['filter_name'])) {
 				$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 			}
@@ -186,6 +207,13 @@ class ControllerCatalogAssessment extends Controller {
 
 			$url = '';
 
+			// Nouveau code pour ajouter un filtre exam
+
+			if (isset($this->request->get['filter_exam'])) {
+				$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+			}
+			//  Fin nouveau code
+
 			if (isset($this->request->get['filter_name'])) {
 				$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 			}
@@ -225,6 +253,15 @@ class ControllerCatalogAssessment extends Controller {
 	}
 
 	protected function getList() {
+		// Nouveau code pour ajouter un filtre exam
+
+		if (isset($this->request->get['filter_exam'])) {
+			$filter_exam = $this->request->get['filter_exam'];
+		} else {
+			$filter_exam = '';
+		}
+		//  Fin nouveau code
+
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -274,6 +311,13 @@ class ControllerCatalogAssessment extends Controller {
 		}
 
 		$url = '';
+
+		// Nouveau code pour ajouter un filtre exam
+
+		if (isset($this->request->get['filter_exam'])) {
+			$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+		}
+		//  Fin nouveau code
 
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
@@ -428,6 +472,13 @@ class ControllerCatalogAssessment extends Controller {
 
 		$url = '';
 
+		// Nouveau code pour ajouter un filtre exam
+
+		if (isset($this->request->get['filter_exam'])) {
+			$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+		}
+		//  Fin nouveau code
+		
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -467,6 +518,13 @@ class ControllerCatalogAssessment extends Controller {
 
 		$url = '';
 
+		// Nouveau code pour ajouter un filtre exam
+
+		if (isset($this->request->get['filter_exam'])) {
+			$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+		}
+		//  Fin nouveau code
+		
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -505,6 +563,10 @@ class ControllerCatalogAssessment extends Controller {
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($assessment_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($assessment_total - $this->config->get('config_limit_admin'))) ? $assessment_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $assessment_total, ceil($assessment_total / $this->config->get('config_limit_admin')));
 
+		// Nouveau code pour ajouter un filtre exam
+
+		$data['filter_exam'] = $filter_exam;
+		
 		$data['filter_name'] = $filter_name;
 		$data['filter_model'] = $filter_model;
 		$data['filter_date'] = $filter_date;
@@ -563,6 +625,13 @@ class ControllerCatalogAssessment extends Controller {
 		}
 
 		$url = '';
+		
+		// Nouveau code pour ajouter un filtre exam
+
+		if (isset($this->request->get['filter_exam'])) {
+			$url .= '&filter_exam=' . urlencode(html_entity_decode($this->request->get['filter_exam'], ENT_QUOTES, 'UTF-8'));
+		}
+		//  Fin nouveau code
 
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
