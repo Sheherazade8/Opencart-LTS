@@ -11,23 +11,23 @@ class ControllerCommonColumnLeft extends Controller {
 
 		$layout_id = 0;
 
-		// Nouveau code pour category et product
+		// // Nouveau code pour exam et assessment
 
-		if ($route == 'product/category' && isset($this->request->get['path'])) {
-			$this->load->model('catalog/category');
+		// if ($route == 'assessment/exam' && isset($this->request->get['path'])) {
+		// 	$this->load->model('catalog/exam');
 
-			$path = explode('_', (string)$this->request->get['path']);
+		// 	$path = explode('_', (string)$this->request->get['path']);
 
-			$layout_id = $this->model_catalog_category->getCategoryLayoutId(end($path));
-		}
+		// 	$layout_id = $this->model_catalog_exam->getExamLayoutId(end($path));
+		// }
 
-		if ($route == 'product/product' && isset($this->request->get['product_id'])) {
-			$this->load->model('catalog/product');
+		// if ($route == 'assessment/assessment' && isset($this->request->get['assessment_id'])) {
+		// 	$this->load->model('catalog/assessment');
 
-			$layout_id = $this->model_catalog_product->getProductLayoutId($this->request->get['product_id']);
-		}
+		// 	$layout_id = $this->model_catalog_assessment->getAssessmentLayoutId($this->request->get['assessment_id']);
+		// }
 
-		// Fin nouveau code
+		// // Fin nouveau code
 
 		if ($route == 'assessment/exam' && isset($this->request->get['path'])) {
 			$this->load->model('catalog/exam');

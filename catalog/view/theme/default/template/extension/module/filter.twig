@@ -4,7 +4,7 @@
     <div class="list-group-item">
       <div id="filter-group{{ filter_group.filter_group_id }}">{% for filter in filter_group.filter %}
         <div class="checkbox">
-          <label>{% if filter.filter_id in filter_category %}
+          <label>{% if filter.filter_id in filter_exam %}
             <input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" checked="checked" />
             {{ filter.name }}
             {% else %}

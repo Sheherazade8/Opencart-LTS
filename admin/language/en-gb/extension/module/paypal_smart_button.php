@@ -6,7 +6,7 @@ $_['heading_title']    					= 'PayPal Smart Button';
 $_['text_extensions']   				= 'Extensions';
 $_['text_edit']        					= 'Edit PayPal Smart Button Module';
 $_['text_general']				 	 	= 'General';
-$_['text_product_page']					= 'Product Page';
+$_['text_assessment_page']					= 'Assessment Page';
 $_['text_cart_page']					= 'Cart Page';
 $_['text_insert_prepend']				= 'Insert Into Begin';
 $_['text_insert_append']				= 'Insert Into End';
@@ -38,7 +38,7 @@ $_['text_no']			 	 			= 'No';
 
 // Entry
 $_['entry_status']     					= 'Status';
-$_['entry_product_page_status']     	= 'Product Page Status';
+$_['entry_assessment_page_status']     	= 'Assessment Page Status';
 $_['entry_cart_page_status']     		= 'Cart Page Status';
 $_['entry_insert_tag']     				= 'Insert Tag';
 $_['entry_insert_type']     			= 'Insert Type';

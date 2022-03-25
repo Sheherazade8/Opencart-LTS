@@ -36,25 +36,25 @@ class ControllerInformationSitemap extends Controller {
 				foreach ($exams_3 as $exam_3) {
 					$level_3_data[] = array(
 						'name' => $exam_3['name'],
-						'href' => $this->url->link('product/exam', 'path=' . $exam_1['exam_id'] . '_' . $exam_2['exam_id'] . '_' . $exam_3['exam_id'])
+						'href' => $this->url->link('assessment/exam', 'path=' . $exam_1['exam_id'] . '_' . $exam_2['exam_id'] . '_' . $exam_3['exam_id'])
 					);
 				}
 
 				$level_2_data[] = array(
 					'name'     => $exam_2['name'],
 					'children' => $level_3_data,
-					'href'     => $this->url->link('product/exam', 'path=' . $exam_1['exam_id'] . '_' . $exam_2['exam_id'])
+					'href'     => $this->url->link('assessment/exam', 'path=' . $exam_1['exam_id'] . '_' . $exam_2['exam_id'])
 				);
 			}
 
 			$data['exams'][] = array(
 				'name'     => $exam_1['name'],
 				'children' => $level_2_data,
-				'href'     => $this->url->link('product/exam', 'path=' . $exam_1['exam_id'])
+				'href'     => $this->url->link('assessment/exam', 'path=' . $exam_1['exam_id'])
 			);
 		}
 
-		$data['special'] = $this->url->link('product/special');
+		$data['special'] = $this->url->link('assessment/special');
 		$data['account'] = $this->url->link('account/account', '', true);
 		$data['edit'] = $this->url->link('account/edit', '', true);
 		$data['password'] = $this->url->link('account/password', '', true);
@@ -63,7 +63,7 @@ class ControllerInformationSitemap extends Controller {
 		$data['download'] = $this->url->link('account/download', '', true);
 		$data['cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
-		$data['search'] = $this->url->link('product/search');
+		$data['search'] = $this->url->link('assessment/search');
 		$data['contact'] = $this->url->link('information/contact');
 
 		$this->load->model('catalog/information');

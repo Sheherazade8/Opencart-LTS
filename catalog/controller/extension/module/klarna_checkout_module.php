@@ -9,33 +9,33 @@ class ControllerExtensionModuleKlarnaCheckoutModule extends Controller {
 			return false;
 		}
 
-		// Validate cart has products and has stock.
-		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+		// Validate cart has assessments and has stock.
+		if ((!$this->cart->hasAssessments() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$this->model_extension_payment_klarna_checkout->log('Not shown due to empty cart');
 			return false;
 		}
 
 		// Validate minimum quantity requirements.
-		$products = $this->cart->getProducts();
+		$assessments = $this->cart->getAssessments();
 
-		foreach ($products as $product) {
-			$product_total = 0;
+		foreach ($assessments as $assessment) {
+			$assessment_total = 0;
 
-			foreach ($products as $product_2) {
-				if ($product_2['product_id'] == $product['product_id']) {
-					$product_total += $product_2['quantity'];
+			foreach ($assessments as $assessment_2) {
+				if ($assessment_2['assessment_id'] == $assessment['assessment_id']) {
+					$assessment_total += $assessment_2['quantity'];
 				}
 			}
 
-			if ($product['minimum'] > $product_total) {
+			if ($assessment['minimum'] > $assessment_total) {
 				$this->model_extension_payment_klarna_checkout->log('Not shown due to cart not meeting minimum quantity reqs.');
 				return false;
 			}
 		}
 
-		// Validate cart has recurring products
-		if ($this->cart->hasRecurringProducts()) {
-			$this->model_extension_payment_klarna_checkout->log('Not shown due to cart having recurring products.');
+		// Validate cart has recurring assessments
+		if ($this->cart->hasRecurringAssessments()) {
+			$this->model_extension_payment_klarna_checkout->log('Not shown due to cart having recurring assessments.');
 			return false;
 		}
 
@@ -45,7 +45,7 @@ class ControllerExtensionModuleKlarnaCheckoutModule extends Controller {
 			return false;
 		}
 
-		if ($this->model_extension_payment_klarna_checkout->checkForPaymentTaxes($products)) {
+		if ($this->model_extension_payment_klarna_checkout->checkForPaymentTaxes($assessments)) {
 			$this->model_extension_payment_klarna_checkout->log('Payment Address based taxes used.');
 			return false;
 		}

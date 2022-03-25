@@ -50,7 +50,7 @@ function setupPayPalSmartButton() {
 				$.ajax({
 					method: 'post',
 					url: 'index.php?route=extension/module/paypal_smart_button/createOrder',
-					data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+					data: $('#assessment input[type=\'text\'], #assessment input[type=\'hidden\'], #assessment input[type=\'radio\']:checked, #assessment input[type=\'checkbox\']:checked, #assessment select, #assessment textarea'),
 					dataType: 'json',
 					async: false,
 					success: function(json) {							

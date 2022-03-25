@@ -9,7 +9,7 @@ $_['text_filter']        = 'Filter';
 $_['text_search']        = 'Search for extensions and themes';
 $_['text_exam']      = 'Exams';
 
-$_['text_category']      = 'Categories';
+$_['text_exam']      = 'Exams';
 
 $_['text_all']           = 'All';
 $_['text_theme']         = 'Themes';

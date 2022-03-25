@@ -33,12 +33,12 @@
               {% endif %} </div>
           </div>
           <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-product"><span data-toggle="tooltip" title="{{ help_product }}">{{ entry_product }}</span></label>
+            <label class="col-sm-2 control-label" for="input-assessment"><span data-toggle="tooltip" title="{{ help_assessment }}">{{ entry_assessment }}</span></label>
             <div class="col-sm-10">
-              <input type="text" name="product" value="{{ product }}" placeholder="{{ entry_product }}" id="input-product" class="form-control" />
-              <input type="hidden" name="product_id" value="{{ product_id }}" />
-              {% if error_product %}
-              <div class="text-danger">{{ error_product }}</div>
+              <input type="text" name="assessment" value="{{ assessment }}" placeholder="{{ entry_assessment }}" id="input-assessment" class="form-control" />
+              <input type="hidden" name="assessment_id" value="{{ assessment_id }}" />
+              {% if error_assessment %}
+              <div class="text-danger">{{ error_assessment }}</div>
               {% endif %} </div>
           </div>
           <div class="form-group required">
@@ -127,24 +127,24 @@ $('.datetime').datetimepicker({
 });
 //--></script> 
   <script type="text/javascript"><!--
-$('input[name=\'product\']').autocomplete({
+$('input[name=\'assessment\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=catalog/assessment/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',			
 			success: function(json) {
 				response($.map(json, function(item) {
 					return {
 						label: item['name'],
-						value: item['product_id']
+						value: item['assessment_id']
 					}
 				}));
 			}
 		});
 	},
 	'select': function(item) {
-		$('input[name=\'product\']').val(item['label']);
-		$('input[name=\'product_id\']').val(item['value']);		
+		$('input[name=\'assessment\']').val(item['label']);
+		$('input[name=\'assessment_id\']').val(item['value']);		
 	}	
 });
 //--></script></div>

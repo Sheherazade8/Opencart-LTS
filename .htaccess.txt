@@ -43,13 +43,13 @@ RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
 # 3. Set max upload file size. Most hosts will limit this and not allow it to be overridden but you can try
 # php_value upload_max_filesize 999M
 
-# 4. set max post size. uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# 4. set max post size. uncomment this line if you have a lot of assessment options or are getting errors where forms are not saving all fields
 # php_value post_max_size 999M
 
-# 5. set max time script can take. uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# 5. set max time script can take. uncomment this line if you have a lot of assessment options or are getting errors where forms are not saving all fields
 # php_value max_execution_time 200
 
-# 6. set max time for input to be recieved. Uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
+# 6. set max time for input to be recieved. Uncomment this line if you have a lot of assessment options or are getting errors where forms are not saving all fields
 # php_value max_input_time 200
 
 # 7. disable open_basedir limitations

@@ -163,21 +163,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for product in products %}
+						{% for assessment in assessments %}
 						<tr>
 							<td class="text-left">
-								<a href="{{ product['href'] }}">{{ product['name'] }}</a>
-								{% for option in product['option'] %} <br />
+								<a href="{{ assessment['href'] }}">{{ assessment['name'] }}</a>
+								{% for option in assessment['option'] %} <br />
 								<small> - {{ option['name'] }}: {{ option['value'] }}</small>
 								{% endfor %}
-								{% if product['recurring'] %}
-								<br /><span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product['recurring_description'] }}</small>
+								{% if assessment['recurring'] %}
+								<br /><span class="label label-info">{{ text_recurring_item }}</span> <small>{{ assessment['recurring_description'] }}</small>
 								{% endif %}
 							</td>
-							<td class="text-left">{{ product['model'] }}</td>
-							<td class="text-center">{{ product['quantity'] }}</td>
-							<td class="text-right">{{ product['price'] }}</td>
-							<td class="text-right">{{ product['total'] }}</td>
+							<td class="text-left">{{ assessment['model'] }}</td>
+							<td class="text-center">{{ assessment['quantity'] }}</td>
+							<td class="text-right">{{ assessment['price'] }}</td>
+							<td class="text-right">{{ assessment['total'] }}</td>
 						</tr>
 						{% endfor %}
 						{% for voucher in vouchers %}

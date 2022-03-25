@@ -25,7 +25,7 @@ $_['text_payment_cancel']      			= '%s every %d %s(s) until canceled';
 
 // Column
 $_['column_image']             			= 'Image';
-$_['column_name']              			= 'Product Name';
+$_['column_name']              			= 'Assessment Name';
 $_['column_model']             			= 'Model';
 $_['column_quantity']          			= 'Quantity';
 $_['column_price']             			= 'Unit Price';
@@ -49,10 +49,10 @@ $_['button_confirm']  					= 'Confirm';
 $_['button_shipping'] 					= 'Update shipping';
 
 // Error
-$_['error_stock']              			= 'Products marked with *** are not available in the desired quantity or not in stock!';
+$_['error_stock']              			= 'Assessments marked with *** are not available in the desired quantity or not in stock!';
 $_['error_minimum']            			= 'Minimum order amount for %s is %s!';
 $_['error_required']           			= '%s required!';
-$_['error_product']            			= 'Warning: There are no products in your cart!';
+$_['error_assessment']            			= 'Warning: There are no assessments in your cart!';
 $_['error_recurring_required'] 			= 'Please select a payment recurring!';
 $_['error_unavailable'] 	  			= 'Please use the full checkout with this order!';
 $_['error_shipping']                 	= 'Warning: Shipping method required!';

@@ -1,11 +1,11 @@
 <h3>{{ heading_title }}</h3>
-<div class="row product-layout">{% for product in products %}
+<div class="row assessment-layout">{% for assessment in assessments %}
   <div class="col-lg-3 col-md-3s col-sm-6 col-xs-12">
-    <div class="product-thumb transition">
-      <div class="image"><a target="_blank" href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+    <div class="assessment-thumb transition">
+      <div class="image"><a target="_blank" href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-responsive" /></a></div>
       <div class="caption">
-        <p><a href="{{ product.href }}">{{ product.name }}</a></p>
-        <p class="price">{{ product.price }}</p>
+        <p><a href="{{ assessment.href }}">{{ assessment.name }}</a></p>
+        <p class="price">{{ assessment.price }}</p>
       </div>
     </div>
   </div>

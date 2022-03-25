@@ -30,7 +30,7 @@ class ControllerExtensionModuleFilter extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			$data['action'] = str_replace('&amp;', '&', $this->url->link('product/exam', 'path=' . $this->request->get['path'] . $url));
+			$data['action'] = str_replace('&amp;', '&', $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . $url));
 
 			if (isset($this->request->get['filter'])) {
 				$data['filter_exam'] = explode(',', $this->request->get['filter']);
@@ -38,7 +38,7 @@ class ControllerExtensionModuleFilter extends Controller {
 				$data['filter_exam'] = array();
 			}
 
-			$this->load->model('catalog/product');
+			$this->load->model('catalog/assessment');
 
 			$data['filter_groups'] = array();
 
@@ -56,7 +56,7 @@ class ControllerExtensionModuleFilter extends Controller {
 
 						$childen_data[] = array(
 							'filter_id' => $filter['filter_id'],
-							'name'      => $filter['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : '')
+							'name'      => $filter['name'] . ($this->config->get('config_assessment_count') ? ' (' . $this->model_catalog_assessment->getTotalAssessments($filter_data) . ')' : '')
 						);
 					}
 

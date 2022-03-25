@@ -18,16 +18,16 @@
       <div class="row">
         <div class="col-sm-6">
           <ul>
-            {% for category_1 in categories %}
-            <li><a href="{{ category_1.href }}">{{ category_1.name }}</a>
-              {% if category_1.children %}
+            {% for exam_1 in exams %}
+            <li><a href="{{ exam_1.href }}">{{ exam_1.name }}</a>
+              {% if exam_1.children %}
               <ul>
-                {% for category_2 in category_1.children %}
-                <li><a href="{{ category_2.href }}">{{ category_2.name }}</a>
-                  {% if category_2.children %}
+                {% for exam_2 in exam_1.children %}
+                <li><a href="{{ exam_2.href }}">{{ exam_2.name }}</a>
+                  {% if exam_2.children %}
                   <ul>
-                    {% for category_3 in category_2.children %}
-                    <li><a href="{{ category_3.href }}">{{ category_3.name }}</a></li>
+                    {% for exam_3 in exam_2.children %}
+                    <li><a href="{{ exam_3.href }}">{{ exam_3.name }}</a></li>
                     {% endfor %}
                   </ul>
                   {% endif %}

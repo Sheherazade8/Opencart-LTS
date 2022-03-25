@@ -3,24 +3,24 @@ class ControllerExtensionModuleDividoCalculator extends Controller {
 	public function index() {
 		$this->load->language('extension/module/divido_calculator');
 		$this->load->model('extension/payment/divido');
-		$this->load->model('catalog/product');
+		$this->load->model('catalog/assessment');
 
-		$product_selection = $this->config->get('payment_divido_productselection');
-		$product_threshold = $this->config->get('payment_divido_price_threshold');
+		$assessment_selection = $this->config->get('payment_divido_assessmentselection');
+		$assessment_threshold = $this->config->get('payment_divido_price_threshold');
 
-		if (!isset($this->request->get['product_id']) || !$this->config->get('payment_divido_status') || !$this->config->get('module_divido_calculator_status')) {
+		if (!isset($this->request->get['assessment_id']) || !$this->config->get('payment_divido_status') || !$this->config->get('module_divido_calculator_status')) {
 			return false;
 		}
 
-		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+		$assessment_info = $this->model_catalog_assessment->getAssessment($this->request->get['assessment_id']);
 
 		$price = 0;
 		if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-			$base_price = !empty($product_info['special']) ? $product_info['special'] : $product_info['price'];
-			$price = $this->tax->calculate($base_price, $product_info['tax_class_id'], $this->config->get('config_tax'));
+			$base_price = !empty($assessment_info['special']) ? $assessment_info['special'] : $assessment_info['price'];
+			$price = $this->tax->calculate($base_price, $assessment_info['tax_class_id'], $this->config->get('config_tax'));
 		}
 
-		if ($product_selection == 'threshold' && $product_threshold > $price) {
+		if ($assessment_selection == 'threshold' && $assessment_threshold > $price) {
 			return false;
 		}
 
@@ -29,7 +29,7 @@ class ControllerExtensionModuleDividoCalculator extends Controller {
 		$js_key = strtolower(array_shift($key_parts));
 
 		$this->model_extension_payment_divido->setMerchant($api_key);
-		$plans = $this->model_extension_payment_divido->getProductPlans($this->request->get['product_id']);
+		$plans = $this->model_extension_payment_divido->getAssessmentPlans($this->request->get['assessment_id']);
 
 		if (!$plans) {
 			return false;
@@ -43,7 +43,7 @@ class ControllerExtensionModuleDividoCalculator extends Controller {
 
 		$data = array(
 			'merchant_script'			=> "//cdn.divido.com/calculator/{$js_key}.js",
-			'product_price'				=> $price,
+			'assessment_price'				=> $price,
 			'plan_list'					=> $plans_list,
 			'generic_credit_req_error'	=> 'Credit request could not be initiated',
 		);

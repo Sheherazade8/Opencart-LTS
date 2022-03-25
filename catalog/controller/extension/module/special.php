@@ -3,11 +3,11 @@ class ControllerExtensionModuleSpecial extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/special');
 
-		$this->load->model('catalog/product');
+		$this->load->model('catalog/assessment');
 
 		$this->load->model('tool/image');
 
-		$data['products'] = array();
+		$data['assessments'] = array();
 
 		$filter_data = array(
 			'sort'  => 'pd.name',
@@ -16,7 +16,7 @@ class ControllerExtensionModuleSpecial extends Controller {
 			'limit' => $setting['limit']
 		);
 
-		$results = $this->model_catalog_product->getProductSpecials($filter_data);
+		$results = $this->model_catalog_assessment->getAssessmentSpecials($filter_data);
 
 		if ($results) {
 			foreach ($results as $result) {
@@ -52,16 +52,16 @@ class ControllerExtensionModuleSpecial extends Controller {
 					$rating = false;
 				}
 
-				$data['products'][] = array(
-					'product_id'  => $result['product_id'],
+				$data['assessments'][] = array(
+					'assessment_id'  => $result['assessment_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
-					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
+					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_assessment_description_length')) . '..',
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
 					'rating'      => $rating,
-					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+					'href'        => $this->url->link('assessment/assessment', 'assessment_id=' . $result['assessment_id'])
 				);
 			}
 

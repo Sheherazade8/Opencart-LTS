@@ -98,7 +98,7 @@ $_['entry_recurring']        = 'Recurring Profile';
 
 // Help
 $_['help_sku']               = 'Stock Keeping Unit';
-$_['help_upc']               = 'Universal Product Code';
+$_['help_upc']               = 'Universal Assessment Code';
 $_['help_ean']               = 'European Article Number';
 $_['help_jan']               = 'Japanese Article Number';
 $_['help_isbn']              = 'International Standard Book Number';

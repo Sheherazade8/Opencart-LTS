@@ -5,7 +5,7 @@ $_['text_wishlist']      = 'Wish List (%s)';
 $_['text_shopping_cart'] = 'Shopping Cart';
 $_['text_exam']      = 'Exams';
 
-$_['text_category']      = 'Categories';
+$_['text_exam']      = 'Exams';
 
 $_['text_account']       = 'My Account';
 $_['text_register']      = 'Register';

@@ -33,8 +33,8 @@
           </div>
           <div  class="panel-body">
             <div class="form-group">
-              <label class="control-label" for="input-product">{{ entry_product }}</label>
-              <input type="text" name="filter_product" value="{{ filter_product }}" placeholder="{{ entry_product }}" id="input-product" class="form-control" />
+              <label class="control-label" for="input-assessment">{{ entry_assessment }}</label>
+              <input type="text" name="filter_assessment" value="{{ filter_assessment }}" placeholder="{{ entry_assessment }}" id="input-assessment" class="form-control" />
             </div>
             <div class="form-group">
               <label class="control-label" for="input-author">{{ entry_author }}</label>
@@ -82,7 +82,7 @@
                   <thead>
                     <tr>
                       <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                      <td class="text-left">{% if sort == 'pd.name' %} <a href="{{ sort_product }}" class="{{ order|lower }}">{{ column_product }}</a> {% else %} <a href="{{ sort_product }}">{{ column_product }}</a> {% endif %}</td>
+                      <td class="text-left">{% if sort == 'pd.name' %} <a href="{{ sort_assessment }}" class="{{ order|lower }}">{{ column_assessment }}</a> {% else %} <a href="{{ sort_assessment }}">{{ column_assessment }}</a> {% endif %}</td>
                       <td class="text-left">{% if sort == 'r.author' %} <a href="{{ sort_author }}" class="{{ order|lower }}">{{ column_author }}</a> {% else %} <a href="{{ sort_author }}">{{ column_author }}</a> {% endif %}</td>
                       <td class="text-right">{% if sort == 'r.rating' %} <a href="{{ sort_rating }}" class="{{ order|lower }}">{{ column_rating }}</a> {% else %} <a href="{{ sort_rating }}">{{ column_rating }}</a> {% endif %}</td>
                       <td class="text-left">{% if sort == 'r.status' %} <a href="{{ sort_status }}" class="{{ order|lower }}">{{ column_status }}</a> {% else %} <a href="{{ sort_status }}">{{ column_status }}</a> {% endif %}</td>
@@ -131,10 +131,10 @@
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=catalog/review&user_token={{ user_token }}';
 	
-	var filter_product = $('input[name=\'filter_product\']').val();
+	var filter_assessment = $('input[name=\'filter_assessment\']').val();
 	
-	if (filter_product) {
-		url += '&filter_product=' + encodeURIComponent(filter_product);
+	if (filter_assessment) {
+		url += '&filter_assessment=' + encodeURIComponent(filter_assessment);
 	}
 	
 	var filter_author = $('input[name=\'filter_author\']').val();

@@ -68,11 +68,14 @@ class ModelCatalogExam extends Model {
 		$this->load->model('catalog/assessment');
 
 		$results = $this->model_catalog_assessment->getAssessmentsByExamId($exam_id);
-		$price = $value['price'];
-		
-		foreach ($results as $result) {
-			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $price . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+		$price = $this->db->escape($value['price']);
+		if (isset($price)){
+			foreach ($results as $result) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $price . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
 		}
+		
+		
 		// Fin nouveau code
 
 

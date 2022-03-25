@@ -29,4 +29,18 @@
                   p2c.exam_id = '" . (int)$exam_id . "' *
                   ORDER BY pd.name ASC");
 
+$sql = "SELECT * FROM 
+" . DB_PREFIX . "assessment p LEFT JOIN 
+" . DB_PREFIX . "assessment_description pd ON 
+(p.assessment_id = pd.assessment_id) LEFT JOIN
+" . DB_PREFIX . "assessment_to_exam p2c ON
+(p.assessment_id = p2c.assessment_id) LEFT JOIN
+" . DB_PREFIX . "exam_description cd ON
+(p2c.exam_id = cd.exam_id) WHERE 
+pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND
+cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+$sql = "SELECT * FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN" . DB_PREFIX . "assessment_to_exam p2c ON(p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'" AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+
 

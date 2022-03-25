@@ -4,7 +4,7 @@ class ControllerExtensionModulePilibabaButton extends Controller {
 		$this->load->language('extension/module/pilibaba_button');
 		$status = true;
 
-		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+		if (!$this->cart->hasAssessments() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$status = false;
 		}
 

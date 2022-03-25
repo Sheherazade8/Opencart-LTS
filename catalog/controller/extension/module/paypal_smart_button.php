@@ -32,41 +32,41 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 			$currency_value = $this->config->get('payment_paypal_currency_value');
 			$decimal_place = $paypal_setting['currency'][$currency_code]['decimal_place'];
 			
-			if ($setting['page']['product']['status'] && ($this->request->get['route'] == 'product/product') && isset($this->request->get['product_id'])) {
-				$data['insert_tag'] = html_entity_decode($setting['page']['product']['insert_tag']);
-				$data['insert_type'] = $setting['page']['product']['insert_type'];
-				$data['button_align'] = $setting['page']['product']['button_align'];
-				$data['button_size'] = $setting['page']['product']['button_size'];
-				$data['button_color'] = $setting['page']['product']['button_color'];
-				$data['button_shape'] = $setting['page']['product']['button_shape'];
-				$data['button_label'] = $setting['page']['product']['button_label'];
-				$data['button_tagline'] = $setting['page']['product']['button_tagline'];	
+			if ($setting['page']['assessment']['status'] && ($this->request->get['route'] == 'assessment/assessment') && isset($this->request->get['assessment_id'])) {
+				$data['insert_tag'] = html_entity_decode($setting['page']['assessment']['insert_tag']);
+				$data['insert_type'] = $setting['page']['assessment']['insert_type'];
+				$data['button_align'] = $setting['page']['assessment']['button_align'];
+				$data['button_size'] = $setting['page']['assessment']['button_size'];
+				$data['button_color'] = $setting['page']['assessment']['button_color'];
+				$data['button_shape'] = $setting['page']['assessment']['button_shape'];
+				$data['button_label'] = $setting['page']['assessment']['button_label'];
+				$data['button_tagline'] = $setting['page']['assessment']['button_tagline'];	
 				
-				$data['message_status'] = $setting['page']['product']['message_status'];
-				$data['message_align'] = $setting['page']['product']['message_align'];
-				$data['message_size'] = $setting['page']['product']['message_size'];
-				$data['message_layout'] = $setting['page']['product']['message_layout'];
-				$data['message_text_color'] = $setting['page']['product']['message_text_color'];
-				$data['message_text_size'] = $setting['page']['product']['message_text_size'];
-				$data['message_flex_color'] = $setting['page']['product']['message_flex_color'];
-				$data['message_flex_ratio'] = $setting['page']['product']['message_flex_ratio'];
-				$data['message_placement'] = 'product';
+				$data['message_status'] = $setting['page']['assessment']['message_status'];
+				$data['message_align'] = $setting['page']['assessment']['message_align'];
+				$data['message_size'] = $setting['page']['assessment']['message_size'];
+				$data['message_layout'] = $setting['page']['assessment']['message_layout'];
+				$data['message_text_color'] = $setting['page']['assessment']['message_text_color'];
+				$data['message_text_size'] = $setting['page']['assessment']['message_text_size'];
+				$data['message_flex_color'] = $setting['page']['assessment']['message_flex_color'];
+				$data['message_flex_ratio'] = $setting['page']['assessment']['message_flex_ratio'];
+				$data['message_placement'] = 'assessment';
 				
-				$product_id = (int)$this->request->get['product_id'];
+				$assessment_id = (int)$this->request->get['assessment_id'];
 		
-				$this->load->model('catalog/product');
+				$this->load->model('catalog/assessment');
 
-				$product_info = $this->model_catalog_product->getProduct($product_id);
+				$assessment_info = $this->model_catalog_assessment->getAssessment($assessment_id);
 
-				if ($product_info) {
+				if ($assessment_info) {
 					if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-						if ((float)$product_info['special']) {
-							$product_price = $this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+						if ((float)$assessment_info['special']) {
+							$assessment_price = $this->tax->calculate($assessment_info['special'], $assessment_info['tax_class_id'], $this->config->get('config_tax'));
 						} else {
-							$product_price = $this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+							$assessment_price = $this->tax->calculate($assessment_info['price'], $assessment_info['tax_class_id'], $this->config->get('config_tax'));
 						}
 						
-						$data['message_amount'] = number_format($product_price * $currency_value, $decimal_place, '.', '');
+						$data['message_amount'] = number_format($assessment_price * $currency_value, $decimal_place, '.', '');
 					} 			
 				}
 				
@@ -95,10 +95,10 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 				
 				$item_total = 0;
 				
-				foreach ($this->cart->getProducts() as $product) {
-					$product_price = number_format($product['price'] * $currency_value, $decimal_place, '.', '');
+				foreach ($this->cart->getAssessments() as $assessment) {
+					$assessment_price = number_format($assessment['price'] * $currency_value, $decimal_place, '.', '');
 				
-					$item_total += $product_price * $product['quantity'];
+					$item_total += $assessment_price * $assessment['quantity'];
 				}
 			
 				$item_total = number_format($item_total, $decimal_place, '.', '');
@@ -140,14 +140,14 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 		
 		$data['order_id'] = '';
 		
-		if (isset($this->request->post['product_id'])) {
-			$product_id = (int)$this->request->post['product_id'];
+		if (isset($this->request->post['assessment_id'])) {
+			$assessment_id = (int)$this->request->post['assessment_id'];
 		
-			$this->load->model('catalog/product');
+			$this->load->model('catalog/assessment');
 
-			$product_info = $this->model_catalog_product->getProduct($product_id);
+			$assessment_info = $this->model_catalog_assessment->getAssessment($assessment_id);
 
-			if ($product_info) {
+			if ($assessment_info) {
 				if (isset($this->request->post['quantity'])) {
 					$quantity = (int)$this->request->post['quantity'];
 				} else {
@@ -160,11 +160,11 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 					$option = array();
 				}
 
-				$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
+				$assessment_options = $this->model_catalog_assessment->getAssessmentOptions($this->request->post['assessment_id']);
 
-				foreach ($product_options as $product_option) {
-					if ($product_option['required'] && empty($option[$product_option['product_option_id']])) {
-						$errors[] = sprintf($this->language->get('error_required'), $product_option['name']);
+				foreach ($assessment_options as $assessment_option) {
+					if ($assessment_option['required'] && empty($option[$assessment_option['assessment_option_id']])) {
+						$errors[] = sprintf($this->language->get('error_required'), $assessment_option['name']);
 					}
 				}
 
@@ -174,7 +174,7 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 					$recurring_id = 0;
 				}
 
-				$recurrings = $this->model_catalog_product->getProfiles($product_info['product_id']);
+				$recurrings = $this->model_catalog_assessment->getProfiles($assessment_info['assessment_id']);
 
 				if ($recurrings) {
 					$recurring_ids = array();
@@ -189,8 +189,8 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 				}
 
 				if (!$errors) {					
-					if (!$this->model_extension_module_paypal_smart_button->hasProductInCart($this->request->post['product_id'], $option, $recurring_id)) {
-						$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
+					if (!$this->model_extension_module_paypal_smart_button->hasAssessmentInCart($this->request->post['assessment_id'], $option, $recurring_id)) {
+						$this->cart->add($this->request->post['assessment_id'], $quantity, $option, $recurring_id);
 					}
 					
 					// Unset all shipping and payment methods
@@ -241,21 +241,21 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 			
 			$item_total = 0;
 				
-			foreach ($this->cart->getProducts() as $product) {
-				$product_price = number_format($product['price'] * $currency_value, $decimal_place, '.', '');
+			foreach ($this->cart->getAssessments() as $assessment) {
+				$assessment_price = number_format($assessment['price'] * $currency_value, $decimal_place, '.', '');
 				
 				$item_info[] = array(
-					'name' => $product['name'],
-					'sku' => $product['model'],
-					'url' => $this->url->link('product/product', 'product_id=' . $product['product_id'], true),
-					'quantity' => $product['quantity'],
+					'name' => $assessment['name'],
+					'sku' => $assessment['model'],
+					'url' => $this->url->link('assessment/assessment', 'assessment_id=' . $assessment['assessment_id'], true),
+					'quantity' => $assessment['quantity'],
 					'unit_amount' => array(
 						'currency_code' => $currency_code,
-						'value' => $product_price
+						'value' => $assessment_price
 					)
 				);
 				
-				$item_total += $product_price * $product['quantity'];
+				$item_total += $assessment_price * $assessment['quantity'];
 			}
 			
 			$item_total = number_format($item_total, $decimal_place, '.', '');
@@ -351,7 +351,7 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 		}
 		
 		// check checkout can continue due to stock checks or vouchers
-		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+		if ((!$this->cart->hasAssessments() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$data['url'] = $this->url->link('checkout/cart', '', true);
 			
 			$this->response->addHeader('Content-Type: application/json');
@@ -359,7 +359,7 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 		}
 
 		// if user not logged in check that the guest checkout is allowed
-		if (!$this->customer->isLogged() && (!$this->config->get('config_checkout_guest') || $this->config->get('config_customer_price') || $this->cart->hasDownload() || $this->cart->hasRecurringProducts())) {
+		if (!$this->customer->isLogged() && (!$this->config->get('config_checkout_guest') || $this->config->get('config_customer_price') || $this->cart->hasDownload() || $this->cart->hasRecurringAssessments())) {
 			$data['url'] = $this->url->link('checkout/cart', '', true);
 			
 			$this->response->addHeader('Content-Type: application/json');
@@ -599,9 +599,9 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 
 		$points_total = 0;
 
-		foreach ($this->cart->getProducts() as $product) {
-			if ($product['points']) {
-				$points_total += $product['points'];
+		foreach ($this->cart->getAssessments() as $assessment) {
+			if ($assessment['points']) {
+				$points_total += $assessment['points'];
 			}
 		}
 		
@@ -613,34 +613,34 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 
 		$this->load->model('tool/upload');
 
-		$products = $this->cart->getProducts();
+		$assessments = $this->cart->getAssessments();
 
-		if (empty($products)) {
+		if (empty($assessments)) {
 			$this->response->redirect($this->url->link('checkout/cart', '', true));
 		}
 
-		foreach ($products as $product) {
-			$product_total = 0;
+		foreach ($assessments as $assessment) {
+			$assessment_total = 0;
 
-			foreach ($products as $product_2) {
-				if ($product_2['product_id'] == $product['product_id']) {
-					$product_total += $product_2['quantity'];
+			foreach ($assessments as $assessment_2) {
+				if ($assessment_2['assessment_id'] == $assessment['assessment_id']) {
+					$assessment_total += $assessment_2['quantity'];
 				}
 			}
 
-			if ($product['minimum'] > $product_total) {
-				$data['error_warning'] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
+			if ($assessment['minimum'] > $assessment_total) {
+				$data['error_warning'] = sprintf($this->language->get('error_minimum'), $assessment['name'], $assessment['minimum']);
 			}
 
-			if ($product['image']) {
-				$image = $this->model_tool_image->resize($product['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
+			if ($assessment['image']) {
+				$image = $this->model_tool_image->resize($assessment['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
 			} else {
 				$image = '';
 			}
 
 			$option_data = array();
 
-			foreach ($product['option'] as $option) {
+			foreach ($assessment['option'] as $option) {
 				if ($option['type'] != 'file') {
 					$value = $option['value'];
 				} else {
@@ -661,10 +661,10 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 
 			// Display prices
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-				$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
+				$unit_price = $this->tax->calculate($assessment['price'], $assessment['tax_class_id'], $this->config->get('config_tax'));
 
 				$price = $this->currency->format($unit_price, $this->session->data['currency']);
-				$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+				$total = $this->currency->format($unit_price * $assessment['quantity'], $this->session->data['currency']);
 			} else {
 				$price = false;
 				$total = false;
@@ -672,7 +672,7 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 			
 			$recurring = '';
 
-			if ($product['recurring']) {
+			if ($assessment['recurring']) {
 				$frequencies = array(
 					'day'        => $this->language->get('text_day'),
 					'week'       => $this->language->get('text_week'),
@@ -681,30 +681,30 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 					'year'       => $this->language->get('text_year'),
 				);
 
-				if ($product['recurring']['trial']) {
-					$recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
+				if ($assessment['recurring']['trial']) {
+					$recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($assessment['recurring']['trial_price'] * $assessment['quantity'], $assessment['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $assessment['recurring']['trial_cycle'], $frequencies[$assessment['recurring']['trial_frequency']], $assessment['recurring']['trial_duration']) . ' ';
 				}
 
-				if ($product['recurring']['duration']) {
-					$recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+				if ($assessment['recurring']['duration']) {
+					$recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($assessment['recurring']['price'] * $assessment['quantity'], $assessment['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $assessment['recurring']['cycle'], $frequencies[$assessment['recurring']['frequency']], $assessment['recurring']['duration']);
 				} else {
-					$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+					$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($assessment['recurring']['price'] * $assessment['quantity'], $assessment['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $assessment['recurring']['cycle'], $frequencies[$assessment['recurring']['frequency']], $assessment['recurring']['duration']);
 				}
 			}
 
-			$data['products'][] = array(
-				'cart_id'               => $product['cart_id'],
+			$data['assessments'][] = array(
+				'cart_id'               => $assessment['cart_id'],
 				'thumb'                 => $image,
-				'name'                  => $product['name'],
-				'model'                 => $product['model'],
+				'name'                  => $assessment['name'],
+				'model'                 => $assessment['model'],
 				'option'                => $option_data,
 				'recurring' 			=> $recurring,
-				'quantity'              => $product['quantity'],
-				'stock'                 => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
-				'reward'                => ($product['reward'] ? sprintf($this->language->get('text_points'), $product['reward']) : ''),
+				'quantity'              => $assessment['quantity'],
+				'stock'                 => $assessment['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
+				'reward'                => ($assessment['reward'] ? sprintf($this->language->get('text_points'), $assessment['reward']) : ''),
 				'price'                 => $price,
 				'total'                 => $total,
-				'href'                  => $this->url->link('product/product', 'product_id=' . $product['product_id'], true)
+				'href'                  => $this->url->link('assessment/assessment', 'assessment_id=' . $assessment['assessment_id'], true)
 			);
 		}
 
@@ -955,8 +955,8 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 			unset($this->session->data['shipping_methods']);
 		}
 
-		// Validate cart has products and has stock.
-		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+		// Validate cart has assessments and has stock.
+		if ((!$this->cart->hasAssessments() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$this->response->redirect($this->url->link('checkout/cart', '', true));
 		}
 		
@@ -1097,15 +1097,15 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 				$order_data['shipping_code'] = '';
 			}
 
-			$order_data['products'] = array();
+			$order_data['assessments'] = array();
 
-			foreach ($this->cart->getProducts() as $product) {
+			foreach ($this->cart->getAssessments() as $assessment) {
 				$option_data = array();
 
-				foreach ($product['option'] as $option) {
+				foreach ($assessment['option'] as $option) {
 					$option_data[] = array(
-						'product_option_id'       => $option['product_option_id'],
-						'product_option_value_id' => $option['product_option_value_id'],
+						'assessment_option_id'       => $option['assessment_option_id'],
+						'assessment_option_value_id' => $option['assessment_option_value_id'],
 						'option_id'               => $option['option_id'],
 						'option_value_id'         => $option['option_value_id'],
 						'name'                    => $option['name'],
@@ -1114,18 +1114,18 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 					);
 				}
 
-				$order_data['products'][] = array(
-					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
-					'model'      => $product['model'],
+				$order_data['assessments'][] = array(
+					'assessment_id' => $assessment['assessment_id'],
+					'name'       => $assessment['name'],
+					'model'      => $assessment['model'],
 					'option'     => $option_data,
-					'download'   => $product['download'],
-					'quantity'   => $product['quantity'],
-					'subtract'   => $product['subtract'],
-					'price'      => $product['price'],
-					'total'      => $product['total'],
-					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
-					'reward'     => $product['reward']
+					'download'   => $assessment['download'],
+					'quantity'   => $assessment['quantity'],
+					'subtract'   => $assessment['subtract'],
+					'price'      => $assessment['price'],
+					'total'      => $assessment['total'],
+					'tax'        => $this->tax->getTax($assessment['price'], $assessment['tax_class_id']),
+					'reward'     => $assessment['reward']
 				);
 			}
 
@@ -1302,10 +1302,10 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 												
 			$item_total = 0;
 				
-			foreach ($this->cart->getProducts() as $product) {
-				$product_price = number_format($product['price'] * $currency_value, $decimal_place, '.', '');
+			foreach ($this->cart->getAssessments() as $assessment) {
+				$assessment_price = number_format($assessment['price'] * $currency_value, $decimal_place, '.', '');
 				
-				$item_total += $product_price * $product['quantity'];
+				$item_total += $assessment_price * $assessment['quantity'];
 			}
 												
 			$item_total = number_format($item_total, 2, '.', '');
@@ -1770,9 +1770,9 @@ class ControllerExtensionModulePayPalSmartButton extends Controller {
 
 		$points_total = 0;
 
-		foreach ($this->cart->getProducts() as $product) {
-			if ($product['points']) {
-				$points_total += $product['points'];
+		foreach ($this->cart->getAssessments() as $assessment) {
+			if ($assessment['points']) {
+				$points_total += $assessment['points'];
 			}
 		}
 

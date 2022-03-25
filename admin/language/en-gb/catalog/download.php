@@ -31,4 +31,4 @@ $_['error_filename']    = 'Filename must be between 3 and 128 characters!';
 $_['error_exists']      = 'File does not exist!';
 $_['error_mask']        = 'Mask must be between 3 and 128 characters!';
 $_['error_filetype']    = 'Invalid file type!';
-$_['error_product']     = 'Warning: This download cannot be deleted as it is currently assigned to %s products!';
+$_['error_assessment']     = 'Warning: This download cannot be deleted as it is currently assigned to %s assessments!';
