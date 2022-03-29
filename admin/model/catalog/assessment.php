@@ -334,6 +334,19 @@ class ModelCatalogAssessment extends Model {
 		$this->cache->delete('assessment');
 	}
 
+	// Nouveau code pour mettre à jour le prix des assessments lorqu'on met à jour le prix de exam
+	
+	Public function updatePrices($exam_id, $data) {
+		
+		$results = $this->model_catalog_assessment->getAssessmentsByExamId($exam_id);
+		foreach ($results as $result) {
+			foreach ($data['exam_description'] as $language_id => $value) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $this->db->escape($value['price']) . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
+		}
+	}
+	// Fin nouveau code
+
 	public function copyAssessment($assessment_id) {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment p WHERE p.assessment_id = '" . (int)$assessment_id . "'");
 
@@ -398,11 +411,11 @@ class ModelCatalogAssessment extends Model {
 
 	public function getAssessments($data = array()) {
 		// Nouveau code
-		$sql = "SELECT * FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, pd.name AS assessment_name, cd.name AS exam_name FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		// Nouveau code pour ajouter un filtre exam
 		if (!empty($data['filter_exam'])) {
-			$sql .= " AND cd.exam LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
+			$sql .= " AND cd.name LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
 		}
 		// Fin nouveau code
 
@@ -429,6 +442,7 @@ class ModelCatalogAssessment extends Model {
 		$sql .= " GROUP BY p.assessment_id";
 
 		$sort_data = array(
+			'cd.name',
 			'pd.name',
 			'p.model',
 			'pd.date',
@@ -680,9 +694,15 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getTotalAssessments($data = array()) {
-		$sql = "SELECT COUNT(DISTINCT p.assessment_id) AS total FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id)";
+		// Nouveau code
+		$sql = "SELECT COUNT(DISTINCT p.assessment_id) AS total FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id)";
 
-		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+		// Nouveau code pour ajouter le filtre
+		if (!empty($data['filter_exam'])) {
+			$sql .= " AND cd.name LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
+		}
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";

@@ -64,21 +64,6 @@ class ModelCatalogExam extends Model {
 	public function editExam($exam_id, $data) {
 		$this->db->query("UPDATE " . DB_PREFIX . "exam SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW() WHERE exam_id = '" . (int)$exam_id . "'");
 
-		// Nouveau code pour mettre à jour le prix des assessments lorqu'on met à jour le prix de exam
-		$this->load->model('catalog/assessment');
-
-		$results = $this->model_catalog_assessment->getAssessmentsByExamId($exam_id);
-		$price = $this->db->escape($value['price']);
-		if (isset($price)){
-			foreach ($results as $result) {
-				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $price . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
-			}
-		}
-		
-		
-		// Fin nouveau code
-
-
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "exam SET image = '" . $this->db->escape($data['image']) . "' WHERE exam_id = '" . (int)$exam_id . "'");
 		}
@@ -233,7 +218,7 @@ class ModelCatalogExam extends Model {
 	}
 
 	public function getExams($data = array()) {
-		$sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, c1.parent_id, c1.sort_order, cd1.price AS price FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, c1.parent_id, c1.sort_order, cd2.price AS price FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND cd2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";

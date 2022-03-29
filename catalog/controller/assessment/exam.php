@@ -202,7 +202,7 @@ class ControllerAssessmentExam extends Controller {
 					'name'        => $result['name'],
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_assessment_description_length')) . '..',
 					// 'price'       => $price,
-					// Nouveau code price par date
+					// Nouveau code pour remplacer meta_description par date
 					'date'        => $date,
 					'special'     => $special,
 					'tax'         => $tax,
@@ -242,7 +242,7 @@ class ControllerAssessmentExam extends Controller {
 				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=DESC' . $url)
 			);
 
-			// Nouveau code pour remplacer price par date
+			// Nouveau code pour remplacer meta_description par date
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_date_asc'),
 				'value' => 'pd.date-ASC',

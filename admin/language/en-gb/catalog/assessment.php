@@ -21,6 +21,10 @@ $_['text_keyword']           = 'Do not use spaces, instead replace spaces with -
 
 // Nouveau code pour afficher exam au lieu de image
 $_['column_exam']           = 'Exam';
+$_['entry_exam']            = 'Exam';
+$_['error_exam']             = 'Exam is required!';
+
+
 // Nouveau code pour afficher center name au lieu de assessment name
 $_['column_name']            = 'Center Name';
 $_['entry_name']             = 'Center Name';
@@ -32,7 +36,7 @@ $_['error_model']            = 'Assessment City must be greater than 1 and less 
 // Nouveau code pour remplacer meta_description par date
 $_['entry_date'] = 'Date';
 $_['column_date']           = 'Date';
-$_['error_date']            = 'Date is required!';
+$_['error_date']            = 'A valid date is required!';
 
 // Fin nouveau code
 

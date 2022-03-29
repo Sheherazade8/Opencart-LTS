@@ -366,6 +366,8 @@ class ControllerCatalogAssessment extends Controller {
 		$data['assessments'] = array();
 
 		$filter_data = array(
+			// Nouveau code pour ajouter un filtre exam
+			'filter_exam'     => $filter_exam,
 			'filter_name'	  => $filter_name,
 			'filter_model'	  => $filter_model,
 			'filter_date'	  => $filter_date,
@@ -404,41 +406,25 @@ class ControllerCatalogAssessment extends Controller {
 
 			// Nouveau code pour afficher exam
 
-			// Exams
-			$this->load->model('catalog/exam');
-
-			if (isset($this->request->post['assessment_exam'])) {
-				$exams = $this->request->post['assessment_exam'];
-			} elseif (isset($result['assessment_id'])) {
-				$exams = $this->model_catalog_assessment->getAssessmentExams($result['assessment_id']);
-			} else {
-				$exams = array();
-			}
-
-
-			$data['assessment_exams'] = array();
-			$exam = 'No exam';
-
-			foreach ($exams as $exam_id) {
-				$exam_info = $this->model_catalog_exam->getExam($exam_id);
-
-				if ($exam_info) {
-					// $data['assessment_exams'][] = array(
-					// 	'exam_id' => $exam_info['exam_id'],
-					// 	'name'        => ($exam_info['path']) ? $exam_info['path'] . ' &gt; ' . $exam_info['name'] : $exam_info['name']
-					// );
-					$exam = $exam_info['name'];
-				}
-			}
+			// $exam_name = 'No exam';
+			// $assessment_exams = $this->model_catalog_assessment->getAssessmentExams($result['assessment_id']);
+			// foreach ($assessment_exams as $assessment_exam){
+			// 	$this->load->model('catalog/exam');
+			// 	$exam_info = $this->model_catalog_exam->getExam($assessment_exam);
+			// 	if ( isset($exam_info['parent_id']) ){
+			// 		$exam_name = $exam_info['name'];
+			// 		break;
+			// 	}
+			// }
 			
-
+			
 			$data['assessments'][] = array(
 				'assessment_id' => $result['assessment_id'],
 				'image'      => $image,
-				'name'       => $result['name'],
+				'name'       => $result['assessment_name'],
 				'model'      => $result['model'],
 				// Nouveau code
-				'exam' => $exam,
+				'exam' => $result['exam_name'],
 				'date'       => date($result['date']),
 				// 'price'      =>$this->currency->format($result['price'], $this->config->get('config_currency'))),
 				'special'    => $special,
@@ -508,6 +494,8 @@ class ControllerCatalogAssessment extends Controller {
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
+		// Nouveau code pour ajouter le filtre exam
+		$data['sort_exam'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=cd.name' . $url, true);
 
 		$data['sort_name'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
 		$data['sort_model'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=p.model' . $url, true);
@@ -617,6 +605,14 @@ class ControllerCatalogAssessment extends Controller {
 		} else {
 			$data['error_model'] = '';
 		}
+
+		// Nouveau code pour rendre exam obligatoire
+		if (isset($this->error['exam'])) {
+			$data['error_exam'] = $this->error['exam'];
+		} else {
+			$data['error_exam'] = array();
+		}
+		// Fin nouveau code
 
 		if (isset($this->error['keyword'])) {
 			$data['error_keyword'] = $this->error['keyword'];
@@ -1244,12 +1240,18 @@ class ControllerCatalogAssessment extends Controller {
 			}
 
 			// Nouveau code pour rendre date obligatoire
-			if ((utf8_strlen($value['date']) < 1) || (utf8_strlen($value['date']) > 255)) {
+			if ( $value['date'] < date("Y-m-d") || empty($value['date']) ) {
 				$this->error['date'][$language_id] = $this->language->get('error_date');
 			}
 			// Fin nouveau code
 
 		}
+
+		// Nouveau code pour rendre exam obligatoire
+		if ( $this->request->post['exam'] == 0 ) {
+			$this->error['exam'] = $this->language->get('error_exam');
+		}
+		// Fin nouveau code
 
 		if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 64)) {
 			$this->error['model'] = $this->language->get('error_model');
