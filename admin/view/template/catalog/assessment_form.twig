@@ -76,11 +76,12 @@
                       <label class="col-sm-2 control-label" for="input-date{{ language.language_id }}">{{ entry_date }}</label>
                       <div class="col-sm-3">
                         <div class="input-group date">
-                          <input type="text" name="assessment_description[{{ language.language_id }}][date]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].date }}" placeholder="{{ entry_date }}" data-date-format="YYYY-MM-DD" id="input-date{{ language.language_id }}" class="form-control"/> <span class="input-group-btn">
-                          <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                          <input type="text" name="assessment_description[{{ language.language_id }}][date]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].date }}" placeholder="{{ entry_date }}" data-date-format="YYYY-MM-DD" id="input-date{{ language.language_id }}" class="form-control"/>
                           {% if error_date[language.language_id] %}
                             <div class="text-danger">{{ error_date[language.language_id] }}</div>
                           {% endif %}
+                          <span class="input-group-btn">
+                          <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
                           </span></div>
                       </div>
                     </div>
@@ -289,22 +290,48 @@
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-exam"><span data-toggle="tooltip" title="{{ help_exam }}">{{ entry_exam }}</span></label>
                 <div class="col-sm-10">
-                  <input type="text" name="exam" value="{{ exam_name }}" placeholder="{{ entry_exam }}" id="input-exam" class="form-control"/> <input type="hidden" name="assessment_exam[]" value="{{ assessment_exam.exam_id }}"/>
+
+                  {# <input type="text" name="exam" value="" placeholder="{{ entry_exam }}" id="input-exam" class="form-control"/>
+                  <div id="assessment-exam" class="well well-sm" style="height: 40px; overflow: auto;"> {% for assessment_exam in assessment_exams %}
+                      <div id="assessment-exam{{ assessment_exam.exam_id }}"><i class="fa fa-check-circle"></i> {{ assessment_exam.name }}
+                        <input type="hidden" name="assessment_exam[]" value="{{ assessment_exam.exam_id }}"/>
+                      </div>
+                    {% endfor %}</div> #}
+
+                  {# <input type="text" name="exam" value="{{ name }}" placeholder="{{ entry_exam }}" id="input-exam" class="form-control"/> <input type="hidden" name="assessment_exam[]" value="{{ assessment_exam.exam_id }}"/> #}
+                  
+                  {# Attention! Avec ce nouveau code, $data['exam'] qui donne exam_id selectionne n'est plus une liste #}
+                  <select name="exam" id="input-exam" class="form-control">
+                    
+                    {% if assessment_exam %}
+
+                      {% for exam in exams_to_select %}
+
+                        {% if assessment_exam.exam_id == exam.exam_id %}
+                          <option value="{{ exam.exam_id }}" selected="selected">{{ exam.name }}</option>
+                        {% else %}
+                          <option value="{{ exam.exam_id }}">{{ exam.name }}</option>
+                        {% endif %}
+
+                      {% endfor %}                      
+
+                    {% else %}
+
+                      <option value="0">{{ text_none }}</option>
+                      {% for exam in exams_to_select %}
+                        <option value="{{ exam.exam_id }}">{{ exam.name }}</option>
+                      {% endfor %}
+
+                    {% endif %}
+                    
+                  </select>
+
                   {% if error_exam %}
-                  <div class="text-danger">{{ error_exam }}</div>
+                    <div class="text-danger">{{ error_exam }}</div>
                   {% endif %}
                 </div>
               </div>
-              {# <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-exam"><span data-toggle="tooltip" title="{{ help_exam }}">{{ entry_exam }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="exam" value="" placeholder="{{ entry_exam }}" id="input-exam" class="form-control"/>
-                  <div id="assessment-exam" class="well well-sm" style="height: 150px; overflow: auto;"> {% for assessment_exam in assessment_exams %}
-                      <div id="assessment-exam{{ assessment_exam.exam_id }}"><i class="fa fa-minus-circle"></i> {{ assessment_exam.name }}
-                        <input type="hidden" name="assessment_exam[]" value="{{ assessment_exam.exam_id }}"/>
-                      </div>
-                    {% endfor %}</div>
-                </div> #}
+                
 
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-filter"><span data-toggle="tooltip" title="{{ help_filter }}">{{ entry_filter }}</span></label>
@@ -1074,7 +1101,7 @@
   });
 
   // Exam
-  $('input[name=\'exam\']').autocomplete({
+  {# $('input[name=\'exam\']').autocomplete({
 	  'source': function(request, response) {
 		  $.ajax({
 			  url: 'index.php?route=catalog/exam/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
@@ -1091,18 +1118,18 @@
 	  },
 	  'select': function(item) {
       // Nouveau code 
-      $('input[name=\'exam\']').val('');
-		  // $('input[name=\'assessment-exam[]\']').val(item['value']);
+      $('input[name=\'exam\']').val(item['label']);
+		  $('input[name=\'assessment_exam[]\']').val(item['value']);
 
       // $('input[name=\'exam\']').val('');
-		  $('#assessment-exam' + item['value']).remove();
-		  $('#assessment-exam').append('<div id="assessment-exam' + item['value'] + '"> ' + item['label'] + '<input type="hidden" name="assessment_exam[]" value="' + item['value'] + '" /></div>');
+		  // $('#assessment-exam' + item['value']).remove();
+		  // $('#assessment-exam').append( '<div id="assessment-exam' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="assessment_exam[]" value="' + item['value'] + '" /></div>');
 	  }
   });
 
-  $('#assessment-exam').delegate('.fa-minus-circle', 'click', function() {
-	  $(this).parent().remove();
-  });
+  // $('#assessment-exam').delegate('.fa-minus-circle', 'click', function() {
+	  // $(this).parent().remove();
+  // }); #}
 
   // Filter
   $('input[name=\'filter\']').autocomplete({

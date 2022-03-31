@@ -1,5 +1,7 @@
 <?php
 class ModelCatalogAssessment extends Model {
+
+	// Nouveau code pour remplacer data['assessment_exam'] par data['exam'] dand addAssessment et editAssessment
 	public function addAssessment($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
 
@@ -9,13 +11,13 @@ class ModelCatalogAssessment extends Model {
 
 		$this->load->model('catalog/exam');
 
-		if ( isset($data['assessment_exam']) ) {
-			foreach ($data['assessment_exam'] as $exam_id) {				
-				$exam_info = $this->model_catalog_exam->getExam($exam_id);
-				if ( $exam_info['price'] > $data['price'] ) {
+		if ( isset($data['exam']) ) {
+			// foreach ($data['exam'] as $exam_id) {				
+				$exam_info = $this->model_catalog_exam->getExam($data['exam']);
+				if ( $exam_info['price'] > 0 ) {
 					$data['price'] = $exam_info['price'];
 				}
-			}
+			// }
 			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $data['price'] . "' WHERE assessment_id = '" . (int)$assessment_id . "'");
 		}
 		// Fin nouveau code
@@ -104,10 +106,10 @@ class ModelCatalogAssessment extends Model {
 
 		$this->load->model('catalog/exam');
 
-		if (isset($data['assessment_exam'])) {
-			foreach ($data['assessment_exam'] as $exam_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_to_exam SET assessment_id = '" . (int)$assessment_id . "', exam_id = '" . (int)$exam_id . "'");
-			}
+		if (isset($data['exam'])) {
+			// foreach ($data['exam'] as $exam_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_to_exam SET assessment_id = '" . (int)$assessment_id . "', exam_id = '" . (int)$data['exam'] . "'");
+			// }
 		}
 
 		if (isset($data['assessment_filter'])) {
@@ -163,12 +165,12 @@ class ModelCatalogAssessment extends Model {
 
 		$this->load->model('catalog/exam');
 
-		if ( isset($data['assessment_exam']) ) {
-			foreach ($data['assessment_exam'] as $exam_id) {				
-				$exam_info = $this->model_catalog_exam->getExam($exam_id);
-				if ( $exam_info['price'] > $data['price'] ) {
+		if ( isset($data['exam']) ) {
+			// foreach ($data['exam'] as $exam_id) {				
+				$exam_info = $this->model_catalog_exam->getExam($data['exam']);
+				if ( $exam_info['price'] > 0 ) {
 					$data['price'] = $exam_info['price'];
-				}
+				// }
 			}
 			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $data['price'] . "' WHERE assessment_id = '" . (int)$assessment_id . "'");
 		}
@@ -274,10 +276,10 @@ class ModelCatalogAssessment extends Model {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_to_exam WHERE assessment_id = '" . (int)$assessment_id . "'");
 
-		if (isset($data['assessment_exam'])) {
-			foreach ($data['assessment_exam'] as $exam_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_to_exam SET assessment_id = '" . (int)$assessment_id . "', exam_id = '" . (int)$exam_id . "'");
-			}
+		if (isset($data['exam'])) {
+			// foreach ($data['exam'] as $exam_id) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_to_exam SET assessment_id = '" . (int)$assessment_id . "', exam_id = '" . (int)$data['exam'] . "'");
+			// }
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_filter WHERE assessment_id = '" . (int)$assessment_id . "'");
@@ -368,7 +370,7 @@ class ModelCatalogAssessment extends Model {
 			$data['assessment_related'] = $this->getAssessmentRelated($assessment_id);
 			$data['assessment_reward'] = $this->getAssessmentRewards($assessment_id);
 			$data['assessment_special'] = $this->getAssessmentSpecials($assessment_id);
-			$data['assessment_exam'] = $this->getAssessmentExams($assessment_id);
+			$data['assessment_exam'] = $this->getAssessmentExam($assessment_id);
 			$data['assessment_download'] = $this->getAssessmentDownloads($assessment_id);
 			$data['assessment_layout'] = $this->getAssessmentLayouts($assessment_id);
 			$data['assessment_store'] = $this->getAssessmentStores($assessment_id);
@@ -410,12 +412,13 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessments($data = array()) {
+		// Attention : Avec les modifications apportees name designe a la fois assessment_name et exam_name
 		// Nouveau code
 		$sql = "SELECT *, pd.name AS assessment_name, cd.name AS exam_name FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
-		// Nouveau code pour ajouter un filtre exam
+		// Nouveau code pour ajouter un filtre exam : name LIKE "%...%"
 		if (!empty($data['filter_exam'])) {
-			$sql .= " AND cd.name LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
+			$sql .= " AND cd.name LIKE '%" . $this->db->escape($data['filter_exam']) . "%'";
 		}
 		// Fin nouveau code
 
@@ -505,7 +508,7 @@ class ModelCatalogAssessment extends Model {
 		return $assessment_description_data;
 	}
 
-	public function getAssessmentExams($assessment_id) {
+	public function getAssessmentExam($assessment_id) {
 		$assessment_exam_data = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_to_exam WHERE assessment_id = '" . (int)$assessment_id . "'");

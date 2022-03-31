@@ -435,7 +435,7 @@ class ControllerAssessmentAssessment extends Controller {
 				}
 
 				// Nouveau code
-				$resultats = $this->model_catalog_assessment->getAssessmentExams($this->request->get['assessment_id']);
+				$resultats = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
 
 				foreach ($resultats as $result) {
 					if ($result['exam_id']) {

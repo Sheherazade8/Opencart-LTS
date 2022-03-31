@@ -407,7 +407,7 @@ class ControllerCatalogAssessment extends Controller {
 			// Nouveau code pour afficher exam
 
 			// $exam_name = 'No exam';
-			// $assessment_exams = $this->model_catalog_assessment->getAssessmentExams($result['assessment_id']);
+			// $assessment_exams = $this->model_catalog_assessment->getAssessmentExam($result['assessment_id']);
 			// foreach ($assessment_exams as $assessment_exam){
 			// 	$this->load->model('catalog/exam');
 			// 	$exam_info = $this->model_catalog_exam->getExam($assessment_exam);
@@ -707,56 +707,6 @@ class ControllerCatalogAssessment extends Controller {
 			$data['model'] = '';
 		}
 
-
-		// Commenter les paramètres inutiles
-		// if (isset($this->request->post['sku'])) {
-		// 	$data['sku'] = $this->request->post['sku'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['sku'] = $assessment_info['sku'];
-		// } else {
-		// 	$data['sku'] = '';
-		// }
-
-		// if (isset($this->request->post['upc'])) {
-		// 	$data['upc'] = $this->request->post['upc'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['upc'] = $assessment_info['upc'];
-		// } else {
-		// 	$data['upc'] = '';
-		// }
-
-		// if (isset($this->request->post['ean'])) {
-		// 	$data['ean'] = $this->request->post['ean'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['ean'] = $assessment_info['ean'];
-		// } else {
-		// 	$data['ean'] = '';
-		// }
-
-		// if (isset($this->request->post['jan'])) {
-		// 	$data['jan'] = $this->request->post['jan'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['jan'] = $assessment_info['jan'];
-		// } else {
-		// 	$data['jan'] = '';
-		// }
-
-		// if (isset($this->request->post['isbn'])) {
-		// 	$data['isbn'] = $this->request->post['isbn'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['isbn'] = $assessment_info['isbn'];
-		// } else {
-		// 	$data['isbn'] = '';
-		// }
-
-		// if (isset($this->request->post['mpn'])) {
-		// 	$data['mpn'] = $this->request->post['mpn'];
-		// } elseif (!empty($assessment_info)) {
-		// 	$data['mpn'] = $assessment_info['mpn'];
-		// } else {
-		// 	$data['mpn'] = '';
-		// }
-
 		if (isset($this->request->post['location'])) {
 			$data['location'] = $this->request->post['location'];
 		} elseif (!empty($assessment_info)) {
@@ -918,25 +868,39 @@ class ControllerCatalogAssessment extends Controller {
 		// Exams
 		$this->load->model('catalog/exam');
 
-		if (isset($this->request->post['assessment_exam'])) {
-			$exams = $this->request->post['assessment_exam'];
+		if (isset($this->request->post['exam'])) {
+			$exam_id = $this->request->post['exam'];
 		} elseif (isset($this->request->get['assessment_id'])) {
-			$exams = $this->model_catalog_assessment->getAssessmentExams($this->request->get['assessment_id']);
+			$exam_array = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
+			$exam_id = $exam_array[0];
 		} else {
-			$exams = array();
+			$exam_id = '';
 		}
 
 
-		$data['assessment_exams'] = array();
+		$data['assessment_exam'] = array();
 
-		foreach ($exams as $exam_id) {
+		// foreach ($exams as $exam_id) {
 			$exam_info = $this->model_catalog_exam->getExam($exam_id);
 
 			if ($exam_info) {
-				$data['assessment_exams'][] = array(
+				$data['assessment_exam'] = array(
 					'exam_id' => $exam_info['exam_id'],
 					'name'        => ($exam_info['path']) ? $exam_info['path'] . ' &gt; ' . $exam_info['name'] : $exam_info['name']
 				);
+			}
+		// }
+
+		// Nouveau code pour obternir la liste des exams
+		$exams_to_select = $this->model_catalog_exam->getExams();
+
+		$data['exams_to_select'] = array();
+		foreach ($exams_to_select as $exam) {
+			if ($exam['parent_id'] != 0) {
+				$data['exams_to_select'][] = array(
+					'exam_id' => $exam['exam_id'],
+					'name'    => $exam['name']
+				);	
 			}
 		}
 
@@ -1240,7 +1204,7 @@ class ControllerCatalogAssessment extends Controller {
 			}
 
 			// Nouveau code pour rendre date obligatoire
-			if ( $value['date'] < date("Y-m-d") || empty($value['date']) ) {
+			if ( ($value['date'] < date("Y-m-d")) || (utf8_strlen($value['date']) < 1) || (utf8_strlen($value['date']) > 16) ) {
 				$this->error['date'][$language_id] = $this->language->get('error_date');
 			}
 			// Fin nouveau code
@@ -1248,7 +1212,7 @@ class ControllerCatalogAssessment extends Controller {
 		}
 
 		// Nouveau code pour rendre exam obligatoire
-		if ( $this->request->post['exam'] == 0 ) {
+		if ( (utf8_strlen($this->request->post['exam']) < 1) || ($this->request->post['exam'] == 0 ) ) {
 			$this->error['exam'] = $this->language->get('error_exam');
 		}
 		// Fin nouveau code
@@ -1307,7 +1271,7 @@ class ControllerCatalogAssessment extends Controller {
 	public function autocomplete() {
 		$json = array();
 
-		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_model'])) {
+		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_model']) || isset($this->request->get['filter_exam'])) {
 			$this->load->model('catalog/assessment');
 			$this->load->model('catalog/option');
 
@@ -1323,6 +1287,13 @@ class ControllerCatalogAssessment extends Controller {
 				$filter_model = '';
 			}
 
+			// Nouveau code pour autocomplete filter exam
+			if (isset($this->request->get['filter_exam'])) {
+				$filter_exam = $this->request->get['filter_exam'];
+			} else {
+				$filter_exam = '';
+			}
+
 			if (isset($this->request->get['limit'])) {
 				$limit = (int)$this->request->get['limit'];
 			} else {
@@ -1330,6 +1301,7 @@ class ControllerCatalogAssessment extends Controller {
 			}
 
 			$filter_data = array(
+				'filter_exam'  => $filter_exam,
 				'filter_name'  => $filter_name,
 				'filter_model' => $filter_model,
 				'start'        => 0,
@@ -1377,7 +1349,9 @@ class ControllerCatalogAssessment extends Controller {
 
 				$json[] = array(
 					'assessment_id' => $result['assessment_id'],
-					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					// Nouveau code pour autocomplete le filtre exam
+					'exam' => strip_tags(html_entity_decode($result['exam_name'], ENT_QUOTES, 'UTF-8')),
+					'name'       => strip_tags(html_entity_decode($result['assessment_name'], ENT_QUOTES, 'UTF-8')),
 					'model'      => $result['model'],
 					'option'     => $option_data,
 					'price'      => $result['price']

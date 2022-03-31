@@ -218,7 +218,7 @@ class ModelCatalogExam extends Model {
 	}
 
 	public function getExams($data = array()) {
-		$sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, c1.parent_id, c1.sort_order, cd2.price AS price FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, cp.path_id, c1.parent_id AS parent_id, c1.sort_order, cd2.price AS price FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND cd2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
