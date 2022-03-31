@@ -416,6 +416,17 @@ class ControllerCatalogOption extends Controller {
 			}
 		}
 
+		// Nouveau code pour ajouter options à Exam
+		$this->load->model('catalog/exam');
+
+		foreach ($this->request->post['selected'] as $option_id) {
+			$exam_total = $this->model_catalog_exam->getTotalExamsByOptionId($option_id);
+
+			if ($exam_total) {
+				$this->error['warning'] = sprintf($this->language->get('error_exam'), $exam_total);
+			}
+		}
+
 		return !$this->error;
 	}
 
