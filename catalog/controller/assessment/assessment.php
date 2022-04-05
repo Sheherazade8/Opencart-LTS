@@ -346,7 +346,7 @@ class ControllerAssessmentAssessment extends Controller {
 							'name'                    => $option_value['name'],
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
 							'price'                   => $price,
-							'price_prefix'            => $option_value['price_prefix']
+							'price_prefix'            => $option_value['price_prefix'],
 							'date' => $date
 						);
 					}

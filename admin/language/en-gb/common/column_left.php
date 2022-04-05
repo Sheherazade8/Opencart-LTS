@@ -1,4 +1,5 @@
 <?php
+// Nouveau code pour afficher Service au lieu de Option
 // Text
 $_['text_api']                  = 'API';
 $_['text_attribute']            = 'Attributes';
@@ -42,7 +43,7 @@ $_['text_menu']                 = 'Menu Manager';
 $_['text_modification']         = 'Modifications';
 $_['text_manufacturer']         = 'Manufacturers';
 $_['text_navigation']           = 'Navigation';
-$_['text_option']               = 'Options';
+$_['text_option']               = 'Services';
 $_['text_order']                = 'Orders';
 $_['text_order_status']         = 'Order Statuses';
 $_['text_online']               = 'Who\'s Online';

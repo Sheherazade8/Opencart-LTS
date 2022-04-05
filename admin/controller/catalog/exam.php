@@ -54,7 +54,7 @@ class ControllerCatalogExam extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_exam->editExam($this->request->get['exam_id'], $this->request->post);
-			// Nouveau code
+			// Nouveau code pour updateprices
 
 			$this->model_catalog_assessment->updatePrices($this->request->get['exam_id'], $this->request->post);
 
@@ -500,36 +500,12 @@ class ControllerCatalogExam extends Controller {
 			$data['status'] = true;
 		}
 
-		if (isset($this->request->post['exam_seo_url'])) {
-			$data['exam_seo_url'] = $this->request->post['exam_seo_url'];
-		} elseif (isset($this->request->get['exam_id'])) {
-			$data['exam_seo_url'] = $this->model_catalog_exam->getExamSeoUrls($this->request->get['exam_id']);
-		} else {
-			$data['exam_seo_url'] = array();
-		}
-
-		if (isset($this->request->post['exam_layout'])) {
-			$data['exam_layout'] = $this->request->post['exam_layout'];
-		} elseif (isset($this->request->get['exam_id'])) {
-			$data['exam_layout'] = $this->model_catalog_exam->getExamLayouts($this->request->get['exam_id']);
-		} else {
-			$data['exam_layout'] = array();
-		}
-
-		$this->load->model('design/layout');
-
-		$data['layouts'] = $this->model_design_layout->getLayouts();
-
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
-
-		$this->response->setOutput($this->load->view('catalog/exam_form', $data));
-
 		// Nouveau code pour ajouter options à Exam
+		// Attention : l'emplacement compte beaucoup ! $data doit respecter l'ordre d'affichage
 
 		// Options
 		$this->load->model('catalog/option');
+		$this->load->model('catalog/exam');
 
 		if (isset($this->request->post['exam_option'])) {
 			$exam_options = $this->request->post['exam_option'];
@@ -560,7 +536,7 @@ class ControllerCatalogExam extends Controller {
 					);
 				}
 			}
-
+			
 			$data['exam_options'][] = array(
 				'exam_option_id'    => $exam_option['exam_option_id'],
 				'exam_option_value' => $exam_option_value_data,
@@ -584,6 +560,34 @@ class ControllerCatalogExam extends Controller {
 
 	
 		// Fin nouveau code
+
+
+		if (isset($this->request->post['exam_seo_url'])) {
+			$data['exam_seo_url'] = $this->request->post['exam_seo_url'];
+		} elseif (isset($this->request->get['exam_id'])) {
+			$data['exam_seo_url'] = $this->model_catalog_exam->getExamSeoUrls($this->request->get['exam_id']);
+		} else {
+			$data['exam_seo_url'] = array();
+		}
+
+		if (isset($this->request->post['exam_layout'])) {
+			$data['exam_layout'] = $this->request->post['exam_layout'];
+		} elseif (isset($this->request->get['exam_id'])) {
+			$data['exam_layout'] = $this->model_catalog_exam->getExamLayouts($this->request->get['exam_id']);
+		} else {
+			$data['exam_layout'] = array();
+		}
+
+		$this->load->model('design/layout');
+
+		$data['layouts'] = $this->model_design_layout->getLayouts();
+
+		$data['header'] = $this->load->controller('common/header');
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['footer'] = $this->load->controller('common/footer');
+
+		$this->response->setOutput($this->load->view('catalog/exam_form', $data));
+
 	}
 
 	protected function validateForm() {

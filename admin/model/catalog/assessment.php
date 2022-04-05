@@ -1,7 +1,7 @@
 <?php
 class ModelCatalogAssessment extends Model {
 
-	// Nouveau code pour remplacer data['assessment_exam'] par data['exam'] dand addAssessment et editAssessment
+	// Nouveau code pour remplacer data['assessment_exam'] par data['exam'] dans addAssessment et editAssessment
 	public function addAssessment($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
 

@@ -1,4 +1,5 @@
 <?php
+// Nouveau code pour afficher Service au lieu de Option
 // Locale
 $_['code']                          = 'en';
 $_['direction']                     = 'ltr';
@@ -59,8 +60,8 @@ $_['button_banner_add']             = 'Add Banner';
 $_['button_custom_field_value_add'] = 'Add Custom Field';
 $_['button_assessment_add']            = 'Add Assessment';
 $_['button_filter_add']             = 'Add Filter';
-$_['button_option_add']             = 'Add Option';
-$_['button_option_value_add']       = 'Add Option Value';
+$_['button_option_add']             = 'Add Service';
+$_['button_option_value_add']       = 'Add Service Value';
 $_['button_recurring_add']          = 'Add Recurring';
 $_['button_discount_add']           = 'Add Discount';
 $_['button_special_add']            = 'Add Special';
@@ -121,7 +122,7 @@ $_['tab_ip']                        = 'IP Addresses';
 $_['tab_links']                     = 'Links';
 $_['tab_log']                       = 'Log';
 $_['tab_image']                     = 'Image';
-$_['tab_option']                    = 'Option';
+$_['tab_option']                    = 'Service';
 $_['tab_server']                    = 'Server';
 $_['tab_seo']                       = 'SEO';
 $_['tab_store']                     = 'Store';

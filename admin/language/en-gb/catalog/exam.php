@@ -57,8 +57,12 @@ $_['error_parent']           = 'The parent exam you have chosen is a child of th
 
 // Nouveau code pour ajouter options à Exam
 
-$_['text_option']            = 'Option';
-$_['text_option_value']      = 'Option Value';
+$_['text_option']            = 'Service';
+$_['text_option_value']      = 'Service Value';
 $_['entry_option_points']    = 'Points';
-$_['entry_option']           = 'Option';
-$_['entry_option_value']     = 'Option Value';
+$_['entry_option']           = 'Service';
+$_['entry_option_value']     = 'Service Value';
+$_['entry_quantity']         = 'Quantity';
+$_['entry_subtract']         = 'Subtract Stock';
+$_['entry_weight']           = 'Weight';
+

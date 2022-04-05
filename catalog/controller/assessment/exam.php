@@ -132,6 +132,46 @@ class ControllerAssessmentExam extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
+			// Nouveau code pour ajouter options à Exam
+
+			$data['options'] = array();
+
+			foreach ($this->model_catalog_exam->getExamOptions($exam_id) as $option) {
+				$exam_option_value_data = array();
+
+				foreach ($option['exam_option_value'] as $option_value) {
+					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
+							$price = $this->currency->format($this->tax->calculate($option_value['price'], $exam_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
+						} else {
+							$price = false;
+						}
+
+						$exam_option_value_data[] = array(
+							'exam_option_value_id' => $option_value['exam_option_value_id'],
+							'option_value_id'         => $option_value['option_value_id'],
+							'name'                    => $option_value['name'],
+							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
+							'price'                   => $price,
+							'price_prefix'            => $option_value['price_prefix'],
+							'date' => $date
+						);
+					}
+				}
+
+				$data['options'][] = array(
+					'exam_option_id'    => $option['exam_option_id'],
+					'exam_option_value' => $exam_option_value_data,
+					'option_id'            => $option['option_id'],
+					'name'                 => $option['name'],
+					'type'                 => $option['type'],
+					'value'                => $option['value'],
+					'required'             => $option['required']
+				);
+			}
+
+			// Fin nouveau code
+			
 			$data['exams'] = array();
 
 			$results = $this->model_catalog_exam->getExams($exam_id);
