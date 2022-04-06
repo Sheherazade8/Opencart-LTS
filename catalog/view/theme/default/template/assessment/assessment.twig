@@ -121,11 +121,18 @@
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="{{ button_compare }}" onclick="compare.add('{{ assessment_id }}');"><i class="fa fa-exchange"></i></button>
           </div>
           <h1>{{ heading_title }}</h1>
+
+          <h3>{{ exam }}</h3>
           <ul class="list-unstyled">
+            <h4>{{ text_date }} {{ date }} </h4>
+            <h4>{{ text_model }} {{ model }}</h4>
+            {% if location %}
+            <h4>{{ text_location }} {{ location }}</h4>
+            {% endif %}
+
             {% if manufacturer %}
             <li>{{ text_manufacturer }} <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
             {% endif %}
-            <li>{{ text_model }} {{ model }}</li>
             {% if reward %}
             <li>{{ text_reward }} {{ reward }}</li>
             {% endif %}

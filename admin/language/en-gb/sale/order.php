@@ -69,7 +69,9 @@ $_['column_date_added']          = 'Date Added';
 $_['column_date_modified']       = 'Date Modified';
 $_['column_total']               = 'Total';
 $_['column_assessment']             = 'Assessment';
-$_['column_model']               = 'Model';
+// Nouveau code
+
+$_['column_model']               = 'City';
 $_['column_quantity']            = 'Quantity';
 $_['column_price']               = 'Unit Price';
 

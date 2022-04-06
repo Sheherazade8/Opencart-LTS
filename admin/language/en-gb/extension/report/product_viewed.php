@@ -8,8 +8,9 @@ $_['text_edit']        = 'Edit Assessments Viewed Report';
 $_['text_success']     = 'Success: You have reset the assessments viewed report!';
 
 // Column
-$_['column_name']      = 'Assessment Name';
-$_['column_model']     = 'Model';
+// Nouveau code
+$_['column_name']      = 'Center Name';
+$_['column_model']     = 'City';
 $_['column_viewed']    = 'Viewed';
 $_['column_percent']   = 'Percent';
 

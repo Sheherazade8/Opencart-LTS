@@ -17,7 +17,8 @@ $_['text_payment_address']  = 'Payment Address';
 $_['text_shipping_address'] = 'Shipping Address';
 $_['text_assessments']         = 'Assessments';
 $_['text_assessment']          = 'Assessment';
-$_['text_model']            = 'Model';
+// Nouveau code
+$_['text_model']            = 'City';
 $_['text_quantity']         = 'Quantity';
 $_['text_price']            = 'Price';
 $_['text_order_total']      = 'Order Totals';

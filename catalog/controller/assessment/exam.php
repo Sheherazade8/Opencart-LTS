@@ -154,7 +154,7 @@ class ControllerAssessmentExam extends Controller {
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
 							'price'                   => $price,
 							'price_prefix'            => $option_value['price_prefix'],
-							'date' => $date
+							// 'date' => $date
 						);
 					}
 				}
@@ -243,7 +243,7 @@ class ControllerAssessmentExam extends Controller {
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_assessment_description_length')) . '..',
 					// 'price'       => $price,
 					// Nouveau code pour remplacer meta_description par date
-					'date'        => $date,
+					'date'        => $result['date'],
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
@@ -375,7 +375,7 @@ class ControllerAssessmentExam extends Controller {
 
 			$data['pagination'] = $pagination->render();
 
-			$data['results'] = sprintf($this->language->get('text_pagination'), ($assessment_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($assessment_total - $limit)) ? $assessment_total : ((($page - 1) * $limit) + $limit), $assessment_total, ceil($assessment_total / $limit));
+			$data['results'] = sprintf($this->language->get('text_pagination'), ($assessment_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($assessment_total - $limit)) ? $assessment_total : ((($page - 1) * $limit) + $limit), $assessment_total, ceil($assessment_total / (max(1,$limit))));
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 			if ($page == 1) {

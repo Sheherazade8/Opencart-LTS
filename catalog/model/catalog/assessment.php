@@ -5,8 +5,9 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessment($assessment_id) {
-		$query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, m.name AS manufacturer, (SELECT price FROM " . DB_PREFIX . "assessment_discount pd2 WHERE pd2.assessment_id = p.assessment_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "assessment_special ps WHERE ps.assessment_id = p.assessment_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT points FROM " . DB_PREFIX . "assessment_reward pr WHERE pr.assessment_id = p.assessment_id AND pr.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.assessment_id = p.assessment_id AND r1.status = '1' GROUP BY r1.assessment_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.assessment_id = p.assessment_id AND r2.status = '1' GROUP BY r2.assessment_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_store p2s ON (p.assessment_id = p2s.assessment_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.assessment_id = '" . (int)$assessment_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
-
+		// Nouveau code pour obtenir exam
+		$query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, m.name AS manufacturer, (SELECT ed.name FROM " . DB_PREFIX . "assessment_to_exam ate LEFT JOIN " . DB_PREFIX . "exam_description ed ON (ate.exam_id = ed.exam_id) WHERE ate.assessment_id = '" . (int)$assessment_id . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "' ) AS exam, (SELECT price FROM " . DB_PREFIX . "assessment_discount pd2 WHERE pd2.assessment_id = p.assessment_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "assessment_special ps WHERE ps.assessment_id = p.assessment_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT points FROM " . DB_PREFIX . "assessment_reward pr WHERE pr.assessment_id = p.assessment_id AND pr.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "') AS reward, (SELECT ss.name FROM " . DB_PREFIX . "stock_status ss WHERE ss.stock_status_id = p.stock_status_id AND ss.language_id = '" . (int)$this->config->get('config_language_id') . "') AS stock_status, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.assessment_id = p.assessment_id AND r1.status = '1' GROUP BY r1.assessment_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.assessment_id = p.assessment_id AND r2.status = '1' GROUP BY r2.assessment_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_store p2s ON (p.assessment_id = p2s.assessment_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.assessment_id = '" . (int)$assessment_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		
 		if ($query->num_rows) {
 			return array(
 				'assessment_id'       => $query->row['assessment_id'],
@@ -15,6 +16,8 @@ class ModelCatalogAssessment extends Model {
 				'meta_title'       => $query->row['meta_title'],
 				// Nouveau code
 				'date' => $query->row['date'],
+				'exam' => $query->row['exam'],
+
 				'meta_keyword'     => $query->row['meta_keyword'],
 				'tag'              => $query->row['tag'],
 				'model'            => $query->row['model'],
@@ -336,18 +339,25 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessmentOptions($assessment_id) {
+		// Nouveau code pour obtenir les options correspondant à l'exam
+
 		$assessment_option_data = array();
 
-		$assessment_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.assessment_id = '" . (int)$assessment_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order");
+		$exams = $this->getExams($assessment_id);
+		foreach ($exams as $exam) { 
+			$assessment_exam_id = $exam['exam_id'];
+		}
+
+		$assessment_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_option eo LEFT JOIN `" . DB_PREFIX . "option` o ON (eo.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE eo.exam_id = '" . (int)$assessment_exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order");
 
 		foreach ($assessment_option_query->rows as $assessment_option) {
 			$assessment_option_value_data = array();
 
-			$assessment_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.assessment_id = '" . (int)$assessment_id . "' AND pov.assessment_option_id = '" . (int)$assessment_option['assessment_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY ov.sort_order");
+			$assessment_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_option_value eov LEFT JOIN " . DB_PREFIX . "option_value ov ON (eov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE eov.exam_id = '" . (int)$assessment_exam_id . "' AND eov.exam_option_id = '" . (int)$assessment_option['exam_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY ov.sort_order");
 
 			foreach ($assessment_option_value_query->rows as $assessment_option_value) {
 				$assessment_option_value_data[] = array(
-					'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
+					'assessment_option_value_id' => $assessment_option_value['exam_option_value_id'],
 					'option_value_id'         => $assessment_option_value['option_value_id'],
 					'name'                    => $assessment_option_value['name'],
 					'image'                   => $assessment_option_value['image'],
@@ -361,7 +371,7 @@ class ModelCatalogAssessment extends Model {
 			}
 
 			$assessment_option_data[] = array(
-				'assessment_option_id'    => $assessment_option['assessment_option_id'],
+				'assessment_option_id'    => $assessment_option['exam_option_id'],
 				'assessment_option_value' => $assessment_option_value_data,
 				'option_id'            => $assessment_option['option_id'],
 				'name'                 => $assessment_option['name'],

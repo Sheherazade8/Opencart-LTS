@@ -181,7 +181,8 @@ $_['text_popup_title_multiple']             = 'Editing %s assessments';
 $_['text_popup_title_single']               = '%s (%s)';
 $_['text_assessment_exam']                 = 'Exam (incl. sub-exams)';
 $_['text_assessment_is_modified']              = 'Google Fields Edited';
-$_['text_assessment_model']                    = 'Model';
+// Nouveau code
+$_['text_assessment_model']                    = 'City';
 $_['text_assessment_name']                     = 'Assessment';
 $_['text_refresh_token']                    = 'Re-create token';
 $_['text_remote_cron']                      = 'Method #2 - Remote CRON:';

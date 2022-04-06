@@ -23,8 +23,9 @@ $_['text_error']            = 'The order you requested could not be found!';
 $_['column_order_id']       = 'Order ID';
 $_['column_customer']       = 'Customer';
 $_['column_assessment']        = 'No. of Assessments';
-$_['column_name']           = 'Assessment Name';
-$_['column_model']          = 'Model';
+// Nouveau code
+$_['column_name']           = 'Center Name';
+$_['column_model']          = 'City';
 $_['column_quantity']       = 'Quantity';
 $_['column_price']          = 'Price';
 

@@ -12,8 +12,8 @@ $_['text_all_status']   = 'All Statuses';
 // Column
 $_['column_date_start'] = 'Date Start';
 $_['column_date_end']   = 'Date End';
-$_['column_name']       = 'Assessment Name';
-$_['column_model']      = 'Model';
+$_['column_name']       = 'Center Name';
+$_['column_model']      = 'City';
 $_['column_quantity']   = 'Quantity';
 $_['column_total']      = 'Total';
 

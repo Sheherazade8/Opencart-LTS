@@ -3,14 +3,18 @@
 $_['text_search']              = 'Search';
 $_['text_brand']               = 'Brand';
 $_['text_manufacturer']        = 'Brand:';
-$_['text_model']               = 'Assessment Code:';
+$_['text_model']               = 'City:';
+$_['text_location']               = 'Location:';
+$_['text_date']               = 'Date:';
+
+
 $_['text_reward']              = 'Reward Points:';
 $_['text_points']              = 'Price in reward points:';
 $_['text_stock']               = 'Availability:';
 $_['text_instock']             = 'In Stock';
 $_['text_tax']                 = 'Ex Tax:';
 $_['text_discount']            = ' or more ';
-$_['text_option']              = 'Available Options';
+$_['text_option']              = 'Additional Services';
 $_['text_minimum']             = 'This assessment has a minimum quantity of %s';
 $_['text_reviews']             = '%s reviews';
 $_['text_write']               = 'Write a review';

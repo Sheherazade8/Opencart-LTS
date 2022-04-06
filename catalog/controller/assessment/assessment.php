@@ -254,14 +254,20 @@ class ControllerAssessmentAssessment extends Controller {
 			$data['tab_review'] = sprintf($this->language->get('tab_review'), $assessment_info['reviews']);
 
 			$data['assessment_id'] = (int)$this->request->get['assessment_id'];
+			// Nouveau code
+			$data['exam'] = $assessment_info['exam'];
+			$data['date'] = $assessment_info['date'];
+
 			$data['manufacturer'] = $assessment_info['manufacturer'];
 			$data['manufacturers'] = $this->url->link('assessment/manufacturer/info', 'manufacturer_id=' . $assessment_info['manufacturer_id']);
 			$data['model'] = $assessment_info['model'];
+			$data['location'] = $assessment_info['location'];
 			$data['reward'] = $assessment_info['reward'];
 			$data['points'] = $assessment_info['points'];
 
 			// Nouveau code
 			$data['description'] = html_entity_decode($assessment_info['description'], ENT_QUOTES, 'UTF-8');
+
 
 			if ($assessment_info['quantity'] <= 0) {
 				$data['stock'] = $assessment_info['stock_status'];
@@ -347,7 +353,7 @@ class ControllerAssessmentAssessment extends Controller {
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
 							'price'                   => $price,
 							'price_prefix'            => $option_value['price_prefix'],
-							'date' => $date
+							// 'date' => $date
 						);
 					}
 				}
@@ -438,10 +444,7 @@ class ControllerAssessmentAssessment extends Controller {
 				$resultats = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
 
 				foreach ($resultats as $result) {
-					if ($result['exam_id']) {
-						$exam = $this->model_catalog_exam->getExam($result['exam_id']);
-					} else {
-						$exam = "NULL"
+					$exam = $this->model_catalog_exam->getExam($result['exam_id']);
 					}
 
 				$data['assessments'][] = array(

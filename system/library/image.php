@@ -140,8 +140,10 @@ class Image {
 	 * @param	int	$height
 	 * @param	string	$default
      */
-	public function resize(int $width = 0, int $height = 0, $default = '') {
-		if (!$this->width || !$this->height) {
+
+	//  Nouveau code pour retirer le type int des arguments et ajouter les cas NULL
+	public function resize($width = 0,$height = 0, $default = '') {
+		if (!$this->width || $width == NULL || !$this->height || $height == NULL) {
 			return;
 		}
 

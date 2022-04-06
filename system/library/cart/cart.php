@@ -41,6 +41,13 @@ class Cart {
 			$assessment_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_to_store p2s LEFT JOIN " . DB_PREFIX . "assessment p ON (p2s.assessment_id = p.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND p2s.assessment_id = '" . (int)$cart['assessment_id'] . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.date_available <= NOW() AND p.status = '1'");
 
 			if ($assessment_query->num_rows && ($cart['quantity'] > 0)) {
+
+				// Nouveau code
+				$exams = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_to_exam WHERE assessment_id = '" . (int)$cart['assessment_id'] . "'");
+				foreach ($exams->rows as $exam ) {
+					$exam_id = $exam['exam_id'];
+				}
+
 				$option_price = 0;
 				$option_points = 0;
 				$option_weight = 0;
@@ -48,7 +55,9 @@ class Cart {
 				$option_data = array();
 
 				foreach (json_decode($cart['option']) as $assessment_option_id => $value) {
-					$option_query = $this->db->query("SELECT po.assessment_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "assessment_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.assessment_option_id = '" . (int)$assessment_option_id . "' AND po.assessment_id = '" . (int)$cart['assessment_id'] . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					// Nouveau code pour obtenir les options de Exam
+				
+					$option_query = $this->db->query("SELECT po.assessment_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "exam_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.exam_option_id = '" . (int)$assessment_option_id . "' AND po.exam_id = '" . (int)$exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 					if ($option_query->num_rows) {
 						if ($option_query->row['type'] == 'select' || $option_query->row['type'] == 'radio') {
@@ -235,10 +244,19 @@ class Cart {
 					$recurring = false;
 				}
 
+				// Nouveau code
+				$exams = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_description WHERE exam_id = '" . (int)$exam_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+				foreach ($exams->rows as $exam) {
+					$exam_name = $exam['name'];
+				}
+
 				$assessment_data[] = array(
 					'cart_id'         => $cart['cart_id'],
 					'assessment_id'      => $assessment_query->row['assessment_id'],
 					'name'            => $assessment_query->row['name'],
+					// Nouveau code
+					'exam' => $exam_name,
+					'date' => $assessment_query->row['date'],
 					'model'           => $assessment_query->row['model'],
 					'shipping'        => $assessment_query->row['shipping'],
 					'image'           => $assessment_query->row['image'],
@@ -253,12 +271,12 @@ class Cart {
 					'reward'          => $reward * $cart['quantity'],
 					'points'          => ($assessment_query->row['points'] ? ($assessment_query->row['points'] + $option_points) * $cart['quantity'] : 0),
 					'tax_class_id'    => $assessment_query->row['tax_class_id'],
-					'weight'          => ($assessment_query->row['weight'] + $option_weight) * $cart['quantity'],
-					'weight_class_id' => $assessment_query->row['weight_class_id'],
-					'length'          => $assessment_query->row['length'],
-					'width'           => $assessment_query->row['width'],
-					'height'          => $assessment_query->row['height'],
-					'length_class_id' => $assessment_query->row['length_class_id'],
+					// 'weight'          => ($assessment_query->row['weight'] + $option_weight) * $cart['quantity'],
+					// 'weight_class_id' => $assessment_query->row['weight_class_id'],
+					// 'length'          => $assessment_query->row['length'],
+					// 'width'           => $assessment_query->row['width'],
+					// 'height'          => $assessment_query->row['height'],
+					// 'length_class_id' => $assessment_query->row['length_class_id'],
 					'recurring'       => $recurring
 				);
 			} else {

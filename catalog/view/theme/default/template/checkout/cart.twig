@@ -30,17 +30,20 @@
     {% endif %}
     <div id="content" class="{{ class }}">{{ content_top }}
       <h1>{{ heading_title }}
-        {% if weight %}
+        {# {% if weight %}
         &nbsp;({{ weight }})
-        {% endif %} </h1>
+        {% endif %}  #}
+      </h1>
       <form action="{{ action }}" method="post" enctype="multipart/form-data">
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
               <tr>
-                <td class="text-center">{{ column_image }}</td>
+                {# Nouveau code #}
+                <td class="text-center">{{ column_exam }}</td>
                 <td class="text-left">{{ column_name }}</td>
                 <td class="text-left">{{ column_model }}</td>
+                <td class="text-left">{{ column_date }}</td>
                 <td class="text-left">{{ column_quantity }}</td>
                 <td class="text-right">{{ column_price }}</td>
                 <td class="text-right">{{ column_total }}</td>
@@ -50,7 +53,9 @@
             
             {% for assessment in assessments %}
             <tr>
-              <td class="text-center">{% if assessment.thumb %} <a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-thumbnail" /></a> {% endif %}</td>
+              {# Nouveau code #}
+              <td class="text-left">{{ assessment.exam }}</td>
+              {% if assessment.thumb %}<td class="text-center"><a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-thumbnail" /></a> {% endif %}</td>
               <td class="text-left"><a href="{{ assessment.href }}">{{ assessment.name }}</a> {% if not assessment.stock %} <span class="text-danger">***</span> {% endif %}
                 {% if assessment.option %}
                 {% for option in assessment.option %} <br/>
@@ -61,6 +66,7 @@
                 {% if assessment.recurring %} <br/>
                 <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ assessment.recurring }}</small> {% endif %}</td>
               <td class="text-left">{{ assessment.model }}</td>
+              <td class="text-left">{{ assessment.date }}</td>
               <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
                   <input type="text" name="quantity[{{ assessment.cart_id }}]" value="{{ assessment.quantity }}" size="1" class="form-control" />
                   <span class="input-group-btn">

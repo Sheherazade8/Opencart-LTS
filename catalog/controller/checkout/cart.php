@@ -135,6 +135,9 @@ class ControllerCheckoutCart extends Controller {
 					'thumb'     => $image,
 					'name'      => $assessment['name'],
 					'model'     => $assessment['model'],
+					// Nouveau code
+					'date' => $assessment['date'],
+					'exam' => $assessment['exam'],
 					'option'    => $option_data,
 					'recurring' => $recurring,
 					'quantity'  => $assessment['quantity'],

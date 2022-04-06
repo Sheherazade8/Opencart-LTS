@@ -7,7 +7,8 @@ $_['text_assessment']      = 'Assessment Details';
 $_['text_name']         = 'Assessment';
 $_['text_image']        = 'Image';
 $_['text_price']        = 'Price';
-$_['text_model']        = 'Model';
+// Nouveau code
+$_['text_model']        = 'City';
 $_['text_manufacturer'] = 'Brand';
 $_['text_availability'] = 'Availability';
 $_['text_instock']      = 'In Stock';
