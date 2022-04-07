@@ -15,7 +15,7 @@ class ModelCatalogExam extends Model {
 						$exam_option_id = $this->db->getLastId();
 	  
 						foreach ($exam_option['exam_option_value'] as $exam_option_value) {
-							$this->db->query("INSERT INTO " . DB_PREFIX . "exam_option_value SET exam_option_id = '" . (int)$exam_option_id . "', exam_id = '" . (int)$exam_id . "', option_id = '" . (int)$exam_option['option_id'] . "', option_value_id = '" . (int)$exam_option_value['option_value_id'] . "', quantity = '" . (int)$exam_option_value['quantity'] . "', subtract = '" . (int)$exam_option_value['subtract'] . "', price = '" . (float)$exam_option_value['price'] . "', price_prefix = '" . $this->db->escape($exam_option_value['price_prefix']) . "', points = '" . (int)$exam_option_value['points'] . "', points_prefix = '" . $this->db->escape($exam_option_value['points_prefix']) . "', weight = '" . (float)$exam_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($exam_option_value['weight_prefix']) . "'");
+							$this->db->query("INSERT INTO " . DB_PREFIX . "exam_option_value SET exam_option_id = '" . (int)$exam_option_id . "', exam_id = '" . (int)$exam_id . "', option_id = '" . (int)$exam_option['option_id'] . "', option_value_id = '" . (int)$exam_option_value['option_value_id'] . "', subtract = '" . (int)$exam_option_value['subtract'] . "', price = '" . (float)$exam_option_value['price'] . "', price_prefix = '" . $this->db->escape($exam_option_value['price_prefix']) . "', points = '" . (int)$exam_option_value['points'] . "', points_prefix = '" . $this->db->escape($exam_option_value['points_prefix']) . "'");
 						}
 					}
 				} else {
@@ -98,7 +98,7 @@ class ModelCatalogExam extends Model {
 						$exam_option_id = $this->db->getLastId();
 
 						foreach ($exam_option['exam_option_value'] as $exam_option_value) {
-							$this->db->query("INSERT INTO " . DB_PREFIX . "exam_option_value SET exam_option_value_id = '" . (int)$exam_option_value['exam_option_value_id'] . "', exam_option_id = '" . (int)$exam_option_id . "', exam_id = '" . (int)$exam_id . "', option_id = '" . (int)$exam_option['option_id'] . "', option_value_id = '" . (int)$exam_option_value['option_value_id'] . "', quantity = '" . (int)$exam_option_value['quantity'] . "', subtract = '" . (int)$exam_option_value['subtract'] . "', price = '" . (float)$exam_option_value['price'] . "', price_prefix = '" . $this->db->escape($exam_option_value['price_prefix']) . "', points = '" . (int)$exam_option_value['points'] . "', points_prefix = '" . $this->db->escape($exam_option_value['points_prefix']) . "', weight = '" . (float)$exam_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($exam_option_value['weight_prefix']) . "'");
+							$this->db->query("INSERT INTO " . DB_PREFIX . "exam_option_value SET exam_option_value_id = '" . (int)$exam_option_value['exam_option_value_id'] . "', exam_option_id = '" . (int)$exam_option_id . "', exam_id = '" . (int)$exam_id . "', option_id = '" . (int)$exam_option['option_id'] . "', option_value_id = '" . (int)$exam_option_value['option_value_id'] . "', subtract = '" . (int)$exam_option_value['subtract'] . "', price = '" . (float)$exam_option_value['price'] . "', price_prefix = '" . $this->db->escape($exam_option_value['price_prefix']) . "', points = '" . (int)$exam_option_value['points'] . "', points_prefix = '" . $this->db->escape($exam_option_value['points_prefix']) . "'");
 						}
 					}
 				} else {
@@ -345,14 +345,11 @@ class ModelCatalogExam extends Model {
 				$exam_option_value_data[] = array(
 					'exam_option_value_id' => $exam_option_value['exam_option_value_id'],
 					'option_value_id'         => $exam_option_value['option_value_id'],
-					'quantity'                => $exam_option_value['quantity'],
 					'subtract'                => $exam_option_value['subtract'],
 					'price'                   => $exam_option_value['price'],
 					'price_prefix'            => $exam_option_value['price_prefix'],
 					'points'                  => $exam_option_value['points'],
-					'points_prefix'           => $exam_option_value['points_prefix'],
-					'weight'                  => $exam_option_value['weight'],
-					'weight_prefix'           => $exam_option_value['weight_prefix']
+					'points_prefix'           => $exam_option_value['points_prefix']
 				);
 			}
 	
@@ -371,7 +368,7 @@ class ModelCatalogExam extends Model {
 	}
 	
 	public function getExamOptionValue($exam_id, $exam_option_value_id) {
-		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.exam_id = '" . (int)$exam_id . "' AND pov.exam_option_value_id = '" . (int)$exam_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.exam_id = '" . (int)$exam_id . "' AND pov.exam_option_value_id = '" . (int)$exam_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 	
 		return $query->row;
 	}

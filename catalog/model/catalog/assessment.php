@@ -361,12 +361,9 @@ class ModelCatalogAssessment extends Model {
 					'option_value_id'         => $assessment_option_value['option_value_id'],
 					'name'                    => $assessment_option_value['name'],
 					'image'                   => $assessment_option_value['image'],
-					'quantity'                => $assessment_option_value['quantity'],
 					'subtract'                => $assessment_option_value['subtract'],
 					'price'                   => $assessment_option_value['price'],
-					'price_prefix'            => $assessment_option_value['price_prefix'],
-					'weight'                  => $assessment_option_value['weight'],
-					'weight_prefix'           => $assessment_option_value['weight_prefix']
+					'price_prefix'            => $assessment_option_value['price_prefix']
 				);
 			}
 

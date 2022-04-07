@@ -140,7 +140,7 @@ class ControllerAssessmentExam extends Controller {
 				$exam_option_value_data = array();
 
 				foreach ($option['exam_option_value'] as $option_value) {
-					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+					if ($option_value['subtract'] ) {
 						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
 							$price = $this->currency->format($this->tax->calculate($option_value['price'], $exam_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
 						} else {
@@ -154,7 +154,6 @@ class ControllerAssessmentExam extends Controller {
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
 							'price'                   => $price,
 							'price_prefix'            => $option_value['price_prefix'],
-							// 'date' => $date
 						);
 					}
 				}

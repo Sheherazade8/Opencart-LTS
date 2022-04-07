@@ -60,7 +60,7 @@ class ModelCatalogAssessment extends Model {
 						$assessment_option_id = $this->db->getLastId();
 
 						foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
-							$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_option_value SET assessment_option_id = '" . (int)$assessment_option_id . "', assessment_id = '" . (int)$assessment_id . "', option_id = '" . (int)$assessment_option['option_id'] . "', option_value_id = '" . (int)$assessment_option_value['option_value_id'] . "', quantity = '" . (int)$assessment_option_value['quantity'] . "', subtract = '" . (int)$assessment_option_value['subtract'] . "', price = '" . (float)$assessment_option_value['price'] . "', price_prefix = '" . $this->db->escape($assessment_option_value['price_prefix']) . "', points = '" . (int)$assessment_option_value['points'] . "', points_prefix = '" . $this->db->escape($assessment_option_value['points_prefix']) . "', weight = '" . (float)$assessment_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($assessment_option_value['weight_prefix']) . "'");
+							$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_option_value SET assessment_option_id = '" . (int)$assessment_option_id . "', assessment_id = '" . (int)$assessment_id . "', option_id = '" . (int)$assessment_option['option_id'] . "', option_value_id = '" . (int)$assessment_option_value['option_value_id'] . "', subtract = '" . (int)$assessment_option_value['subtract'] . "', price = '" . (float)$assessment_option_value['price'] . "', price_prefix = '" . $this->db->escape($assessment_option_value['price_prefix']) . "', points = '" . (int)$assessment_option_value['points'] . "', points_prefix = '" . $this->db->escape($assessment_option_value['points_prefix']) . "'");
 						}
 					}
 				} else {
@@ -221,7 +221,7 @@ class ModelCatalogAssessment extends Model {
 						$assessment_option_id = $this->db->getLastId();
 
 						foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
-							$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_option_value SET assessment_option_value_id = '" . (int)$assessment_option_value['assessment_option_value_id'] . "', assessment_option_id = '" . (int)$assessment_option_id . "', assessment_id = '" . (int)$assessment_id . "', option_id = '" . (int)$assessment_option['option_id'] . "', option_value_id = '" . (int)$assessment_option_value['option_value_id'] . "', quantity = '" . (int)$assessment_option_value['quantity'] . "', subtract = '" . (int)$assessment_option_value['subtract'] . "', price = '" . (float)$assessment_option_value['price'] . "', price_prefix = '" . $this->db->escape($assessment_option_value['price_prefix']) . "', points = '" . (int)$assessment_option_value['points'] . "', points_prefix = '" . $this->db->escape($assessment_option_value['points_prefix']) . "', weight = '" . (float)$assessment_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($assessment_option_value['weight_prefix']) . "'");
+							$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_option_value SET assessment_option_value_id = '" . (int)$assessment_option_value['assessment_option_value_id'] . "', assessment_option_id = '" . (int)$assessment_option_id . "', assessment_id = '" . (int)$assessment_id . "', option_id = '" . (int)$assessment_option['option_id'] . "', option_value_id = '" . (int)$assessment_option_value['option_value_id'] . "', subtract = '" . (int)$assessment_option_value['subtract'] . "', price = '" . (float)$assessment_option_value['price'] . "', price_prefix = '" . $this->db->escape($assessment_option_value['price_prefix']) . "', points = '" . (int)$assessment_option_value['points'] . "', points_prefix = '" . $this->db->escape($assessment_option_value['points_prefix']) . "'");
 						}
 					}
 				} else {
@@ -569,14 +569,11 @@ class ModelCatalogAssessment extends Model {
 				$assessment_option_value_data[] = array(
 					'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
 					'option_value_id'         => $assessment_option_value['option_value_id'],
-					'quantity'                => $assessment_option_value['quantity'],
 					'subtract'                => $assessment_option_value['subtract'],
 					'price'                   => $assessment_option_value['price'],
 					'price_prefix'            => $assessment_option_value['price_prefix'],
 					'points'                  => $assessment_option_value['points'],
-					'points_prefix'           => $assessment_option_value['points_prefix'],
-					'weight'                  => $assessment_option_value['weight'],
-					'weight_prefix'           => $assessment_option_value['weight_prefix']
+					'points_prefix'           => $assessment_option_value['points_prefix']
 				);
 			}
 
@@ -595,7 +592,7 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessmentOptionValue($assessment_id, $assessment_option_value_id) {
-		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "assessment_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.assessment_id = '" . (int)$assessment_id . "' AND pov.assessment_option_value_id = '" . (int)$assessment_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix FROM " . DB_PREFIX . "assessment_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.assessment_id = '" . (int)$assessment_id . "' AND pov.assessment_option_value_id = '" . (int)$assessment_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}

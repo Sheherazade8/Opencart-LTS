@@ -525,14 +525,11 @@ class ControllerCatalogExam extends Controller {
 					$exam_option_value_data[] = array(
 						'exam_option_value_id' => $exam_option_value['exam_option_value_id'],
 						'option_value_id'         => $exam_option_value['option_value_id'],
-						'quantity'                => $exam_option_value['quantity'],
 						'subtract'                => $exam_option_value['subtract'],
 						'price'                   => $exam_option_value['price'],
 						'price_prefix'            => $exam_option_value['price_prefix'],
 						'points'                  => $exam_option_value['points'],
-						'points_prefix'           => $exam_option_value['points_prefix'],
-						'weight'                  => $exam_option_value['weight'],
-						'weight_prefix'           => $exam_option_value['weight_prefix']
+						'points_prefix'           => $exam_option_value['points_prefix']
 					);
 				}
 			}

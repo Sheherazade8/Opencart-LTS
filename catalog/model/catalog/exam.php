@@ -77,12 +77,9 @@ class ModelCatalogExam extends Model {
 					'option_value_id'         => $exam_option_value['option_value_id'],
 					'name'                    => $exam_option_value['name'],
 					'image'                   => $exam_option_value['image'],
-					'quantity'                => $exam_option_value['quantity'],
 					'subtract'                => $exam_option_value['subtract'],
 					'price'                   => $exam_option_value['price'],
-					'price_prefix'            => $exam_option_value['price_prefix'],
-					'weight'                  => $exam_option_value['weight'],
-					'weight_prefix'           => $exam_option_value['weight_prefix']
+					'price_prefix'            => $exam_option_value['price_prefix']
 				);
 			}
 

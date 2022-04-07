@@ -298,11 +298,11 @@
                               <thead>
                                 <tr>
                                   <td class="text-left">{{ entry_option_value }}</td>
-                                  <td class="text-right">{{ entry_quantity }}</td>
+                                  {# <td class="text-right">{{ entry_quantity }}</td> #}
                                   <td class="text-left">{{ entry_subtract }}</td>
                                   <td class="text-right">{{ entry_price }}</td>
                                   <td class="text-right">{{ entry_option_points }}</td>
-                                  <td class="text-right">{{ entry_weight }}</td>
+                                  {# <td class="text-right">{{ entry_weight }}</td> #}
                                   <td></td>
                                 </tr>
                               </thead>
@@ -335,7 +335,7 @@
 
 
                                       </select> <input type="hidden" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][exam_option_value_id]" value="{{ exam_option_value.exam_option_value_id }}"/></td>
-                                    <td class="text-right"><input type="text" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][quantity]" value="{{ exam_option_value.quantity }}" placeholder="{{ entry_quantity }}" class="form-control"/></td>
+                                    {# <td class="text-right"><input type="text" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][quantity]" value="{{ exam_option_value.quantity }}" placeholder="{{ entry_quantity }}" class="form-control"/></td> #}
                                     <td class="text-left"><select name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][subtract]" class="form-control">
 
 
@@ -421,7 +421,7 @@
 
 
                                       </select> <input type="text" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][points]" value="{{ exam_option_value.points }}" placeholder="{{ entry_points }}" class="form-control"/></td>
-                                    <td class="text-right"><select name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][weight_prefix]" class="form-control">
+                                    {# <td class="text-right"><select name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][weight_prefix]" class="form-control">
 
 
                                         {% if exam_option_value.weight_prefix == '+' %}
@@ -452,7 +452,7 @@
                                         {% endif %}
 
 
-                                      </select> <input type="text" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][weight]" value="{{ exam_option_value.weight }}" placeholder="{{ entry_weight }}" class="form-control"/></td>
+                                      </select> <input type="text" name="exam_option[{{ option_row }}][exam_option_value][{{ option_value_row }}][weight]" value="{{ exam_option_value.weight }}" placeholder="{{ entry_weight }}" class="form-control"/></td> #}
                                     <td class="text-right"><button type="button" onclick="$(this).tooltip('destroy');$('#option-value-row{{ option_value_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
                                   </tr>
                                   {% set option_value_row = option_value_row + 1 %}
