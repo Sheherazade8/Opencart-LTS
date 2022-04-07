@@ -355,7 +355,7 @@ class ModelCatalogAssessment extends Model {
 
 			$assessment_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_option_value eov LEFT JOIN " . DB_PREFIX . "option_value ov ON (eov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE eov.exam_id = '" . (int)$assessment_exam_id . "' AND eov.exam_option_id = '" . (int)$assessment_option['exam_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY ov.sort_order");
 
-			foreach ($assessment_option_value_query->rows as $assessment_option_value) {
+			foreach ($assessment_option_value_query->rows as $assessment_option_value) {				
 				$assessment_option_value_data[] = array(
 					'assessment_option_value_id' => $assessment_option_value['exam_option_value_id'],
 					'option_value_id'         => $assessment_option_value['option_value_id'],

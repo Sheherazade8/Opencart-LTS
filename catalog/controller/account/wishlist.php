@@ -90,6 +90,10 @@ class ControllerAccountWishList extends Controller {
 					'thumb'      => $image,
 					'name'       => $assessment_info['name'],
 					'model'      => $assessment_info['model'],
+					// Nouveau code
+					'date' => $assessment_info['date'],
+					'exam' => $assessment_info['exam'],
+
 					'stock'      => $stock,
 					'price'      => $price,
 					'special'    => $special,

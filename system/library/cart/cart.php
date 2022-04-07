@@ -54,14 +54,14 @@ class Cart {
 
 				$option_data = array();
 
-				foreach (json_decode($cart['option']) as $assessment_option_id => $value) {
+				foreach (json_decode($cart['option']) as $option_id => $value) {
 					// Nouveau code pour obtenir les options de Exam
 				
-					$option_query = $this->db->query("SELECT po.assessment_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "exam_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.exam_option_id = '" . (int)$assessment_option_id . "' AND po.exam_id = '" . (int)$exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					$option_query = $this->db->query("SELECT po.exam_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "exam_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.exam_option_id = '" . (int)$option_id . "' AND po.exam_id = '" . (int)$exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 					if ($option_query->num_rows) {
 						if ($option_query->row['type'] == 'select' || $option_query->row['type'] == 'radio') {
-							$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "assessment_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.assessment_option_value_id = '" . (int)$value . "' AND pov.assessment_option_id = '" . (int)$assessment_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+							$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.exam_option_value_id = '" . (int)$value . "' AND pov.exam_option_id = '" . (int)$option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 							if ($option_value_query->num_rows) {
 								if ($option_value_query->row['price_prefix'] == '+') {
@@ -87,7 +87,7 @@ class Cart {
 								}
 
 								$option_data[] = array(
-									'assessment_option_id'       => $assessment_option_id,
+									'assessment_option_id'       => $option_id,
 									'assessment_option_value_id' => $value,
 									'option_id'               => $option_query->row['option_id'],
 									'option_value_id'         => $option_value_query->row['option_value_id'],
@@ -105,8 +105,8 @@ class Cart {
 								);
 							}
 						} elseif ($option_query->row['type'] == 'checkbox' && is_array($value)) {
-							foreach ($value as $assessment_option_value_id) {
-								$option_value_query = $this->db->query("SELECT pov.option_value_id, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix, ovd.name FROM " . DB_PREFIX . "assessment_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) WHERE pov.assessment_option_value_id = '" . (int)$assessment_option_value_id . "' AND pov.assessment_option_id = '" . (int)$assessment_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+							foreach ($value as $option_value_id) {
+								$option_value_query = $this->db->query("SELECT pov.option_value_id, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix, ovd.name FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) WHERE pov.exam_option_value_id = '" . (int)$option_value_id . "' AND pov.exam_option_id = '" . (int)$option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 								if ($option_value_query->num_rows) {
 									if ($option_value_query->row['price_prefix'] == '+') {
@@ -132,8 +132,8 @@ class Cart {
 									}
 
 									$option_data[] = array(
-										'assessment_option_id'       => $assessment_option_id,
-										'assessment_option_value_id' => $assessment_option_value_id,
+										'assessment_option_id'       => $option_id,
+										'assessment_option_value_id' => $option_value_id,
 										'option_id'               => $option_query->row['option_id'],
 										'option_value_id'         => $option_value_query->row['option_value_id'],
 										'name'                    => $option_query->row['name'],
@@ -152,7 +152,7 @@ class Cart {
 							}
 						} elseif ($option_query->row['type'] == 'text' || $option_query->row['type'] == 'textarea' || $option_query->row['type'] == 'file' || $option_query->row['type'] == 'date' || $option_query->row['type'] == 'datetime' || $option_query->row['type'] == 'time') {
 							$option_data[] = array(
-								'assessment_option_id'       => $assessment_option_id,
+								'assessment_option_id'       => $option_id,
 								'assessment_option_value_id' => '',
 								'option_id'               => $option_query->row['option_id'],
 								'option_value_id'         => '',

@@ -339,13 +339,13 @@ class ControllerAssessmentAssessment extends Controller {
 				$assessment_option_value_data = array();
 
 				foreach ($option['assessment_option_value'] as $option_value) {
-					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+					// if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
 						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
 							$price = $this->currency->format($this->tax->calculate($option_value['price'], $assessment_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
 						} else {
 							$price = false;
-						}
-
+						}		
+		
 						$assessment_option_value_data[] = array(
 							'assessment_option_value_id' => $option_value['assessment_option_value_id'],
 							'option_value_id'         => $option_value['option_value_id'],
@@ -355,7 +355,7 @@ class ControllerAssessmentAssessment extends Controller {
 							'price_prefix'            => $option_value['price_prefix'],
 							// 'date' => $date
 						);
-					}
+					// }
 				}
 
 				$data['options'][] = array(

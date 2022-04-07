@@ -14,8 +14,10 @@ $_['text_empty']    = 'Your wish list is empty.';
 // Column
 $_['column_image']  = 'Image';
 // Nouveau code
-$_['column_name']   = 'Center Name';
-$_['column_model']  = 'City';
+$_['column_exam']              = 'Exam';
+$_['column_name']              = 'Center Name';
+$_['column_model']             = 'City';
+$_['column_date']              = 'Date';
 $_['column_stock']  = 'Stock';
 $_['column_price']  = 'Unit Price';
 $_['column_action'] = 'Action';
