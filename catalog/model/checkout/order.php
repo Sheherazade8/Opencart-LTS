@@ -323,11 +323,13 @@ class ModelCheckoutOrder extends Model {
 				foreach ($order_assessments as $order_assessment) {
 					$this->db->query("UPDATE " . DB_PREFIX . "assessment SET quantity = (quantity - " . (int)$order_assessment['quantity'] . ") WHERE assessment_id = '" . (int)$order_assessment['assessment_id'] . "' AND subtract = '1'");
 
-					$order_options = $this->getOrderOptions($order_id, $order_assessment['order_assessment_id']);
+					// Nouveau code pour enlever quantity de option
 
-					foreach ($order_options as $order_option) {
-						$this->db->query("UPDATE " . DB_PREFIX . "assessment_option_value SET quantity = (quantity - " . (int)$order_assessment['quantity'] . ") WHERE assessment_option_value_id = '" . (int)$order_option['assessment_option_value_id'] . "' AND subtract = '1'");
-					}
+					// $order_options = $this->getOrderOptions($order_id, $order_assessment['order_assessment_id']);
+
+					// foreach ($order_options as $order_option) {
+					// 	$this->db->query("UPDATE " . DB_PREFIX . "assessment_option_value SET quantity = (quantity - " . (int)$order_assessment['quantity'] . ") WHERE assessment_option_value_id = '" . (int)$order_option['assessment_option_value_id'] . "' AND subtract = '1'");
+					// }
 				}
 				
 				// Add commission if sale is linked to affiliate referral.
@@ -353,11 +355,13 @@ class ModelCheckoutOrder extends Model {
 				foreach($order_assessments as $order_assessment) {
 					$this->db->query("UPDATE `" . DB_PREFIX . "assessment` SET quantity = (quantity + " . (int)$order_assessment['quantity'] . ") WHERE assessment_id = '" . (int)$order_assessment['assessment_id'] . "' AND subtract = '1'");
 
-					$order_options = $this->getOrderOptions($order_id, $order_assessment['order_assessment_id']);
+					// Nouveau code pour enlever quantity de option
+					
+					// $order_options = $this->getOrderOptions($order_id, $order_assessment['order_assessment_id']);
 
-					foreach ($order_options as $order_option) {
-						$this->db->query("UPDATE " . DB_PREFIX . "assessment_option_value SET quantity = (quantity + " . (int)$order_assessment['quantity'] . ") WHERE assessment_option_value_id = '" . (int)$order_option['assessment_option_value_id'] . "' AND subtract = '1'");
-					}
+					// foreach ($order_options as $order_option) {
+					// 	$this->db->query("UPDATE " . DB_PREFIX . "assessment_option_value SET quantity = (quantity + " . (int)$order_assessment['quantity'] . ") WHERE assessment_option_value_id = '" . (int)$order_option['assessment_option_value_id'] . "' AND subtract = '1'");
+					// }
 				}
 
 				// Remove coupon, vouchers and reward points history

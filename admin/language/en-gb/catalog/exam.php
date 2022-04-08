@@ -63,6 +63,7 @@ $_['entry_option_points']    = 'Points';
 $_['entry_option']           = 'Service';
 $_['entry_option_value']     = 'Service Value';
 $_['entry_quantity']         = 'Quantity';
-$_['entry_subtract']         = 'Subtract Stock';
+// Nouveau code
+$_['entry_subtract']         = 'Enable';
 $_['entry_weight']           = 'Weight';
 

@@ -76,7 +76,8 @@ class Cart {
 									$option_points -= $option_value_query->row['points'];
 								}
 
-								if ($option_value_query->row['subtract']) {
+								// Nouveau code pour enlever quantity de option
+								if (!$option_value_query->row['subtract']) {
 									$stock = false;
 								}
 
@@ -112,7 +113,9 @@ class Cart {
 										$option_points -= $option_value_query->row['points'];
 									}
 
-									if ($option_value_query->row['subtract']) {
+									// Nouveau code pour enlever quantity de option
+
+									if (!$option_value_query->row['subtract']) {
 										$stock = false;
 									}
 
