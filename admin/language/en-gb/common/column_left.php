@@ -42,6 +42,9 @@ $_['text_maintenance']          = 'Maintenance';
 $_['text_menu']                 = 'Menu Manager';
 $_['text_modification']         = 'Modifications';
 $_['text_manufacturer']         = 'Manufacturers';
+// Nouveau code pour ajouter center
+$_['text_center']         = 'Centers';
+
 $_['text_navigation']           = 'Navigation';
 $_['text_option']               = 'Services';
 $_['text_order']                = 'Orders';

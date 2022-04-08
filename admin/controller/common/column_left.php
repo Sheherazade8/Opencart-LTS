@@ -96,6 +96,15 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 
+			// Nouveau code pour ajouter center
+			if ($this->user->hasPermission('access', 'extension/module/center')) {
+				$catalog[] = array(
+					'name'	   => $this->language->get('text_center'),
+					'href'     => $this->url->link('extension/module/center', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
 			if ($this->user->hasPermission('access', 'catalog/download')) {
 				$catalog[] = array(
 					'name'	   => $this->language->get('text_download'),
