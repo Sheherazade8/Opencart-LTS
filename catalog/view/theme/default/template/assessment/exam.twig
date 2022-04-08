@@ -139,6 +139,7 @@
           <ul>
             {% for exam in exams %}
             <li><a href="{{ exam.href }}">{{ exam.name }}</a></li>
+            {{ exam.price }}
             {% endfor %}
           </ul>
         </div>
@@ -199,11 +200,17 @@
       <div class="row"> {% for assessment in assessments %}
         <div class="assessment-layout assessment-list col-xs-12">
           <div class="assessment-thumb">
-            <div class="image"><a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-responsive" /></a></div>
-            <div>
+            {# <div class="image"><a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-responsive" /></a></div>
+            <div> #}
               <div class="caption">
                 <h4><a href="{{ assessment.href }}">{{ assessment.name }}</a></h4>
-                <p>{{ assessment.description }}</p>
+                {# Nouveau code #}
+                <h5> {{assessment.model}}</h5>
+                <h5> {{assessment.date}}</h5>
+                <p>{{ assessment.location }}</p>
+
+                {# <p>{{ assessment.description }}</p> #}
+
                 {% if assessment.price %}
                 <p class="price"> {% if not assessment.special %}
                   {{ assessment.price }}
