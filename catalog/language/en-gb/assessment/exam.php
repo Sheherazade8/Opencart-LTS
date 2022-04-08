@@ -22,4 +22,7 @@ $_['text_rating_desc']  = 'Rating (Highest)';
 // Nouveau code
 $_['text_model_asc']    = 'City (A - Z)';
 $_['text_model_desc']   = 'City (Z - A)';
+$_['text_date_asc']    = 'Date (Earliest) ';
+$_['text_date_desc']   = 'Date (Latest)';
+
 $_['text_limit']        = 'Show:';

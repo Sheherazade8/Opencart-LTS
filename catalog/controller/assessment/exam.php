@@ -183,6 +183,8 @@ class ControllerAssessmentExam extends Controller {
 
 				$data['exams'][] = array(
 					'name' => $result['name'] . ($this->config->get('config_assessment_count') ? ' (' . $this->model_catalog_assessment->getTotalAssessments($filter_data) . ')' : ''),
+					// Nouveau code
+					'price' => $this->currency->format($result['price'], $this->session->data['currency']),
 					'href' => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '_' . $result['exam_id'] . $url)
 				);
 			}
@@ -240,9 +242,13 @@ class ControllerAssessmentExam extends Controller {
 					'thumb'       => $image,
 					'name'        => $result['name'],
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_assessment_description_length')) . '..',
-					// 'price'       => $price,
-					// Nouveau code pour remplacer meta_description par date
+					'price'       => $price,
+					// Nouveau code 
 					'date'        => $result['date'],
+					'exam'        => $result['exam'],
+					'location'    => $result['location'],
+					'model'		  => $result['model'],
+
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
