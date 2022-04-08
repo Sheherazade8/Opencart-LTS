@@ -3,17 +3,29 @@ class ModelExtensionModuleCenter extends Model {
 	public function addCenter($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "center SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 
+        // Nouveau code
 		$center_id = $this->db->getLastId();
+
+        if (isset($data['city'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET city = '" . $this->db->escape($data['city']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['location'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET location = '" . $this->db->escape($data['location']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['capacity'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['description'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($data['description']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "center SET image = '" . $this->db->escape($data['image']) . "' WHERE center_id = '" . (int)$center_id . "'");
 		}
 
-		if (isset($data['center_store'])) {
-			foreach ($data['center_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "center_to_store SET center_id = '" . (int)$center_id . "', store_id = '" . (int)$store_id . "'");
-			}
-		}
 				
 		// SEO URL
 		if (isset($data['center_seo_url'])) {
@@ -34,7 +46,24 @@ class ModelExtensionModuleCenter extends Model {
 	public function editCenter($center_id, $data) {
 		$this->db->query("UPDATE " . DB_PREFIX . "center SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "' WHERE center_id = '" . (int)$center_id . "'");
 
-		if (isset($data['image'])) {
+		// Nouveau code
+        if (isset($data['city'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET city = '" . $this->db->escape($data['city']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['location'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET location = '" . $this->db->escape($data['location']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['capacity'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['description'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($data['description']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		}
+
+        if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "center SET image = '" . $this->db->escape($data['image']) . "' WHERE center_id = '" . (int)$center_id . "'");
 		}
 

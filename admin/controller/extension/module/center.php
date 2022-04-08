@@ -175,6 +175,12 @@ class ControllerExtensionModuleCenter extends Controller {
 			$data['centers'][] = array(
 				'center_id' => $result['center_id'],
 				'name'            => $result['name'],
+                // Nouveau code
+                'city'            => $result['city'],
+                'location'            => $result['location'],
+                'capacity'            => $result['capacity'],
+                'description'            => $result['description'],
+
 				'sort_order'      => $result['sort_order'],
 				'edit'            => $this->url->link('extension/module/center/edit', 'user_token=' . $this->session->data['user_token'] . '&center_id=' . $result['center_id'] . $url, true)
 			);
@@ -313,6 +319,41 @@ class ControllerExtensionModuleCenter extends Controller {
 		} else {
 			$data['name'] = '';
 		}
+
+        // Nouveau code
+        if (isset($this->request->post['city'])) {
+			$data['city'] = $this->request->post['city'];
+		} elseif (!empty($center_info)) {
+			$data['city'] = $center_info['city'];
+		} else {
+			$data['city'] = '';
+		}
+
+        if (isset($this->request->post['location'])) {
+			$data['location'] = $this->request->post['location'];
+		} elseif (!empty($center_info)) {
+			$data['location'] = $center_info['location'];
+		} else {
+			$data['location'] = '';
+		}
+
+        if (isset($this->request->post['capacity'])) {
+			$data['capacity'] = $this->request->post['capacity'];
+		} elseif (!empty($center_info)) {
+			$data['capacity'] = $center_info['capacity'];
+		} else {
+			$data['capacity'] = '';
+		}
+
+        if (isset($this->request->post['description'])) {
+			$data['description'] = $this->request->post['description'];
+		} elseif (!empty($center_info)) {
+			$data['description'] = $center_info['description'];
+		} else {
+			$data['description'] = '';
+		}
+        
+        // Fin nouveau code
 
 		$this->load->model('setting/store');
 

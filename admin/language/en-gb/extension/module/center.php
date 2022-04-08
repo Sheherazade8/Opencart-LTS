@@ -19,6 +19,11 @@ $_['column_action']     = 'Action';
 
 // Entry
 $_['entry_name']        = 'Center Name';
+$_['entry_city']        = 'City';
+$_['entry_location']    = 'Location';
+$_['entry_capacity']    = 'Maximum Capacity';
+$_['entry_description'] = 'Description';
+
 $_['entry_store']       = 'Stores';
 $_['entry_keyword']     = 'Keyword';
 $_['entry_image']       = 'Image';
