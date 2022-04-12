@@ -18,8 +18,10 @@ class ModelExtensionModuleCenter extends Model {
 			$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
 		}
 
-        if (isset($data['description'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($data['description']) . "' WHERE center_id = '" . (int)$center_id . "'");
+        if (isset($data['center_description'])) {
+			foreach ($data['center_description'] as $language_id => $value) {
+				$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($value['description']) . "', language_id = '" . (int)$language_id . "' WHERE center_id = '" . (int)$center_id . "'");
+			}
 		}
 
 		if (isset($data['image'])) {
@@ -59,8 +61,10 @@ class ModelExtensionModuleCenter extends Model {
 			$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
 		}
 
-        if (isset($data['description'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($data['description']) . "' WHERE center_id = '" . (int)$center_id . "'");
+        if (isset($data['center_description'])) {
+			foreach ($data['center_description'] as $language_id => $value) {
+				$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($value['description']) . "', language_id = '" . (int)$language_id . "' WHERE center_id = '" . (int)$center_id . "'");
+			}
 		}
 
         if (isset($data['image'])) {
@@ -108,8 +112,11 @@ class ModelExtensionModuleCenter extends Model {
 		$sql = "SELECT * FROM " . DB_PREFIX . "center";
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%' AND language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		} else {
+			$sql .= " WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		}
+
 
 		$sort_data = array(
 			'name',
@@ -144,6 +151,36 @@ class ModelExtensionModuleCenter extends Model {
 
 		return $query->rows;
 	}
+
+	public function getCenterDescription($center_id) {
+		$center_description = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "center WHERE center_id = '" . (int)$center_id . "'");
+
+		foreach ($query->rows as $result) {
+			$center_description[$result['language_id']] = array('description' => $result['description']);
+		}
+
+		return $center_description;
+	}
+
+	public function getCenterDescriptions($name, $language_id) {
+		$center_description = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "center WHERE name = '" . $name . "' AND language_id = '" . (int)$language_id . "'");
+
+		foreach ($query->rows as $result) {
+			$center_description[] = array(
+				'name'
+				
+				'description' => $result['description'],
+
+			);
+		}
+
+		return $center_description;
+	}
+
 
 	public function getCenterStores($center_id) {
 		$center_store_data = array();
