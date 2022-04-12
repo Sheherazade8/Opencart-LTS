@@ -345,12 +345,16 @@ class ControllerExtensionModuleCenter extends Controller {
 			$data['capacity'] = '';
 		}
 
-        if (isset($this->request->post['description'])) {
-			$data['description'] = $this->request->post['description'];
-		} elseif (!empty($center_info)) {
-			$data['description'] = $center_info['description'];
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+		
+        if (isset($this->request->post['center_description'])) {
+			$data['center_description'] = $this->request->post['center_description'];
+		} elseif (isset($this->request->get['center_id'])) {
+			$data['center_description'] = $this->model_extension_module_center->getCenterDescription($this->request->get['center_id']);
 		} else {
-			$data['description'] = '';
+			$data['center_description'] = '';
 		}
         
         // Fin nouveau code
@@ -409,9 +413,6 @@ class ControllerExtensionModuleCenter extends Controller {
 			$data['sort_order'] = '';
 		}
 
-		$this->load->model('localisation/language');
-
-		$data['languages'] = $this->model_localisation_language->getLanguages();
 
 		if (isset($this->request->post['center_seo_url'])) {
 			$data['center_seo_url'] = $this->request->post['center_seo_url'];

@@ -50,7 +50,33 @@
                     <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
                       <div class="col-sm-10">
-                        <input type="text" name="assessment_description[{{ language.language_id }}][name]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control"/>
+                        {# <input type="text" name="assessment_description[{{ language.language_id }}][name]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control"/> #}
+                        <select name="assessment_description[{{ language.language_id }}][name]" id="input-name{{ language.language_id }}" class="form-control">
+                    
+                          {% if assessment_description[language.language_id].name %}
+
+                            {% for center in centers %}
+
+                              {% if center.name == assessment_description[language.language_id].name %}
+                                <option value="{{ center.name }}" selected="selected">{{ center.name }}</option>
+                              {% else %}
+                                <option value="{{ center.name }}">{{ center.name }}</option>
+                              {% endif %}
+
+                            {% endfor %}                      
+
+                          {% else %}
+
+                            <option value="0">{{ text_none }}</option>
+                            {% for center in centers %}
+                              <option value="{{ center.name }}">{{ center.name }}</option>
+                            {% endfor %}
+
+                          {% endif %}
+                    
+                        </select>
+
+                        
                         {% if error_name[language.language_id] %}
                           <div class="text-danger">{{ error_name[language.language_id] }}</div>
                         {% endif %} </div>
@@ -1099,6 +1125,34 @@
 		  $('input[name=\'manufacturer_id\']').val(item['value']);
 	  }
   });
+
+    // Center Autocomplete
+  $('input[name=\'name\']').autocomplete({
+	  'source': function(request, response) {
+		  $.ajax({
+			  url: 'index.php?route=extension/module/center/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+			  dataType: 'json',
+			  success: function(json) {
+				  json.unshift({
+					  center_id: 0,
+					  name: '{{ text_none }}'
+				  });
+
+				  response($.map(json, function(item) {
+					  return {
+						  label: item['name'],
+						  value: item['center_id']
+					  }
+				  }));
+			  }
+		  });
+	  },
+	  'select': function(item) {
+		  $('input[name=\'name\']').val(item['label']);
+		  // $('input[name=\'center_id\']').val(item['value']);
+	  }
+  });
+
 
   // Exam
   {# $('input[name=\'exam\']').autocomplete({

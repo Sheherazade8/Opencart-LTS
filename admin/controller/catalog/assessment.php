@@ -699,6 +699,11 @@ class ControllerCatalogAssessment extends Controller {
 			$data['assessment_description'] = array();
 		}
 
+		$this->load->model('extension/module/center');
+
+		$data['centers'] = $this->model_extension_module_center->getCenters();
+
+
 		if (isset($this->request->post['model'])) {
 			$data['model'] = $this->request->post['model'];
 		} elseif (!empty($assessment_info)) {
