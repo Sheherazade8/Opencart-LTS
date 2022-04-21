@@ -186,6 +186,17 @@ class ControllerExtensionModuleCenter extends Controller {
 			);
 		}
 
+		// $data['center_descriptions'] = array();
+
+		// foreach ($data['centers'] as $center) {
+		// 	if ($center) {
+		// 		if (!isset($data['center_descriptions'][$center['center_id']])) {
+		// 			$data['center_descriptions'][$center['center_id']] = $this->model_extension_module_center->getCenterDescription($center_id);
+		// 		}
+		// 	}
+		// }
+
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -487,6 +498,8 @@ class ControllerExtensionModuleCenter extends Controller {
 		if (isset($this->request->get['filter_name'])) {
 			$this->load->model('extension/module/center');
 
+			$this->load->model('tool/image');
+
 			$filter_data = array(
 				'filter_name' => $this->request->get['filter_name'],
 				'start'       => 0,
@@ -496,9 +509,27 @@ class ControllerExtensionModuleCenter extends Controller {
 			$results = $this->model_extension_module_center->getCenters($filter_data);
 
 			foreach ($results as $result) {
+				if (is_file(DIR_IMAGE . $result['image'])) {
+					$image = $this->model_tool_image->resize($result['image'], 50, 50);
+				} else {
+					$image = $this->model_tool_image->resize('no_image.png', 50, 50);
+				}
+
+				$center_description_data = array(
+					'city'      => $result['city'],
+					'location'     => $result['location'],
+			 		'capacity'     => $result['capacity'],
+			 		'description'  => $result['description'],
+					'image'        => $image
+				);
+				foreach ($center_description_data as $key => $value) {
+					$sort_order[$key] = $value['name'];
+				}
+
 				$json[] = array(
 					'center_id' => $result['center_id'],
-					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'name'      => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+			 		'center_description'  => $center_description_data
 				);
 			}
 		}
@@ -514,4 +545,18 @@ class ControllerExtensionModuleCenter extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function getCenterDescripion($name) {
+		$this->load->model('extension/module/center');
+		$data = $this->model_extension_module_center->getCenterDescriptions($name);
+		$json[] = array(
+			'name' => $data['name'],
+			'description'  => $data['description']
+		);
+
+		$this->response->setOutput(json_encode($json));
+
+		
+	}
+
 }

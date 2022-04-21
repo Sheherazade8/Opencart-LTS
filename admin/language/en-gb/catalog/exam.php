@@ -62,6 +62,7 @@ $_['text_option_value']      = 'Service Value';
 $_['entry_option_points']    = 'Points';
 $_['entry_option']           = 'Service';
 $_['entry_option_value']     = 'Service Value';
+$_['entry_required']         = 'Required';
 $_['entry_quantity']         = 'Quantity';
 // Nouveau code
 $_['entry_subtract']         = 'Enable';

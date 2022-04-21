@@ -699,9 +699,43 @@ class ControllerCatalogAssessment extends Controller {
 			$data['assessment_description'] = array();
 		}
 
+		// Nouveau code 
+
 		$this->load->model('extension/module/center');
 
-		$data['centers'] = $this->model_extension_module_center->getCenters();
+		$results = $this->model_extension_module_center->getCenters();
+		$data['centers'] = array();
+		$data['descriptions'] = array();
+
+
+		foreach ($results as $result){ 
+			$data['centers'][] = $result['name'];
+			$data['descriptions'][] = array(
+				// $result['name'] => array(
+					'name'         => $result['name'],
+					'city'         => $result['city'],
+					'location'     => $result['location'],
+					'capacity'     => $result['capacity'],
+					'description'  => $result['description'],
+					'image'        => $result['image']
+				// )
+
+			);
+		}
+
+		// if ($data['assessment_description']){
+			// $center = $data['assessment_description']['name'];
+		// foreach ($data['centers'] as $center) {
+		// 	$result = $this->model_extension_module_center->getCenterDescriptions($center);
+		// 	$data['center_description'][$result['language_id']] = array(
+		// 		'name'         => $result['name'],
+		// 		'city'         => $result['city'],
+		// 		'location'     => $result['location'],
+		// 		'capacity'     => $result['capacity'],
+		// 		'description'  => $result['description'],
+		// 		'image'        => $result['image']
+		// 	);
+		// }
 
 
 		if (isset($this->request->post['model'])) {
