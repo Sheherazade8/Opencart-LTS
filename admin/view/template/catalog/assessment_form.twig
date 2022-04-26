@@ -47,27 +47,23 @@
               </ul>
               <div class="tab-content">{% for language in languages %}
                   <div class="tab-pane" id="language{{ language.language_id }}">
-                   {# {% for center in centers %} #}
 
                     <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
                       <div class="col-sm-10">
 
                         {# <input type="text" name="assessment_description[{{ language.language_id }}][name]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control"/> #}
-                        <select name="assessment_description[[{{ language.language_id }}][name]" id="input-name{{ language.language_id }}" class="form-control" onchange="centerDescription({{ language.language_id }})">
+                        <select name="assessment_description[{{ language.language_id }}][name]" id="input-name{{ language.language_id }}" class="form-control" onchange="centerDescription({{ language.language_id }})">
                     
                           {% if assessment_description[language.language_id].name %}
 
-                            {# {% set center_row = 0 %} #}
                             {% for center in centers %}
 
-                              {% if center == assessment_description[language.language_id].name %}
-                                <option value="{{ center }}" selected="selected">{{ center }}</option>
+                              {% if center.name == assessment_description[language.language_id].name %}
+                                <option value="{{ center.name }}" selected="selected">{{ center.name }}</option>
                               {% else %}
-                                <option value="{{ center }}">{{ center }}</option>
+                                <option value="{{ center.name }}">{{ center.name }}</option>
                               {% endif %}
-
-                              {# {% set center_row = center_row + 1 %} #}
 
                             {% endfor %}                      
 
@@ -75,12 +71,10 @@
 
                             <option value="0">{{ text_none }}</option>
                             
-                            {# {% set center_row = 0 %} #}
                             {% for center in centers %}
                               
-                              <option value="{{ center }}" >{{ center }}</option>
+                              <option value="{{ center.name }}" >{{ center.name }}</option>
 
-                              {# {% set center_row = center_row + 1 %} #}
 
                             {% endfor %}
 
@@ -96,24 +90,31 @@
 
                     {% for description in descriptions %}
 
-                      <input type="hidden" name="description{{ description.name }}" id="center-description{{ description.name }}" value="{{ description.description }}"/> 
-                      <input type="hidden" name="city{{ description.name }}" id="center-city{{ description.name }}" value="{{ description.city }}"/>
-                      <input type="hidden" name="location{{ description.name }}" id="center-location{{ description.name }}" value="{{ description.location }}"/> 
-                      <input type="hidden" name="capacity{{ description.name }}" id="center-capacity{{ description.name }}" value="{{ description.capacity }}"/> 
-                      <input type="hidden" name="image{{ description.name }}" id="center-image{{ description.name }}" value="{{ description.image }}"/> 
+                      {% if description.language_id == language.language_id %}
 
-                    {% endfor %}
+                        <input type="hidden" name="description{{ language.language_id }}{{ description.name }}" id="center-description{{ language.language_id }}{{ description.name }}" value="{{ description.description }}"/> 
+                        <input type="hidden" name="city{{ description.name }}" id="center-city{{ description.name }}" value="{{ description.city }}"/>
+                        <input type="hidden" name="location{{ description.name }}" id="center-location{{ description.name }}" value="{{ description.location }}"/> 
+                        <input type="hidden" name="capacity{{ description.name }}" id="center-capacity{{ description.name }}" value="{{ description.capacity }}"/> 
+                        <input type="hidden" name="image{{ description.name }}" id="center-image{{ description.name }}" value="{{ description.image }}"/> 
+                        <input type="hidden" name="center_id{{ description.name }}" id="center-id{{ description.name }}" value="{{ description.center_id }}"/> 
+
+
+
+                      {% endif %}
+
+                    {% endfor %}        
+
+                    <input type="hidden" name="assessment_description[{{ language.language_id }}][center_id]" id="input-center-id{{ language.language_id }}" />
+
+
 
                     <div class="form-group">
                       <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}">{{ entry_description }}</label>
                         <div class="col-sm-10">
 
-                        {# {% if (assessment_description[language.language_id]) %} #}
-                          <textarea value="{{  assessment_description[language.language_id].description }}" name="assessment_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" class="form-control">{{ assessment_description[language.language_id] ? assessment_description[language.language_id].description }} </textarea>
+                          <textarea value="{{  assessment_description[language.language_id].description }}" rows = "10" name="assessment_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" class="form-control">{{ assessment_description[language.language_id] ? assessment_description[language.language_id].description }} </textarea>
                         {#  data-toggle="summernote" data-lang="{{ language.locale }}" #}
-                        {# {% else %}
-                          <textarea name="assessment_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" class="form-control"></textarea>
-                        {% endif %} #}
                         </div>
                     </div>
 
@@ -156,8 +157,6 @@
                         <input type="text" name="assessment_description[{{ language.language_id }}][tag]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].tag }}" placeholder="{{ entry_tag }}" id="input-tag{{ language.language_id }}" class="form-control"/>
                       </div>
                     </div>
-                    {# {% set center_row = center_row + 1 %} #}
-                  {# {% endfor %} #}
 
                   </div>
                 {% endfor %}</div>
@@ -1135,23 +1134,24 @@
 
   <script type="text/javascript">
 
-  // document.getElementByName("assessment_description[{{ language.language_id }}][name]").addEventListener('change', function {
-      // document.getElementByName("assessment_description[{{ language.language_id }}][meta_title]").innerHTML = "";
-
   function centerDescription( language_id ){
         var name = document.getElementById("input-name" + language_id ).value;
 
-        var center_description = document.getElementById("center-description" + name ).value;
+        var center_description = document.getElementById("center-description"+ language_id + name ).value;
         var center_city = document.getElementById("center-city" + name ).value;
         var center_location = document.getElementById("center-location" + name ).value;
         var center_capacity = document.getElementById("center-capacity" + name ).value;
         var center_image = document.getElementById("center-image" + name ).value;
+        var center_id = document.getElementById("center-id" + name ).value;
+
+        document.getElementById("input-center-id" + language_id).value = center_id;
 
         document.getElementById("input-description" + language_id ).value = center_description;
         document.getElementById("input-meta-title" + language_id ).value = name;
         document.getElementById("input-model").value = center_city;
         document.getElementById("input-location").value = center_location;
         document.getElementById("input-quantity").value = center_capacity;
+        document.getElementById("input-image").value = center_image;
 
       
   }
@@ -1187,137 +1187,6 @@
 		  $('input[name=\'manufacturer_id\']').val(item['value']);
 	  }
   });
-
-    // Center Autocomplete
-  {# <script type="text/javascript"><!--
-
-  var center_row = {{ center_row }};
-
-
-      $.ajax({
-          type: 'POST',
-          url: 'index.php?route=extension/module/center/getCenterDescription&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-          data:{
-            name: document.getElementById("input-name" + language_idmeta_title[language.language_id] ).value
-          },
-          dataType: 'json',
-          success: function(response) {
-          }
-            response($.map(json, function(item) {
-              return {
-                label: item['name'],
-                value: item['name'],
-                description: item['description']
-              }
-            }));
-          document.getElementById("input-description" + language_id ).innerHTML = item['description'];
-
-        });
-
-
-
-
-  $('input[name=\'center\']').autocomplete({
-	  'source': function(request, response) {
-		  $.ajax({
-			  url: 'index.php?route=extension/module/center/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-			  dataType: 'json',
-			  success: function(json) {
-				  response($.map(json, function(item) {
-					  return {
-						  label: item['name'],
-						  value: item['center_id'],
-						  center_description: item['center_description'],
-					  }
-				  }));
-			  }
-		  });
-	  },
-	  'select': function(item) {
-		  html += '	<div class="tab-pane active" id="tab-general">';
-
-		  html += '	<div class="form-group">';
-		  html += '	  <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}' + center_row'">{{ entry_description }}</label>';
-			// for (i = 0; i < item['center_description'].length; i++) {
-        // if ( item['center_description'][i][name] == center) {
-		  html += '	  <div class="col-sm-10"><textarea name="assessment_description[{{ language.language_id }}][' + center_row'][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}' + center_row'" data-toggle="summernote" data-lang="{{ language.locale }}" class="form-control"> {{ assessment_description[language.language_id] ? assessment_description[language.language_id].description : center_descriptions[' + item['value'] '][{{ language.language_id }}] }}</textarea>';
-      html += '	  </div>';
-        // }
-      // }
-      html += '	  </div>';
-		  html += '	</div>';
-
-		  $('#tab-general .tab-content ').append(html);
-      $('#center a[href=\'#tab-general\']').tab('show');
-
-
-		}
-      
-  }); #}
-
-  {# {% for language in languages %}
-
-    $('input[name=\'title\']').autocomplete({
-      'source': function(request, response) {
-        $.ajax({
-          type: 'POST',
-          url: 'index.php?route=extension/module/center/getCenterDescription&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-          data:{
-            name: $("input-name{{ language.language_id }}").val(),
-          }
-          dataType: 'json',
-          success:
-
-            response($.map(json, function(item) {
-              return {
-                label: item['name'],
-                value: item['name']
-              }
-            }));
-          }
-        });
-      },
-      'select': function(item) {
-        $('input[name=\'assessment_description[{{ language.language_id }} ][meta_title]\']').val(item['label']);
-        // $('input[name=\'center_id\']').val(item['value']);
-      }
-    });
-
-  {% endfor %} #}
-
-
-
-  // Exam
-  
-  {# $('input[name=\'exam\']').autocomplete({
-	  'source': function(request, response) {
-		  $.ajax({
-			  url: 'index.php?route=catalog/exam/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-			  dataType: 'json',
-			  success: function(json) {
-				  response($.map(json, function(item) {
-					  return {
-						  label: item['name'],
-						  value: item['exam_id']
-					  }
-				  }));
-			  }
-		  });
-	  },
-	  'select': function(item) {
-      // Nouveau code 
-      $('input[name=\'exam\']').val(item['label']);
-		  $('input[name=\'assessment_exam[]\']').val(item['value']);
-
-      // $('input[name=\'exam\']').val('');
-		  // $('#assessment-exam' + item['value']).remove();
-		  // $('#assessment-exam').append( '<div id="assessment-exam' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="assessment_exam[]" value="' + item['value'] + '" /></div>');
-	  }
-  });
-
-  // $('#assessment-exam').delegate('.fa-minus-circle', 'click', function() {
-	  // $(this).parent().remove();
-  // }); #}
 
   // Filter
   $('input[name=\'filter\']').autocomplete({

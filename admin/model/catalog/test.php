@@ -107,3 +107,16 @@ public function getTotalExamsByOptionId($option_id) {
 
       return $query->row['total'];
 }
+
+"UPDATE ( SELECT * FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE ad.center_id = '" . (int)$center_id . "' AND ad.language_id = '" . (int)$language_id . "') SET ad.name = '" . $data['name'] . "', ad.description = '" . $data['description'] . "', a.model = '" . $data['city'] . "', a.location = '" . $data['location'] . "', a.quantity = '" . $data['capacity'] . "', a.date_modified = NOW()" ;
+
+$sql = "SELECT ad.center_id AS center_id, ad.name AS name, ad.description AS description, 
+a.model AS city, a.location AS location, a.quantity AS quantity, a.date_modified AS date_modified FROM "
+
+"SELECT * FROM
+" . DB_PREFIX . "assessment a LEFT JOIN 
+" . DB_PREFIX . "assessment_description ad ON 
+(a.assessment_id = ad.assessment_id) WHERE 
+center_id = '" . (int)$center_id . "' AND
+ad.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+

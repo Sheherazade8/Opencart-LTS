@@ -707,35 +707,24 @@ class ControllerCatalogAssessment extends Controller {
 		$data['centers'] = array();
 		$data['descriptions'] = array();
 
-
 		foreach ($results as $result){ 
-			$data['centers'][] = $result['name'];
+			$data['centers'][] = array(
+				'name'      => $result['name'],
+				'center_id' => $result['center_id']
+			);
+
 			$data['descriptions'][] = array(
-				// $result['name'] => array(
+					'language_id'  => $result['language_id'],
+					'center_id'    => $result['center_id'],
 					'name'         => $result['name'],
 					'city'         => $result['city'],
 					'location'     => $result['location'],
 					'capacity'     => $result['capacity'],
 					'description'  => $result['description'],
 					'image'        => $result['image']
-				// )
-
 			);
-		}
 
-		// if ($data['assessment_description']){
-			// $center = $data['assessment_description']['name'];
-		// foreach ($data['centers'] as $center) {
-		// 	$result = $this->model_extension_module_center->getCenterDescriptions($center);
-		// 	$data['center_description'][$result['language_id']] = array(
-		// 		'name'         => $result['name'],
-		// 		'city'         => $result['city'],
-		// 		'location'     => $result['location'],
-		// 		'capacity'     => $result['capacity'],
-		// 		'description'  => $result['description'],
-		// 		'image'        => $result['image']
-		// 	);
-		// }
+		}
 
 
 		if (isset($this->request->post['model'])) {

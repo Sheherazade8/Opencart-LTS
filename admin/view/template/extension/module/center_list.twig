@@ -40,6 +40,8 @@
                     {% else %}
                     <a href="{{ sort_name }}">{{ column_name }}</a>
                     {% endif %}</td>
+                  <td class="text-left">{{ column_city }}</td>
+                  <td class="text-left">{{ column_capacity }}</td>
                   <td class="text-right">{% if sort == 'sort_order' %}
                     <a href="{{ sort_sort_order }}" class="{{ order|lower }}">{{ column_sort_order }}</a>
                     {% else %}
@@ -58,6 +60,9 @@
                     <input type="checkbox" name="selected[]" value="{{ center.center_id }}" />
                     {% endif %}</td>
                   <td class="text-left">{{ center.name }}</td>
+                  <td class="text-left">{{ center.city }}</td>
+                  <td class="text-left">{{ center.capacity }}</td>
+
                   <td class="text-right">{{ center.sort_order }}</td>
                   <td class="text-right"><a href="{{ center.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>

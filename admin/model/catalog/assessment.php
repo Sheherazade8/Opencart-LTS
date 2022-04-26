@@ -2,6 +2,7 @@
 class ModelCatalogAssessment extends Model {
 
 	// Nouveau code pour remplacer data['assessment_exam'] par data['exam'] dans addAssessment et editAssessment
+
 	public function addAssessment($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
 
@@ -27,7 +28,7 @@ class ModelCatalogAssessment extends Model {
 		}
 
 		foreach ($data['assessment_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', center_id = '" . (int)$this->db->escape($value['center_id']) . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		if (isset($data['assessment_store'])) {
@@ -183,7 +184,7 @@ class ModelCatalogAssessment extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_description WHERE assessment_id = '" . (int)$assessment_id . "'");
 
 		foreach ($data['assessment_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', center_id = '" . (int)$this->db->escape($value['center_id']) . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_to_store WHERE assessment_id = '" . (int)$assessment_id . "'");
@@ -340,14 +341,49 @@ class ModelCatalogAssessment extends Model {
 	
 	Public function updatePrices($exam_id, $data) {
 		
-		$results = $this->model_catalog_assessment->getAssessmentsByExamId($exam_id);
+		$results = $this->getAssessmentsByExamId($exam_id);
 		foreach ($results as $result) {
 			foreach ($data['exam_description'] as $language_id => $value) {
 				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $this->db->escape($value['price']) . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
 			}
 		}
 	}
-	// Fin nouveau code
+
+	Public function updateCenterInfos($center_id, $data) {
+		
+		// foreach ($data['language_id'] as $language_id) {
+			// $this->db->query("UPDATE ( SELECT * FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE ad.center_id = '" . (int)$center_id . "' AND ad.language_id = '" . (int)$language_id . "') SET ad.name = '" . $this->db->escape($data['name']) . "', ad.description = '" . $data['description'] . "', a.model = '" . $data['city'] . "', a.location = '" . $data['location'] . "', a.quantity = '" . $data['capacity'] . "', a.date_modified = NOW()" );
+			
+		$results = $this->getAssessmentsByCenterId($center_id);
+		foreach ($results as $result) {
+	
+			$this->db->query("UPDATE " . DB_PREFIX . "assessment_description SET name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['name']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+
+			if (isset($data['city'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['city']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
+		
+			if (isset($data['location'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET location = '" . $this->db->escape($data['location']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
+		
+			if (isset($data['capacity'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET quantity = '" . $this->db->escape($data['capacity']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
+		
+			if (isset($data['center_description'])) {
+				foreach ($data['center_description'] as $language_id => $value) {
+					$this->db->query("UPDATE " . DB_PREFIX . "assessment_description SET description = '" . $this->db->escape($value['description']) . "', language_id = '" . (int)$language_id . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+				}
+			}
+		
+			if (isset($data['image'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "assessment_image SET image = '" . $this->db->escape($data['image']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			}
+		}
+	
+	}
 
 	public function copyAssessment($assessment_id) {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment p WHERE p.assessment_id = '" . (int)$assessment_id . "'");
@@ -489,6 +525,12 @@ class ModelCatalogAssessment extends Model {
 		return $query->rows;
 	}
 
+	public function getAssessmentsByCenterId($center_id) {
+		$query = $this->db->query("SELECT assessment_id FROM " . DB_PREFIX . "assessment_description  WHERE center_id = '" . (int)$center_id . "'");
+
+		return $query->rows;
+	}
+
 	public function getAssessmentDescriptions($assessment_id) {
 		$assessment_description_data = array();
 
@@ -496,10 +538,11 @@ class ModelCatalogAssessment extends Model {
 
 		foreach ($query->rows as $result) {
 			$assessment_description_data[$result['language_id']] = array(
+				'center_id'        => $result['center_id'],
 				'name'             => $result['name'],
 				'description'      => $result['description'],
 				'meta_title'       => $result['meta_title'],
-				'date' => $result['date'],
+				'date'             => $result['date'],
 				'meta_keyword'     => $result['meta_keyword'],
 				'tag'              => $result['tag']
 			);

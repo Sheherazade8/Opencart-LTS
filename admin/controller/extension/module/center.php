@@ -51,10 +51,21 @@ class ControllerExtensionModuleCenter extends Controller {
 
 		$this->load->model('extension/module/center');
 
+		$this->load->model('catalog/assessment');
+
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_extension_module_center->editCenter($this->request->get['center_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
+
+			if ( $this->request->post['update_assessment'] == 'true'){
+
+				$this->model_catalog_assessment->updateCenterInfos($this->request->get['center_id'], $this->request->post);
+
+				$this->session->data['success'] = $this->language->get('text_success_assessment');
+
+			}
 
 			$url = '';
 
@@ -185,16 +196,6 @@ class ControllerExtensionModuleCenter extends Controller {
 				'edit'            => $this->url->link('extension/module/center/edit', 'user_token=' . $this->session->data['user_token'] . '&center_id=' . $result['center_id'] . $url, true)
 			);
 		}
-
-		// $data['center_descriptions'] = array();
-
-		// foreach ($data['centers'] as $center) {
-		// 	if ($center) {
-		// 		if (!isset($data['center_descriptions'][$center['center_id']])) {
-		// 			$data['center_descriptions'][$center['center_id']] = $this->model_extension_module_center->getCenterDescription($center_id);
-		// 		}
-		// 	}
-		// }
 
 
 		if (isset($this->error['warning'])) {
@@ -545,18 +546,17 @@ class ControllerExtensionModuleCenter extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+		
+	// public function getCenterDescripion($name) {
+	// 	$this->load->model('extension/module/center');
+	// 	$data = $this->model_extension_module_center->getCenterDescriptions($name);
+	// 	$json[] = array(
+	// 		'name' => $data['name'],
+	// 		'description'  => $data['description']
+	// 	);
 
-	public function getCenterDescripion($name) {
-		$this->load->model('extension/module/center');
-		$data = $this->model_extension_module_center->getCenterDescriptions($name);
-		$json[] = array(
-			'name' => $data['name'],
-			'description'  => $data['description']
-		);
-
-		$this->response->setOutput(json_encode($json));
+	// 	$this->response->setOutput(json_encode($json));
 
 		
-	}
-
+	// }
 }

@@ -164,7 +164,7 @@ class ModelExtensionModuleCenter extends Model {
 		return $center_description;
 	}
 
-	public function getCenterDescriptions($name, $language_id = 1) {
+	public function getCenterDescriptionByName($name, $language_id = 1) {
 		$center_description = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "center WHERE name = '" . $name . "' AND language_id = '" . (int)$language_id . "'");

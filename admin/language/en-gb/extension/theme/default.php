@@ -15,7 +15,7 @@ $_['entry_directory']                  = 'Theme Directory';
 $_['entry_status']                     = 'Status';
 $_['entry_assessment_limit']              = 'Default Items Per Page';
 $_['entry_assessment_description_length'] = 'List Description Limit';
-$_['entry_image_exam']             = 'Exam Image Size (W x H)';
+$_['entry_image_category']             = 'Category Image Size (W x H)';
 $_['entry_image_thumb']                = 'Assessment Image Thumb Size (W x H)';
 $_['entry_image_popup']                = 'Assessment Image Popup Size (W x H)';
 $_['entry_image_assessment']              = 'Assessment Image List Size (W x H)';
@@ -30,8 +30,8 @@ $_['entry_height']                     = 'Height';
 
 // Help
 $_['help_directory']                   = 'This field is only to enable older themes to be compatible with the new theme system. You can set the theme directory to use on the image size settings defined here.';
-$_['help_assessment_limit']               = 'Determines how many catalog items are shown per page (assessments, exams, etc)';
-$_['help_assessment_description_length']  = 'In the list view, short description character limit (exams, special etc)';
+$_['help_assessment_limit']               = 'Determines how many catalog items are shown per page (assessments, categories, etc)';
+$_['help_assessment_description_length']  = 'In the list view, short description character limit (categories, special etc)';
 
 // Error
 $_['error_permission']                 = 'Warning: You do not have permission to modify the default store theme!';
@@ -39,7 +39,7 @@ $_['error_limit']                      = 'Assessment Limit required!';
 $_['error_image_thumb']                = 'Assessment Image Thumb Size dimensions required!';
 $_['error_image_popup']                = 'Assessment Image Popup Size dimensions required!';
 $_['error_image_assessment']              = 'Assessment List Size dimensions required!';
-$_['error_image_exam']             = 'Exam List Size dimensions required!';
+$_['error_image_category']             = 'Category List Size dimensions required!';
 $_['error_image_additional']           = 'Additional Assessment Image Size dimensions required!';
 $_['error_image_related']              = 'Related Assessment Image Size dimensions required!';
 $_['error_image_compare']              = 'Compare Image Size dimensions required!';
