@@ -91,17 +91,17 @@
                     {% for description in descriptions %}
 
                       {% if description.language_id == language.language_id %}
-
                         <input type="hidden" name="description{{ language.language_id }}{{ description.name }}" id="center-description{{ language.language_id }}{{ description.name }}" value="{{ description.description }}"/> 
-                        <input type="hidden" name="city{{ description.name }}" id="center-city{{ description.name }}" value="{{ description.city }}"/>
-                        <input type="hidden" name="location{{ description.name }}" id="center-location{{ description.name }}" value="{{ description.location }}"/> 
-                        <input type="hidden" name="capacity{{ description.name }}" id="center-capacity{{ description.name }}" value="{{ description.capacity }}"/> 
-                        <input type="hidden" name="image{{ description.name }}" id="center-image{{ description.name }}" value="{{ description.image }}"/> 
-                        <input type="hidden" name="center_id{{ description.name }}" id="center-id{{ description.name }}" value="{{ description.center_id }}"/> 
-
-
-
                       {% endif %}
+                        
+                      <input type="hidden" name="city{{ description.name }}" id="center-city{{ description.name }}" value="{{ description.city }}"/>
+                      <input type="hidden" name="location{{ description.name }}" id="center-location{{ description.name }}" value="{{ description.location }}"/> 
+                      <input type="hidden" name="capacity{{ description.name }}" id="center-capacity{{ description.name }}" value="{{ description.capacity }}"/> 
+                      <input type="hidden" name="image{{ description.name }}" id="center-image{{ description.name }}" value="{{ description.image }}"/> 
+                      <input type="hidden" name="center_id{{ description.name }}" id="center-id{{ description.name }}" value="{{ description.center_id }}"/> 
+
+
+
 
                     {% endfor %}        
 

@@ -480,10 +480,10 @@ class ControllerExtensionModuleCenter extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		$this->load->model('extension/module/assessment');
+		$this->load->model('catalog/assessment');
 
 		foreach ($this->request->post['selected'] as $center_id) {
-			$assessment_total = $this->model_extension_module_assessment->getTotalAssessmentsByCenterId($center_id);
+			$assessment_total = $this->model_catalog_assessment->getTotalAssessmentsByCenterId($center_id);
 
 			if ($assessment_total) {
 				$this->error['warning'] = sprintf($this->language->get('error_assessment'), $assessment_total);

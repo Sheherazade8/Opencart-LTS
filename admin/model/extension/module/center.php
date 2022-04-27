@@ -1,32 +1,29 @@
 <?php
 class ModelExtensionModuleCenter extends Model {
 	public function addCenter($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "center SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 
-        // Nouveau code
-		$center_id = $this->db->getLastId();
-
-        if (isset($data['city'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET city = '" . $this->db->escape($data['city']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		foreach ($data['center_description'] as $language_id => $value) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "center SET center_id = '" . (int)$this->db->getLastId() . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($data['name']) . "', description = '" . $this->db->escape($value['description']) . "', city = '" . $this->db->escape($data['city']) . "', location = '" . $this->db->escape($data['location']) . "', capacity = '" . $this->db->escape($data['capacity']) . "', image = '" . $this->db->escape($data['image']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 		}
 
-        if (isset($data['location'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET location = '" . $this->db->escape($data['location']) . "' WHERE center_id = '" . (int)$center_id . "'");
-		}
+		// $center_id = $this->db->getLastId();
 
-        if (isset($data['capacity'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
-		}
 
-        if (isset($data['center_description'])) {
-			foreach ($data['center_description'] as $language_id => $value) {
-				$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($value['description']) . "', language_id = '" . (int)$language_id . "' WHERE center_id = '" . (int)$center_id . "'");
-			}
-		}
+        // if (isset($data['city'])) {
+		// 	$this->db->query("UPDATE " . DB_PREFIX . "center SET city = '" . $this->db->escape($data['city']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		// }
 
-		if (isset($data['image'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "center SET image = '" . $this->db->escape($data['image']) . "' WHERE center_id = '" . (int)$center_id . "'");
-		}
+        // if (isset($data['location'])) {
+		// 	$this->db->query("UPDATE " . DB_PREFIX . "center SET location = '" . $this->db->escape($data['location']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		// }
+
+        // if (isset($data['capacity'])) {
+		// 	$this->db->query("UPDATE " . DB_PREFIX . "center SET capacity = '" . $this->db->escape($data['capacity']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		// }
+
+		// if (isset($data['image'])) {
+		// 	$this->db->query("UPDATE " . DB_PREFIX . "center SET image = '" . $this->db->escape($data['image']) . "' WHERE center_id = '" . (int)$center_id . "'");
+		// }
 
 				
 		// SEO URL
@@ -63,7 +60,7 @@ class ModelExtensionModuleCenter extends Model {
 
         if (isset($data['center_description'])) {
 			foreach ($data['center_description'] as $language_id => $value) {
-				$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($value['description']) . "', language_id = '" . (int)$language_id . "' WHERE center_id = '" . (int)$center_id . "'");
+				$this->db->query("UPDATE " . DB_PREFIX . "center SET description = '" . $this->db->escape($value['description']) . "' WHERE center_id = '" . (int)$center_id . "' AND language_id = '" . (int)$language_id . "'");
 			}
 		}
 
@@ -212,5 +209,5 @@ class ModelExtensionModuleCenter extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "center");
 
 		return $query->row['total'];
-	}
+	}	
 }

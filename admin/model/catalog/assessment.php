@@ -831,4 +831,11 @@ class ModelCatalogAssessment extends Model {
 
 		return $query->row['total'];
 	}
+
+	public function getTotalAssessmentsByCenterId($center_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "assessment_description WHERE center_id = '" . (int)$center_id . "'");
+
+		return $query->row['total'];
+	}
+
 }
