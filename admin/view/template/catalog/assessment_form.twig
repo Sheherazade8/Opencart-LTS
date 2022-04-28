@@ -52,17 +52,16 @@
                       <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
                       <div class="col-sm-10">
 
-                        {# <input type="text" name="assessment_description[{{ language.language_id }}][name]" value="{{ assessment_description[language.language_id] ? assessment_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control"/> #}
-                        <select name="assessment_description[{{ language.language_id }}][name]" id="input-name{{ language.language_id }}" class="form-control" onchange="centerDescription({{ language.language_id }})">
+                        <select name="assessment_description[{{ language.language_id }}][center_id]" id="input-center-id{{ language.language_id }}" class="form-control" onchange="centerDescription({{ language.language_id }})">
                     
-                          {% if assessment_description[language.language_id].name %}
+                          {% if assessment_description[language.language_id].center_id %}
 
                             {% for center in centers %}
 
-                              {% if center.name == assessment_description[language.language_id].name %}
-                                <option value="{{ center.name }}" selected="selected">{{ center.name }}</option>
+                              {% if center.center_id == assessment_description[language.language_id].center_id %}
+                                <option value="{{ center.center_id }}" selected="selected">{{ center.name }}</option>
                               {% else %}
-                                <option value="{{ center.name }}">{{ center.name }}</option>
+                                <option value="{{ center.center_id }}">{{ center.name }}</option>
                               {% endif %}
 
                             {% endfor %}                      
@@ -73,7 +72,7 @@
                             
                             {% for center in centers %}
                               
-                              <option value="{{ center.name }}" >{{ center.name }}</option>
+                              <option value="{{ center.center_id }}" >{{ center.name }}</option>
 
 
                             {% endfor %}
@@ -83,6 +82,8 @@
 
                         </select>
 
+                        <input type="hidden" name="assessment_description[{{ language.language_id }}][name]" id="input-name{{ language.language_id }}" class="form-control" value=""/>
+
                         {% if error_name[language.language_id] %}
                           <div class="text-danger">{{ error_name[language.language_id] }}</div>
                         {% endif %} </div>
@@ -90,24 +91,18 @@
 
                     {% for description in descriptions %}
 
-                      {% if description.language_id == language.language_id %}
-                        <input type="hidden" name="description{{ language.language_id }}{{ description.name }}" id="center-description{{ language.language_id }}{{ description.name }}" value="{{ description.description }}"/> 
+                    {% for lang in languages %}
+                      {% if description.language_id == lang.language_id %}
+                        <input type="hidden" name="description{{ lang.language_id }}{{ description.center_id }}" id="center-description{{ lang.language_id }}{{ description.center_id }}" value="{{ description.description }}"/> 
                       {% endif %}
-                        
-                      <input type="hidden" name="city{{ description.name }}" id="center-city{{ description.name }}" value="{{ description.city }}"/>
-                      <input type="hidden" name="location{{ description.name }}" id="center-location{{ description.name }}" value="{{ description.location }}"/> 
-                      <input type="hidden" name="capacity{{ description.name }}" id="center-capacity{{ description.name }}" value="{{ description.capacity }}"/> 
-                      <input type="hidden" name="image{{ description.name }}" id="center-image{{ description.name }}" value="{{ description.image }}"/> 
-                      <input type="hidden" name="center_id{{ description.name }}" id="center-id{{ description.name }}" value="{{ description.center_id }}"/> 
+                    {% endfor %}       
+                    <input type="hidden" name="city{{ description.center_id }}" id="center-city{{ description.center_id }}" value="{{ description.city }}"/>
+                    <input type="hidden" name="location{{ description.center_id }}" id="center-location{{ description.center_id }}" value="{{ description.location }}"/> 
+                    <input type="hidden" name="capacity{{ description.center_id }}" id="center-capacity{{ description.center_id }}" value="{{ description.capacity }}"/> 
+                    <input type="hidden" name="image{{ description.center_id }}" id="center-image{{ description.center_id }}" value="{{ description.image }}"/> 
+                    <input type="hidden" name="name{{ description.center_id }}" id="center-name{{ description.center_id }}" value="{{ description.name }}"/> 
 
-
-
-
-                    {% endfor %}        
-
-                    <input type="hidden" name="assessment_description[{{ language.language_id }}][center_id]" id="input-center-id{{ language.language_id }}" />
-
-
+                    {% endfor %}
 
                     <div class="form-group">
                       <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}">{{ entry_description }}</label>
@@ -1134,25 +1129,35 @@
 
   <script type="text/javascript">
 
-  function centerDescription( language_id ){
-        var name = document.getElementById("input-name" + language_id ).value;
+  function centerDescription(language_id){
 
-        var center_description = document.getElementById("center-description"+ language_id + name ).value;
-        var center_city = document.getElementById("center-city" + name ).value;
-        var center_location = document.getElementById("center-location" + name ).value;
-        var center_capacity = document.getElementById("center-capacity" + name ).value;
-        var center_image = document.getElementById("center-image" + name ).value;
-        var center_id = document.getElementById("center-id" + name ).value;
+    var center_id = document.getElementById("input-center-id" + language_id ).value;
 
-        document.getElementById("input-center-id" + language_id).value = center_id;
+    var center_city = document.getElementById("center-city" + center_id ).value;
+    var center_location = document.getElementById("center-location" + center_id ).value;
+    var center_capacity = document.getElementById("center-capacity" + center_id ).value;
+    var center_image = document.getElementById("center-image" + center_id ).value;
+    var name = document.getElementById("center-name" + center_id ).value;
 
-        document.getElementById("input-description" + language_id ).value = center_description;
-        document.getElementById("input-meta-title" + language_id ).value = name;
-        document.getElementById("input-model").value = center_city;
-        document.getElementById("input-location").value = center_location;
-        document.getElementById("input-quantity").value = center_capacity;
-        document.getElementById("input-image").value = center_image;
 
+    for ( let language = 1; language < 3; language++){
+
+      // var center_description = document.getElementById("center-description"+ language + center_id ).value;
+
+      document.getElementById("input-description" + language ).value = document.getElementById("center-description"+ language + center_id ).value;
+
+      document.getElementById("input-name" + language).value = name;
+
+      document.getElementById("input-center-id" + language).value = center_id;
+
+      document.getElementById("input-meta-title" + language).value = name;
+    }
+
+    document.getElementById("input-model").value = center_city;
+    document.getElementById("input-location").value = center_location;
+    document.getElementById("input-quantity").value = center_capacity;
+    document.getElementById("input-image").value = center_image;
+    
       
   }
 

@@ -149,6 +149,16 @@ class ModelExtensionModuleCenter extends Model {
 		return $query->rows;
 	}
 
+	public function getCentersDescriptions() {
+		$sql = "SELECT * FROM " . DB_PREFIX . "center";
+
+
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+
 	public function getCenterDescription($center_id) {
 		$center_description = array();
 
