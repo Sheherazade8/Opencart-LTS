@@ -440,10 +440,10 @@ class ControllerAssessmentAssessment extends Controller {
 				}
 
 				// Nouveau code
-				$resultats = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
+				$axams = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
 
-				foreach ($resultats as $result) {
-					$exam = $this->model_catalog_exam->getExam($result['exam_id']);
+				foreach ($exams as $exam_) {
+					$exam = $this->model_catalog_exam->getExam($exam_['exam_id']);
 					}
 
 				$data['assessments'][] = array(
