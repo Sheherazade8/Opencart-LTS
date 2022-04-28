@@ -4,7 +4,7 @@ class ModelCatalogAssessment extends Model {
 	// Nouveau code pour remplacer data['assessment_exam'] par data['exam'] dans addAssessment et editAssessment
 
 	public function addAssessment($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "assessment SET center_id = '" . (int)$this->db->escape($data['center_id']) . "', name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['meta_title']) . "', date = '" . $this->db->escape($data['date']) . "', meta_keyword = '" . $this->db->escape($data['meta_keyword']) . "',  tag = '" . $this->db->escape($data['tag']) . "', model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW(), date_modified = NOW()");
 
 		$assessment_id = $this->db->getLastId();
 
@@ -28,7 +28,7 @@ class ModelCatalogAssessment extends Model {
 		}
 
 		foreach ($data['assessment_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', center_id = '" . (int)$this->db->escape($value['center_id']) . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");
 		}
 
 		if (isset($data['assessment_store'])) {
@@ -160,7 +160,7 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function editAssessment($assessment_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_modified = NOW() WHERE assessment_id = '" . (int)$assessment_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "assessment SET center_id = '" . (int)$this->db->escape($data['center_id']) . "', name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['meta_title']) . "', date = '" . $this->db->escape($data['date']) . "', meta_keyword = '" . $this->db->escape($data['meta_keyword']) . "', tag = '" . $this->db->escape($data['tag']) . "', model = '" . $this->db->escape($data['model']) . "', location = '" . $this->db->escape($data['location']) . "', quantity = '" . (int)$data['quantity'] . "', minimum = '" . (int)$data['minimum'] . "', subtract = '" . (int)$data['subtract'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', date_available = '" . $this->db->escape($data['date_available']) . "', manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "', points = '" . (int)$data['points'] . "', status = '" . (int)$data['status'] . "', tax_class_id = '" . (int)$data['tax_class_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_modified = NOW() WHERE assessment_id = '" . (int)$assessment_id . "'");
 
 		// Nouveau code pour obtenir le prix de exam dans assessment
 
@@ -184,7 +184,7 @@ class ModelCatalogAssessment extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_description WHERE assessment_id = '" . (int)$assessment_id . "'");
 
 		foreach ($data['assessment_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', center_id = '" . (int)$this->db->escape($value['center_id']) . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', date = '" . $this->db->escape($value['date']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "assessment_to_store WHERE assessment_id = '" . (int)$assessment_id . "'");
@@ -357,8 +357,7 @@ class ModelCatalogAssessment extends Model {
 		$results = $this->getAssessmentsByCenterId($center_id);
 		foreach ($results as $result) {
 	
-			$this->db->query("UPDATE " . DB_PREFIX . "assessment_description SET name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['name']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
-			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['name']) . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
 
 			if (isset($data['city'])) {
 				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET model = '" . $this->db->escape($data['city']) . "' WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
@@ -386,7 +385,7 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function copyAssessment($assessment_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment p WHERE p.assessment_id = '" . (int)$assessment_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment WHERE assessment_id = '" . (int)$assessment_id . "'");
 
 		if ($query->num_rows) {
 			$data = $query->row;
@@ -398,7 +397,7 @@ class ModelCatalogAssessment extends Model {
 			$data['status'] = '0';
 
 			$data['assessment_attribute'] = $this->getAssessmentAttributes($assessment_id);
-			$data['assessment_description'] = $this->getAssessmentDescriptions($assessment_id);
+			$data['assessment_description'] = $this->getAssessmentDescription($assessment_id);
 			$data['assessment_discount'] = $this->getAssessmentDiscounts($assessment_id);
 			$data['assessment_filter'] = $this->getAssessmentFilters($assessment_id);
 			$data['assessment_image'] = $this->getAssessmentImages($assessment_id);
@@ -442,7 +441,7 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessment($assessment_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) WHERE p.assessment_id = '" . (int)$assessment_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE a.assessment_id = '" . (int)$assessment_id . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -450,44 +449,44 @@ class ModelCatalogAssessment extends Model {
 	public function getAssessments($data = array()) {
 		// Attention : Avec les modifications apportees name designe a la fois assessment_name et exam_name
 		// Nouveau code
-		$sql = "SELECT *, pd.name AS assessment_name, cd.name AS exam_name FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, a.name AS assessment_name, ed.name AS exam_name FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description ed ON (a2e.exam_id = ed.exam_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		// Nouveau code pour ajouter un filtre exam : name LIKE "%...%"
 		if (!empty($data['filter_exam'])) {
-			$sql .= " AND cd.name LIKE '%" . $this->db->escape($data['filter_exam']) . "%'";
+			$sql .= " AND ed.name LIKE '%" . $this->db->escape($data['filter_exam']) . "%'";
 		}
 		// Fin nouveau code
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND a.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_model'])) {
-			$sql .= " AND p.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";
+			$sql .= " AND a.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";
 		}
 
 		if (!empty($data['filter_date'])) {
-			$sql .= " AND pd.date LIKE '" . $this->db->escape($data['filter_date']) . "%'";
+			$sql .= " AND a.date LIKE '" . $this->db->escape($data['filter_date']) . "%'";
 		}
 
 		if (isset($data['filter_quantity']) && $data['filter_quantity'] !== '') {
-			$sql .= " AND p.quantity = '" . (int)$data['filter_quantity'] . "'";
+			$sql .= " AND a.quantity = '" . (int)$data['filter_quantity'] . "'";
 		}
 
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
+			$sql .= " AND a.status = '" . (int)$data['filter_status'] . "'";
 		}
 
-		$sql .= " GROUP BY p.assessment_id";
+		$sql .= " GROUP BY a.assessment_id";
 
 		$sort_data = array(
-			'cd.name',
-			'pd.name',
-			'p.model',
-			'pd.date',
-			'p.quantity',
-			'p.status',
-			'p.sort_order'
+			'a.name',
+			'ed.name',
+			'a.model',
+			'a.date',
+			'a.quantity',
+			'a.status',
+			'a.sort_order'
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
@@ -520,31 +519,25 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getAssessmentsByExamId($exam_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p2c.exam_id = '" . (int)$exam_id . "' ORDER BY pd.name ASC");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a2e.exam_id = '" . (int)$exam_id . "' ORDER BY a.name ASC");
 
 		return $query->rows;
 	}
 
 	public function getAssessmentsByCenterId($center_id) {
-		$query = $this->db->query("SELECT assessment_id FROM " . DB_PREFIX . "assessment_description  WHERE center_id = '" . (int)$center_id . "'");
+		$query = $this->db->query("SELECT assessment_id FROM " . DB_PREFIX . "assessment  WHERE center_id = '" . (int)$center_id . "'");
 
 		return $query->rows;
 	}
 
-	public function getAssessmentDescriptions($assessment_id) {
+	public function getAssessmentDescription($assessment_id) {
 		$assessment_description_data = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_description WHERE assessment_id = '" . (int)$assessment_id . "'");
 
 		foreach ($query->rows as $result) {
 			$assessment_description_data[$result['language_id']] = array(
-				'center_id'        => $result['center_id'],
-				'name'             => $result['name'],
-				'description'      => $result['description'],
-				'meta_title'       => $result['meta_title'],
-				'date'             => $result['date'],
-				'meta_keyword'     => $result['meta_keyword'],
-				'tag'              => $result['tag']
+				'description'      => $result['description']
 			);
 		}
 
@@ -738,33 +731,33 @@ class ModelCatalogAssessment extends Model {
 
 	public function getTotalAssessments($data = array()) {
 		// Nouveau code
-		$sql = "SELECT COUNT(DISTINCT p.assessment_id) AS total FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam p2c ON (p.assessment_id = p2c.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description cd ON (p2c.exam_id = cd.exam_id)";
+		$sql = "SELECT COUNT(DISTINCT a.assessment_id) AS total FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description ed ON (a2e.exam_id = ed.exam_id)";
 
-		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql .= " WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		// Nouveau code pour ajouter le filtre
 		if (!empty($data['filter_exam'])) {
-			$sql .= " AND cd.name LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
+			$sql .= " AND ed.name LIKE '" . $this->db->escape($data['filter_exam']) . "%'";
 		}
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND a.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_model'])) {
-			$sql .= " AND p.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";
+			$sql .= " AND a.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";
 		}
 
 		if (isset($data['filter_date']) && !is_null($data['filter_date'])) {
-			$sql .= " AND pd.date LIKE '" . $this->db->escape($data['filter_date']) . "%'";
+			$sql .= " AND a.date LIKE '" . $this->db->escape($data['filter_date']) . "%'";
 		}
 
 		if (isset($data['filter_quantity']) && $data['filter_quantity'] !== '') {
-			$sql .= " AND p.quantity = '" . (int)$data['filter_quantity'] . "'";
+			$sql .= " AND a.quantity = '" . (int)$data['filter_quantity'] . "'";
 		}
 
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
+			$sql .= " AND a.status = '" . (int)$data['filter_status'] . "'";
 		}
 
 		$query = $this->db->query($sql);
@@ -833,7 +826,7 @@ class ModelCatalogAssessment extends Model {
 	}
 
 	public function getTotalAssessmentsByCenterId($center_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "assessment_description WHERE center_id = '" . (int)$center_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "assessment WHERE center_id = '" . (int)$center_id . "'");
 
 		return $query->row['total'];
 	}

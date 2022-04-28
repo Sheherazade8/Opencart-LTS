@@ -295,7 +295,7 @@ class ControllerCatalogAssessment extends Controller {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'pd.name';
+			$sort = 'a.name';
 		}
 
 		if (isset($this->request->get['order'])) {
@@ -482,14 +482,14 @@ class ControllerCatalogAssessment extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 		// Nouveau code pour ajouter le filtre exam
-		$data['sort_exam'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=cd.name' . $url, true);
+		$data['sort_exam'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=ed.name' . $url, true);
 
-		$data['sort_name'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
-		$data['sort_model'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=p.model' . $url, true);
-		$data['sort_date'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.date' . $url, true);
-		$data['sort_quantity'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=p.quantity' . $url, true);
-		$data['sort_status'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=p.status' . $url, true);
-		$data['sort_order'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=p.sort_order' . $url, true);
+		$data['sort_name'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.name' . $url, true);
+		$data['sort_model'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.model' . $url, true);
+		$data['sort_date'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.date' . $url, true);
+		$data['sort_quantity'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.quantity' . $url, true);
+		$data['sort_status'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.status' . $url, true);
+		$data['sort_order'] = $this->url->link('catalog/assessment', 'user_token=' . $this->session->data['user_token'] . '&sort=a.sort_order' . $url, true);
 
 		$url = '';
 
@@ -674,19 +674,6 @@ class ControllerCatalogAssessment extends Controller {
 
 		$data['user_token'] = $this->session->data['user_token'];
 
-		$this->load->model('localisation/language');
-
-		$data['languages'] = $this->model_localisation_language->getLanguages();
-
-		if (isset($this->request->post['assessment_description'])) {
-			$data['assessment_description'] = $this->request->post['assessment_description'];
-		} elseif (isset($this->request->get['assessment_id'])) {
-			$data['assessment_description'] = $this->model_catalog_assessment->getAssessmentDescriptions($this->request->get['assessment_id']);
-		} else {
-			$data['assessment_description'] = array();
-		}
-
-		// Nouveau code 
 
 		$this->load->model('extension/module/center');
 
@@ -701,10 +688,10 @@ class ControllerCatalogAssessment extends Controller {
 		}
 			
 		$results = $this->model_extension_module_center->getCentersDescriptions();
-		$data['descriptions'] = array();
+		$data['center_descriptions'] = array();
 
 		foreach ($results as $result){ 
-			$data['descriptions'][] = array(
+			$data['center_descriptions'][] = array(
 					'language_id'  => $result['language_id'],
 					'center_id'    => $result['center_id'],
 					'name'         => $result['name'],
@@ -715,6 +702,69 @@ class ControllerCatalogAssessment extends Controller {
 					'image'        => $result['image']
 			);
 
+		}
+
+
+		if (isset($this->request->post['center_id'])) {
+			$data['center_id'] = $this->request->post['center_id'];
+		} elseif (!empty($assessment_info)) {
+			$data['center_id'] = $assessment_info['center_id'];
+		} else {
+			$data['center_id'] = '';
+		}
+
+		if (isset($this->request->post['name'])) {
+			$data['name'] = $this->request->post['name'];
+		} elseif (!empty($assessment_info)) {
+			$data['name'] = $assessment_info['name'];
+		} else {
+			$data['name'] = '';
+		}
+
+
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+		if (isset($this->request->post['assessment_description'])) {
+			$data['assessment_description'] = $this->request->post['assessment_description'];
+		} elseif (isset($this->request->get['assessment_id'])) {
+			$data['assessment_description'] = $this->model_catalog_assessment->getAssessmentDescription($this->request->get['assessment_id']);
+		} else {
+			$data['assessment_description'] = array();
+		}
+
+
+		if (isset($this->request->post['meta_title'])) {
+			$data['meta_title'] = $this->request->post['meta_title'];
+		} elseif (!empty($assessment_info)) {
+			$data['meta_title'] = $assessment_info['meta_title'];
+		} else {
+			$data['meta_title'] = '';
+		}
+
+		if (isset($this->request->post['date'])) {
+			$data['date'] = $this->request->post['date'];
+		} elseif (!empty($assessment_info)) {
+			$data['date'] = $assessment_info['date'];
+		} else {
+			$data['date'] = '';
+		}
+
+		if (isset($this->request->post['meta_keyword'])) {
+			$data['meta_keyword'] = $this->request->post['meta_keyword'];
+		} elseif (!empty($assessment_info)) {
+			$data['meta_keyword'] = $assessment_info['meta_keyword'];
+		} else {
+			$data['meta_keyword'] = '';
+		}
+
+		if (isset($this->request->post['tag'])) {
+			$data['tag'] = $this->request->post['tag'];
+		} elseif (!empty($assessment_info)) {
+			$data['tag'] = $assessment_info['tag'];
+		} else {
+			$data['tag'] = '';
 		}
 
 
@@ -973,59 +1023,59 @@ class ControllerCatalogAssessment extends Controller {
 			}
 		}
 
-		// Options
-		$this->load->model('catalog/option');
+		// // Options
+		// $this->load->model('catalog/option');
 
-		if (isset($this->request->post['assessment_option'])) {
-			$assessment_options = $this->request->post['assessment_option'];
-		} elseif (isset($this->request->get['assessment_id'])) {
-			$assessment_options = $this->model_catalog_assessment->getAssessmentOptions($this->request->get['assessment_id']);
-		} else {
-			$assessment_options = array();
-		}
+		// if (isset($this->request->post['assessment_option'])) {
+		// 	$assessment_options = $this->request->post['assessment_option'];
+		// } elseif (isset($this->request->get['assessment_id'])) {
+		// 	$assessment_options = $this->model_catalog_assessment->getAssessmentOptions($this->request->get['assessment_id']);
+		// } else {
+		// 	$assessment_options = array();
+		// }
 
-		$data['assessment_options'] = array();
+		// $data['assessment_options'] = array();
 
-		foreach ($assessment_options as $assessment_option) {
-			$assessment_option_value_data = array();
+		// foreach ($assessment_options as $assessment_option) {
+		// 	$assessment_option_value_data = array();
 
-			if (isset($assessment_option['assessment_option_value'])) {
-				foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
-					$assessment_option_value_data[] = array(
-						'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
-						'option_value_id'         => $assessment_option_value['option_value_id'],
-						'quantity'                => $assessment_option_value['quantity'],
-						'subtract'                => $assessment_option_value['subtract'],
-						'price'                   => $assessment_option_value['price'],
-						'price_prefix'            => $assessment_option_value['price_prefix'],
-						'points'                  => $assessment_option_value['points'],
-						'points_prefix'           => $assessment_option_value['points_prefix'],
-						'weight'                  => $assessment_option_value['weight'],
-						'weight_prefix'           => $assessment_option_value['weight_prefix']
-					);
-				}
-			}
+		// 	if (isset($assessment_option['assessment_option_value'])) {
+		// 		foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
+		// 			$assessment_option_value_data[] = array(
+		// 				'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
+		// 				'option_value_id'         => $assessment_option_value['option_value_id'],
+		// 				'quantity'                => $assessment_option_value['quantity'],
+		// 				'subtract'                => $assessment_option_value['subtract'],
+		// 				'price'                   => $assessment_option_value['price'],
+		// 				'price_prefix'            => $assessment_option_value['price_prefix'],
+		// 				'points'                  => $assessment_option_value['points'],
+		// 				'points_prefix'           => $assessment_option_value['points_prefix'],
+		// 				'weight'                  => $assessment_option_value['weight'],
+		// 				'weight_prefix'           => $assessment_option_value['weight_prefix']
+		// 			);
+		// 		}
+		// 	}
 
-			$data['assessment_options'][] = array(
-				'assessment_option_id'    => $assessment_option['assessment_option_id'],
-				'assessment_option_value' => $assessment_option_value_data,
-				'option_id'            => $assessment_option['option_id'],
-				'name'                 => $assessment_option['name'],
-				'type'                 => $assessment_option['type'],
-				'value'                => isset($assessment_option['value']) ? $assessment_option['value'] : '',
-				'required'             => $assessment_option['required']
-			);
-		}
+		// 	$data['assessment_options'][] = array(
+		// 		'assessment_option_id'    => $assessment_option['assessment_option_id'],
+		// 		'assessment_option_value' => $assessment_option_value_data,
+		// 		'option_id'            => $assessment_option['option_id'],
+		// 		'name'                 => $assessment_option['name'],
+		// 		'type'                 => $assessment_option['type'],
+		// 		'value'                => isset($assessment_option['value']) ? $assessment_option['value'] : '',
+		// 		'required'             => $assessment_option['required']
+		// 	);
+		// }
 
-		$data['option_values'] = array();
+		// $data['option_values'] = array();
 
-		foreach ($data['assessment_options'] as $assessment_option) {
-			if ($assessment_option['type'] == 'select' || $assessment_option['type'] == 'radio' || $assessment_option['type'] == 'checkbox' || $assessment_option['type'] == 'image') {
-				if (!isset($data['option_values'][$assessment_option['option_id']])) {
-					$data['option_values'][$assessment_option['option_id']] = $this->model_catalog_option->getOptionValues($assessment_option['option_id']);
-				}
-			}
-		}
+		// foreach ($data['assessment_options'] as $assessment_option) {
+		// 	if ($assessment_option['type'] == 'select' || $assessment_option['type'] == 'radio' || $assessment_option['type'] == 'checkbox' || $assessment_option['type'] == 'image') {
+		// 		if (!isset($data['option_values'][$assessment_option['option_id']])) {
+		// 			$data['option_values'][$assessment_option['option_id']] = $this->model_catalog_option->getOptionValues($assessment_option['option_id']);
+		// 		}
+		// 	}
+		// }
 
 		$this->load->model('customer/customer_group');
 
@@ -1213,22 +1263,21 @@ class ControllerCatalogAssessment extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->post['assessment_description'] as $language_id => $value) {
-			if ($value['center_id'] == 0 ) {
-				$this->error['name'][$language_id] = $this->language->get('error_name');
+			if ($this->request->post['center_id'] == 0 ) {
+				$this->error['name'] = $this->language->get('error_name');
 			}
 
-			if ((utf8_strlen($value['meta_title']) < 1) || (utf8_strlen($value['meta_title']) > 255)) {
-				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+			if ((utf8_strlen($this->request->post['meta_title']) < 1) || (utf8_strlen($this->request->post['meta_title']) > 255)) {
+				$this->error['meta_title'] = $this->language->get('error_meta_title');
 			}
 
 			// Nouveau code pour rendre date obligatoire
-			if ( ($value['date'] < date("Y-m-d")) || (utf8_strlen($value['date']) < 1) || (utf8_strlen($value['date']) > 16) ) {
-				$this->error['date'][$language_id] = $this->language->get('error_date');
+			if ( ($this->request->post['date'] < date("Y-m-d")) || (utf8_strlen($this->request->post['date']) < 1) || (utf8_strlen($value['date']) > 16) ) {
+				$this->error['date'] = $this->language->get('error_date');
 			}
 			// Fin nouveau code
 
-		}
+		
 
 		// Nouveau code pour rendre exam obligatoire
 		if ( (utf8_strlen($this->request->post['exam']) < 1) || ($this->request->post['exam'] == 0 ) ) {
@@ -1330,49 +1379,48 @@ class ControllerCatalogAssessment extends Controller {
 			$results = $this->model_catalog_assessment->getAssessments($filter_data);
 
 			foreach ($results as $result) {
-				$option_data = array();
+				// $option_data = array();
 
-				$assessment_options = $this->model_catalog_assessment->getAssessmentOptions($result['assessment_id']);
+				// $assessment_options = $this->model_catalog_assessment->getAssessmentOptions($result['assessment_id']);
 
-				foreach ($assessment_options as $assessment_option) {
-					$option_info = $this->model_catalog_option->getOption($assessment_option['option_id']);
+				// foreach ($assessment_options as $assessment_option) {
+				// 	$option_info = $this->model_catalog_option->getOption($assessment_option['option_id']);
 
-					if ($option_info) {
-						$assessment_option_value_data = array();
+				// 	if ($option_info) {
+				// 		$assessment_option_value_data = array();
 
-						foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
-							$option_value_info = $this->model_catalog_option->getOptionValue($assessment_option_value['option_value_id']);
+				// 		foreach ($assessment_option['assessment_option_value'] as $assessment_option_value) {
+				// 			$option_value_info = $this->model_catalog_option->getOptionValue($assessment_option_value['option_value_id']);
 
-							if ($option_value_info) {
-								$assessment_option_value_data[] = array(
-									'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
-									'option_value_id'         => $assessment_option_value['option_value_id'],
-									'name'                    => $option_value_info['name'],
-									'price'                   => (float)$assessment_option_value['price'] ? $this->currency->format($assessment_option_value['price'], $this->config->get('config_currency')) : false,
-									'price_prefix'            => $assessment_option_value['price_prefix']
-								);
-							}
-						}
+				// 			if ($option_value_info) {
+				// 				$assessment_option_value_data[] = array(
+				// 					'assessment_option_value_id' => $assessment_option_value['assessment_option_value_id'],
+				// 					'option_value_id'         => $assessment_option_value['option_value_id'],
+				// 					'name'                    => $option_value_info['name'],
+				// 					'price'                   => (float)$assessment_option_value['price'] ? $this->currency->format($assessment_option_value['price'], $this->config->get('config_currency')) : false,
+				// 					'price_prefix'            => $assessment_option_value['price_prefix']
+				// 				);
+				// 			}
+				// 		}
 
-						$option_data[] = array(
-							'assessment_option_id'    => $assessment_option['assessment_option_id'],
-							'assessment_option_value' => $assessment_option_value_data,
-							'option_id'            => $assessment_option['option_id'],
-							'name'                 => $option_info['name'],
-							'type'                 => $option_info['type'],
-							'value'                => $assessment_option['value'],
-							'required'             => $assessment_option['required']
-						);
-					}
-				}
+				// 		$option_data[] = array(
+				// 			'assessment_option_id'    => $assessment_option['assessment_option_id'],
+				// 			'assessment_option_value' => $assessment_option_value_data,
+				// 			'option_id'            => $assessment_option['option_id'],
+				// 			'name'                 => $option_info['name'],
+				// 			'type'                 => $option_info['type'],
+				// 			'value'                => $assessment_option['value'],
+				// 			'required'             => $assessment_option['required']
+				// 		);
+				// 	}
+				// }
 
 				$json[] = array(
 					'assessment_id' => $result['assessment_id'],
-					// Nouveau code pour autocomplete le filtre exam
 					'exam' => strip_tags(html_entity_decode($result['exam_name'], ENT_QUOTES, 'UTF-8')),
 					'name'       => strip_tags(html_entity_decode($result['assessment_name'], ENT_QUOTES, 'UTF-8')),
 					'model'      => $result['model'],
-					'option'     => $option_data,
+					// 'option'     => $option_data,
 					'price'      => $result['price']
 				);
 			}
