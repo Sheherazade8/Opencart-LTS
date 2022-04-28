@@ -403,19 +403,6 @@ class ControllerCatalogAssessment extends Controller {
 					break;
 				}
 			}
-
-			// Nouveau code pour afficher exam
-
-			// $exam_name = 'No exam';
-			// $assessment_exams = $this->model_catalog_assessment->getAssessmentExam($result['assessment_id']);
-			// foreach ($assessment_exams as $assessment_exam){
-			// 	$this->load->model('catalog/exam');
-			// 	$exam_info = $this->model_catalog_exam->getExam($assessment_exam);
-			// 	if ( isset($exam_info['parent_id']) ){
-			// 		$exam_name = $exam_info['name'];
-			// 		break;
-			// 	}
-			// }
 			
 			
 			$data['assessments'][] = array(
@@ -705,14 +692,18 @@ class ControllerCatalogAssessment extends Controller {
 
 		$results = $this->model_extension_module_center->getCenters();
 		$data['centers'] = array();
-		$data['descriptions'] = array();
 
 		foreach ($results as $result){ 
 			$data['centers'][] = array(
 				'name'      => $result['name'],
 				'center_id' => $result['center_id']
 			);
+		}
+			
+		$results = $this->model_extension_module_center->getCentersDescriptions();
+		$data['descriptions'] = array();
 
+		foreach ($results as $result){ 
 			$data['descriptions'][] = array(
 					'language_id'  => $result['language_id'],
 					'center_id'    => $result['center_id'],
@@ -1223,7 +1214,7 @@ class ControllerCatalogAssessment extends Controller {
 		}
 
 		foreach ($this->request->post['assessment_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 1) || (utf8_strlen($value['name']) > 255)) {
+			if ($value['center_id'] == 0 ) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}
 
