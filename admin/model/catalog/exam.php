@@ -1,7 +1,7 @@
 <?php
 class ModelCatalogExam extends Model {
 	public function addExam($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "exam SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "exam SET name = '" . $data['name'] . "', meta_title = '" . $data['meta_title'] . "', price = '" . $data['price'] . "', meta_keyword = '" . $data['meta_keyword'] . "', parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), date_added = NOW()");
 
 		$exam_id = $this->db->getLastId();
 
@@ -31,8 +31,7 @@ class ModelCatalogExam extends Model {
 		}
 
 		foreach ($data['exam_description'] as $language_id => $value) {
-			// Nouveau code pour remplacer meta_description par price*
-			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', price = '" . $this->db->escape($value['price']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");
 		}
 
 		// MySQL Hierarchical Data Closure Table Pattern
@@ -83,9 +82,8 @@ class ModelCatalogExam extends Model {
 	}
 
 	public function editExam($exam_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "exam SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW() WHERE exam_id = '" . (int)$exam_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "exam SET name = '" . $this->db->escape($data['name']) . "', meta_title = '" . $this->db->escape($data['meta_title']) . "', price = '" . $this->db->escape($data['price']) . "', meta_keyword = '" . $this->db->escape($data['meta_keyword']) . "', parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW() WHERE exam_id = '" . (int)$exam_id . "'");
 
-		// Nouveau code pour ajouter options à Exam
 		$this->db->query("DELETE FROM " . DB_PREFIX . "exam_option WHERE exam_id = '" . (int)$exam_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "exam_option_value WHERE exam_id = '" . (int)$exam_id . "'");
 
@@ -106,7 +104,6 @@ class ModelCatalogExam extends Model {
 				}
 			}
 		}
-		// Fin nouveau code
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "exam SET image = '" . $this->db->escape($data['image']) . "' WHERE exam_id = '" . (int)$exam_id . "'");
@@ -115,8 +112,7 @@ class ModelCatalogExam extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "exam_description WHERE exam_id = '" . (int)$exam_id . "'");
 
 		foreach ($data['exam_description'] as $language_id => $value) {
-			// Nouveau code pour remplacer meta_description par price*
-			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', price = '" . $this->db->escape($value['price']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");
 		}
 
 		// MySQL Hierarchical Data Closure Table Pattern
@@ -219,7 +215,6 @@ class ModelCatalogExam extends Model {
 			$this->deleteExam($result['exam_id']);
 		}
 
-		// Nouveau code pour ajouter options à Exam
 		$this->db->query("DELETE FROM " . DB_PREFIX . "exam_option WHERE exam_id = '" . (int)$exam_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "exam_option_value WHERE exam_id = '" . (int)$exam_id . "'");
 
@@ -260,19 +255,21 @@ class ModelCatalogExam extends Model {
 	}
 
 	public function getExam($exam_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id AND cp.exam_id != cp.path_id) WHERE cp.exam_id = c.exam_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.exam_id) AS path FROM " . DB_PREFIX . "exam c LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (c.exam_id = cd2.exam_id) WHERE c.exam_id = '" . (int)$exam_id . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		// $query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(e.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "exam_path ep LEFT JOIN " . DB_PREFIX . "exam_description ed1 ON (ep.path_id = ed1.exam_id AND ep.exam_id != ep.path_id) WHERE ep.exam_id = e.exam_id AND ed1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY ep.exam_id) AS path FROM " . DB_PREFIX . "exam e LEFT JOIN " . DB_PREFIX . "exam_description ed2 ON (e.exam_id = ed2.exam_id) WHERE e.exam_id = '" . (int)$exam_id . "' AND ed2.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(e1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "exam_path ep LEFT JOIN " . DB_PREFIX . "exam e1 ON (ep.path_id = e1.exam_id AND ep.exam_id != ep.path_id) WHERE ep.exam_id = '" . (int)$exam_id . "' GROUP BY ep.exam_id) AS path FROM " . DB_PREFIX . "exam e2 LEFT JOIN " . DB_PREFIX . "exam_description ed2 ON (e2.exam_id = ed2.exam_id) WHERE e2.exam_id = '" . (int)$exam_id . "' AND ed2.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row;
 	}
 
 	public function getExams($data = array()) {
-		$sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, cp.path_id, c1.parent_id AS parent_id, c1.sort_order, cd2.price AS price FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		// $sql = "SELECT ep.exam_id AS exam_id, GROUP_CONCAT(e1.name ORDER BY ep.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, ep.path_id, e1.parent_id AS parent_id, e1.sort_order, e1.price AS price FROM " . DB_PREFIX . "exam_path ep LEFT JOIN " . DB_PREFIX . "exam e1 ON (ep.exam_id = e1.exam_id) LEFT JOIN " . DB_PREFIX . "exam e2 ON (ep.path_id = e2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description ed1 ON (ep.path_id = ed1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description ed2 ON (ep.exam_id = ed2.exam_id) WHERE ed1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND ed2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT ep.exam_id AS exam_id, GROUP_CONCAT(e2.name ORDER BY ep.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, ep.path_id, e1.parent_id AS parent_id, e1.sort_order, e1.price AS price FROM " . DB_PREFIX . "exam_path ep LEFT JOIN " . DB_PREFIX . "exam e1 ON (ep.exam_id = e1.exam_id) LEFT JOIN " . DB_PREFIX . "exam e2 ON (ep.path_id = e2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description ed1 ON (ep.path_id = ed1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description ed2 ON (ep.exam_id = ed2.exam_id) WHERE ed1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND ed2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND cd2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND e2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
-		$sql .= " GROUP BY cp.exam_id";
+		$sql .= " GROUP BY ep.exam_id";
 
 		$sort_data = array(
 			'name',
@@ -310,18 +307,13 @@ class ModelCatalogExam extends Model {
 		return $query->rows;
 	}
 
-	public function getExamDescriptions($exam_id) {
+	public function getExamDescription($exam_id) {
 		$exam_description_data = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_description WHERE exam_id = '" . (int)$exam_id . "'");
 
 		foreach ($query->rows as $result) {
 			$exam_description_data[$result['language_id']] = array(
-				'name'             => $result['name'],
-				'meta_title'       => $result['meta_title'],
-				// Nouveau code pour remplacer meta_description par price*
-				'price' => $result['price'],
-				'meta_keyword'     => $result['meta_keyword'],
 				'description'      => $result['description']
 			);
 		}
@@ -334,12 +326,12 @@ class ModelCatalogExam extends Model {
 	public function getExamOptions($exam_id) {
 		$exam_option_data = array();
 	
-		$exam_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "exam_option` po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE po.exam_id = '" . (int)$exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order ASC");
+		$exam_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "exam_option` eo LEFT JOIN `" . DB_PREFIX . "option` o ON (eo.option_id = o.option_id) LEFT JOIN `" . DB_PREFIX . "option_description` od ON (o.option_id = od.option_id) WHERE eo.exam_id = '" . (int)$exam_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order ASC");
 	
 		foreach ($exam_option_query->rows as $exam_option) {
 			$exam_option_value_data = array();
 	
-			$exam_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON(pov.option_value_id = ov.option_value_id) WHERE pov.exam_option_id = '" . (int)$exam_option['exam_option_id'] . "' ORDER BY ov.sort_order ASC");
+			$exam_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_option_value eov LEFT JOIN " . DB_PREFIX . "option_value ov ON(eov.option_value_id = ov.option_value_id) WHERE eov.exam_option_id = '" . (int)$exam_option['exam_option_id'] . "' ORDER BY ov.sort_order ASC");
 	
 			foreach ($exam_option_value_query->rows as $exam_option_value) {
 				$exam_option_value_data[] = array(
@@ -368,7 +360,7 @@ class ModelCatalogExam extends Model {
 	}
 	
 	public function getExamOptionValue($exam_id, $exam_option_value_id) {
-		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix FROM " . DB_PREFIX . "exam_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.exam_id = '" . (int)$exam_id . "' AND pov.exam_option_value_id = '" . (int)$exam_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT eov.option_value_id, ovd.name, eov.subtract, eov.price, eov.price_prefix, eov.points, eov.points_prefix FROM " . DB_PREFIX . "exam_option_value eov LEFT JOIN " . DB_PREFIX . "option_value ov ON (eov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE eov.exam_id = '" . (int)$exam_id . "' AND eov.exam_option_value_id = '" . (int)$exam_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 	
 		return $query->row;
 	}

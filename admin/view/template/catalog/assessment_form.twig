@@ -96,19 +96,6 @@
 
                     {% endfor %}
 
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label" for="input-description">{{ entry_description }}</label>
-                        <div class="col-sm-10">
-                        {% for language in languages %}
-                          <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
-                            <textarea value="{{  assessment_description[language.language_id].description }}" rows = "10" name="assessment_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" class="form-control">{{ assessment_description[language.language_id] ? assessment_description[language.language_id].description }} </textarea>
-                            {#  data-toggle="summernote" data-lang="{{ language.locale }}" #}
-                          </div>
-                        {% endfor %}
-
-                        </div>
-                    </div>
-
                     <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-meta-title">{{ entry_meta_title }}</label>
                       <div class="col-sm-10">
@@ -133,9 +120,20 @@
                           </span></div>
                       </div>
                     </div>
-                    
-                    {# Fin nouveau code #}
 
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-description">{{ entry_description }}</label>
+                        <div class="col-sm-10">
+                        {% for language in languages %}
+                          <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                            <textarea value="{{  assessment_description[language.language_id].description }}" rows = "10" name="assessment_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" class="form-control">{{ assessment_description[language.language_id] ? assessment_description[language.language_id].description }} </textarea>
+                            {#  data-toggle="summernote" data-lang="{{ language.locale }}" #}
+                          </div>
+                        {% endfor %}
+
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                       <label class="col-sm-2 control-label" for="input-meta-keyword">{{ entry_meta_keyword }}</label>
                       <div class="col-sm-10">
@@ -167,12 +165,6 @@
                 <label class="col-sm-2 control-label" for="input-location">{{ entry_location }}</label>
                 <div class="col-sm-10">
                   <input type="text" name="location" value="{{ location }}" placeholder="{{ entry_location }}" id="input-location" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
-                <div class="col-sm-10">
-                  <input type="text" name="price" value="{{ price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
                 </div>
               </div>
               <div class="form-group">
@@ -328,12 +320,6 @@
               </div>
             </div>
             <div class="tab-pane" id="tab-links">
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="{{ help_manufacturer }}">{{ entry_manufacturer }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="manufacturer" value="{{ manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control"/> <input type="hidden" name="manufacturer_id" value="{{ manufacturer_id }}"/>
-                </div>
-              </div>
 
               {# Nouveau code pour choisir un seul exam et rendre le choix obligatoire #}
               <div class="form-group required">
@@ -350,7 +336,7 @@
                   {# <input type="text" name="exam" value="{{ name }}" placeholder="{{ entry_exam }}" id="input-exam" class="form-control"/> <input type="hidden" name="assessment_exam[]" value="{{ assessment_exam.exam_id }}"/> #}
                   
                   {# Attention! Avec ce nouveau code, $data['exam'] qui donne exam_id selectionne n'est plus une liste #}
-                  <select name="exam" id="input-exam" class="form-control">
+                  <select name="exam" onchange="examPrice()" id="input-exam" class="form-control">
                     
                     {% if assessment_exam %}
 
@@ -380,7 +366,24 @@
                   {% endif %}
                 </div>
               </div>
-                
+
+              {% for exam in exams_to_select %}
+                <input type="hidden" value="{{ exam.price }}" id="price{{ exam.exam_id }}" name="price{{ exam.exam_id }}" />
+              {% endfor %}
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="price" value="" placeholder="{{ entry_price }}" id="input-price" class="form-control" readonly/>
+                </div>
+              </div>
+            
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="{{ help_manufacturer }}">{{ entry_manufacturer }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="manufacturer" value="{{ manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control"/> <input type="hidden" name="manufacturer_id" value="{{ manufacturer_id }}"/>
+                </div>
+              </div>
 
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-filter"><span data-toggle="tooltip" title="{{ help_filter }}">{{ entry_filter }}</span></label>
@@ -1151,6 +1154,12 @@
     document.getElementById("input-image").value = center_image;
     
       
+  }
+
+  function examPrice(){
+    var exam_id = document.getElementById("input-exam").value;
+    document.getElementById("input-price").value = document.getElementById("price"+ exam_id).value;
+
   }
 
 

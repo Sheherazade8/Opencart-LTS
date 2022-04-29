@@ -343,9 +343,7 @@ class ModelCatalogAssessment extends Model {
 		
 		$results = $this->getAssessmentsByExamId($exam_id);
 		foreach ($results as $result) {
-			foreach ($data['exam_description'] as $language_id => $value) {
-				$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $this->db->escape($value['price']) . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
-			}
+			$this->db->query("UPDATE " . DB_PREFIX . "assessment SET price = '" . $this->db->escape($data['price']) . "', date_modified = NOW() WHERE assessment_id = '" . (int)$result['assessment_id'] . "'");
 		}
 	}
 
@@ -449,11 +447,11 @@ class ModelCatalogAssessment extends Model {
 	public function getAssessments($data = array()) {
 		// Attention : Avec les modifications apportees name designe a la fois assessment_name et exam_name
 		// Nouveau code
-		$sql = "SELECT *, a.name AS assessment_name, ed.name AS exam_name FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) LEFT JOIN " . DB_PREFIX . "exam_description ed ON (a2e.exam_id = ed.exam_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, a.name AS assessment_name, e.name AS exam_name FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) LEFT JOIN " . DB_PREFIX . "exam e ON (a2e.exam_id = e.exam_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		// Nouveau code pour ajouter un filtre exam : name LIKE "%...%"
 		if (!empty($data['filter_exam'])) {
-			$sql .= " AND ed.name LIKE '%" . $this->db->escape($data['filter_exam']) . "%'";
+			$sql .= " AND e.name LIKE '%" . $this->db->escape($data['filter_exam']) . "%'";
 		}
 		// Fin nouveau code
 
@@ -481,7 +479,7 @@ class ModelCatalogAssessment extends Model {
 
 		$sort_data = array(
 			'a.name',
-			'ed.name',
+			'e.name',
 			'a.model',
 			'a.date',
 			'a.quantity',

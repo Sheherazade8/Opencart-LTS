@@ -214,7 +214,6 @@ class ControllerCatalogExam extends Controller {
 				'exam_id' => $result['exam_id'],
 				'name'        => $result['name'],
 				'sort_order'  => $result['sort_order'],
-				// Nouveau code pour afficher price au lieu de sort_order
 				'price'  => $result['price'],
 				'edit'        => $this->url->link('catalog/exam/edit', 'user_token=' . $this->session->data['user_token'] . '&exam_id=' . $result['exam_id'] . $url, true),
 				'delete'      => $this->url->link('catalog/exam/delete', 'user_token=' . $this->session->data['user_token'] . '&exam_id=' . $result['exam_id'] . $url, true)
@@ -371,6 +370,15 @@ class ControllerCatalogExam extends Controller {
 
 		$data['user_token'] = $this->session->data['user_token'];
 
+		if (isset($this->request->post['name'])) {
+			$data['name'] = $this->request->post['name'];
+		} elseif (!empty($exam_info)) {
+			$data['name'] = $exam_info['name'];
+		} else {
+			$data['name'] = '';
+		}
+
+
 		$this->load->model('localisation/language');
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
@@ -378,10 +386,36 @@ class ControllerCatalogExam extends Controller {
 		if (isset($this->request->post['exam_description'])) {
 			$data['exam_description'] = $this->request->post['exam_description'];
 		} elseif (isset($this->request->get['exam_id'])) {
-			$data['exam_description'] = $this->model_catalog_exam->getExamDescriptions($this->request->get['exam_id']);
+			$data['exam_description'] = $this->model_catalog_exam->getExamDescription($this->request->get['exam_id']);
 		} else {
 			$data['exam_description'] = array();
 		}
+
+		if (isset($this->request->post['meta_title'])) {
+			$data['meta_title'] = $this->request->post['meta_title'];
+		} elseif (!empty($exam_info)) {
+			$data['meta_title'] = $exam_info['meta_title'];
+		} else {
+			$data['meta_title'] = '';
+		}
+
+		if (isset($this->request->post['price'])) {
+			$data['price'] = $this->request->post['price'];
+		} elseif (!empty($exam_info)) {
+			$data['price'] = $exam_info['price'];
+		} else {
+			$data['price'] = '';
+		}
+
+		if (isset($this->request->post['meta_keyword'])) {
+			$data['meta_keyword'] = $this->request->post['meta_keyword'];
+		} elseif (!empty($exam_info)) {
+			$data['meta_keyword'] = $exam_info['meta_keyword'];
+		} else {
+			$data['meta_keyword'] = '';
+		}
+
+
 
 		if (isset($this->request->post['path'])) {
 			$data['path'] = $this->request->post['path'];
@@ -592,13 +626,12 @@ class ControllerCatalogExam extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->post['exam_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 1) || (utf8_strlen($value['name']) > 255)) {
-				$this->error['name'][$language_id] = $this->language->get('error_name');
+			if ((utf8_strlen($this->request->post['name']) < 1) || (utf8_strlen($this->request->post['name']) > 255)) {
+				$this->error['name'] = $this->language->get('error_name');
 			}
 
-			if ((utf8_strlen($value['meta_title']) < 1) || (utf8_strlen($value['meta_title']) > 255)) {
-				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+			if ((utf8_strlen($this->request->post['meta_title']) < 1) || (utf8_strlen($this->request->post['meta_title']) > 255)) {
+				$this->error['meta_title'] = $this->language->get('error_meta_title');
 			}
 
 			// // Nouveau code pour rendre price obligatoire
@@ -607,7 +640,7 @@ class ControllerCatalogExam extends Controller {
 			// }
 			// //Fin nouveau code
 
-		}
+		
 
 		if (isset($this->request->get['exam_id']) && $this->request->post['parent_id']) {
 			$results = $this->model_catalog_exam->getExamPath($this->request->post['parent_id']);

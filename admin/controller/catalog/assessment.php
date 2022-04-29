@@ -955,7 +955,7 @@ class ControllerCatalogAssessment extends Controller {
 			if ($exam_info) {
 				$data['assessment_exam'] = array(
 					'exam_id' => $exam_info['exam_id'],
-					'name'        => ($exam_info['path']) ? $exam_info['path'] . ' &gt; ' . $exam_info['name'] : $exam_info['name']
+					'name'    => ($exam_info['path']) ? $exam_info['path'] . ' &gt; ' . $exam_info['name'] : $exam_info['name']
 				);
 			}
 		// }
@@ -968,7 +968,8 @@ class ControllerCatalogAssessment extends Controller {
 			if ($exam['parent_id'] != 0) {
 				$data['exams_to_select'][] = array(
 					'exam_id' => $exam['exam_id'],
-					'name'    => $exam['name']
+					'name'    => $exam['name'],
+					'price'   => $exam['price']
 				);	
 			}
 		}

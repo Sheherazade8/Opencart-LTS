@@ -36,46 +36,31 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
-              <ul class="nav nav-tabs" id="language">
-                {% for language in languages %}
-                <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
-                {% endfor %}
-              </ul>
-              <div class="tab-content">
-                {% for language in languages %}
-                <div class="tab-pane" id="language{{ language.language_id }}">
                   <div class="form-group required">
-                    <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
+                    <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
                     <div class="col-sm-10">
-                      <input type="text" name="exam_description[{{ language.language_id }}][name]" value="{{ exam_description[language.language_id] ? exam_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control" />
-                      {% if error_name[language.language_id] %}
-                      <div class="text-danger">{{ error_name[language.language_id] }}</div>
-                      {% endif %}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}">{{ entry_description }}</label>
-                    <div class="col-sm-10">
-                      <textarea name="exam_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-toggle="summernote" data-lang="{{ language.locale }}" class="form-control">{{ exam_description[language.language_id] ? exam_description[language.language_id].description }}</textarea>
-                    </div>
-                  </div>
-                  <div class="form-group required">
-                    <label class="col-sm-2 control-label" for="input-meta-title{{ language.language_id }}">{{ entry_meta_title }}</label>
-                    <div class="col-sm-10">
-                      <input type="text" name="exam_description[{{ language.language_id }}][meta_title]" value="{{ exam_description[language.language_id] ? exam_description[language.language_id].meta_title }}" placeholder="{{ entry_meta_title }}" id="input-meta-title{{ language.language_id }}" class="form-control" />
-                      {% if error_meta_title[language.language_id] %}
-                      <div class="text-danger">{{ error_meta_title[language.language_id] }}</div>
+                      <input type="text" name="name" value="{{ name ? name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+                      {% if error_name %}
+                      <div class="text-danger">{{ error_name }}</div>
                       {% endif %}
                     </div>
                   </div>
 
-                  {# Nouveau code pour afficher price (non obligatoire) #}
-                  
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-meta-title">{{ entry_meta_title }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="meta_title" value="{{ meta_title ? meta_title }}" placeholder="{{ entry_meta_title }}" id="input-meta-title" class="form-control" />
+                      {% if error_meta_title %}
+                      <div class="text-danger">{{ error_meta_title }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
                   <div class="form-group">
-                    <label class="col-sm-2 control-label" for="input-price{{ language.language_id }}">{{ entry_price }}</label>
+                    <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
                     <div class="col-sm-10">
                       
-                      <input type="text" name="exam_description[{{ language.language_id }}][price]" value="{{ exam_description[language.language_id] ? exam_description[language.language_id].price }}" placeholder="{{ entry_price }}" id="input-price{{ language.language_id }}" class="form-control" />
+                      <input type="text" name="price" value="{{ price ? price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control" />
 
                       {# {% if error_price[language.language_id] %}
                       <div class="text-danger">{{ error_price[language.language_id] }}</div>
@@ -85,15 +70,25 @@
 
                     </div>
                   </div>
+                  
                   <div class="form-group">
-                    <label class="col-sm-2 control-label" for="input-meta-keyword{{ language.language_id }}">{{ entry_meta_keyword }}</label>
+                    <label class="col-sm-2 control-label" for="input-description">{{ entry_description }}</label>
                     <div class="col-sm-10">
-                      <textarea name="exam_description[{{ language.language_id }}][meta_keyword]" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword{{ language.language_id }}" class="form-control">{{ exam_description[language.language_id] ? exam_description[language.language_id].meta_keyword }}</textarea>
+                    {% for language in languages %}
+                      <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                        <textarea name="exam_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-toggle="summernote" data-lang="{{ language.locale }}" class="form-control">{{ exam_description[language.language_id] ? exam_description[language.language_id].description }}</textarea>
+                      </div>
+                    {% endfor %}
                     </div>
                   </div>
-                </div>
-                {% endfor %}
-              </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-keyword">{{ entry_meta_keyword }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="meta_keyword" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword" class="form-control">{{ meta_keyword ? meta_keyword }}</textarea>
+                    </div>
+                  </div>
+
             </div>
             <div class="tab-pane" id="tab-data">
               <div class="form-group">
@@ -106,6 +101,22 @@
                   {% endif %}
                 </div>
               </div>
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-top"><span data-toggle="tooltip" title="{{ help_top }}">{{ entry_top }}</span></label>
+                <div class="col-sm-10">
+                  <div class="checkbox">
+                    <label>
+                      {% if top %}
+                      <input type="checkbox" name="top" value="1" checked="checked" id="input-top" />
+                      {% else %}
+                      <input type="checkbox" name="top" value="1" id="input-top" />
+                      {% endif %}
+                      &nbsp; </label>
+                  </div>
+                </div>
+              </div>
+              
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-filter"><span data-toggle="tooltip" title="{{ help_filter }}">{{ entry_filter }}</span></label>
                 <div class="col-sm-10">
@@ -146,20 +157,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-top"><span data-toggle="tooltip" title="{{ help_top }}">{{ entry_top }}</span></label>
-                <div class="col-sm-10">
-                  <div class="checkbox">
-                    <label>
-                      {% if top %}
-                      <input type="checkbox" name="top" value="1" checked="checked" id="input-top" />
-                      {% else %}
-                      <input type="checkbox" name="top" value="1" id="input-top" />
-                      {% endif %}
-                      &nbsp; </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-column"><span data-toggle="tooltip" title="{{ help_column }}">{{ entry_column }}</span></label>
                 <div class="col-sm-10">
                   <input type="text" name="column" value="{{ column }}" placeholder="{{ entry_column }}" id="input-column" class="form-control" />
@@ -187,7 +184,6 @@
               </div>
             </div>
 
-            {# Nouveau code pour ajouter options à Exam #}
 
             <div class="tab-pane" id="tab-option">
               <div class="row">
