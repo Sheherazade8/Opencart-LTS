@@ -68,3 +68,5 @@ $_['entry_quantity']         = 'Quantity';
 $_['entry_subtract']         = 'Enable';
 $_['entry_weight']           = 'Weight';
 
+$_['text_confirm_box']  = 'Do you want to update assessments prices with this change ?';
+$_['text_success_assessment'] = 'Success: You have modified exams and the corresponding assessments!';

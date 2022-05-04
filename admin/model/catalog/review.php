@@ -23,16 +23,16 @@ class ModelCatalogReview extends Model {
 	}
 
 	public function getReview($review_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT pd.name FROM " . DB_PREFIX . "assessment_description pd WHERE pd.assessment_id = r.assessment_id AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS assessment FROM " . DB_PREFIX . "review r WHERE r.review_id = '" . (int)$review_id . "'");
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT a.name FROM " . DB_PREFIX . "assessment a WHERE a.assessment_id = r.assessment_id) AS assessment FROM " . DB_PREFIX . "review r WHERE r.review_id = '" . (int)$review_id . "'");
 
 		return $query->row;
 	}
 
 	public function getReviews($data = array()) {
-		$sql = "SELECT r.review_id, pd.name, r.author, r.rating, r.status, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (r.assessment_id = pd.assessment_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT r.review_id, a.name, r.author, r.rating, r.status, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment a ON (r.assessment_id = a.assessment_id)";
 
 		if (!empty($data['filter_assessment'])) {
-			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_assessment']) . "%'";
+			$sql .= " AND a.name LIKE '" . $this->db->escape($data['filter_assessment']) . "%'";
 		}
 
 		if (!empty($data['filter_author'])) {
@@ -48,7 +48,7 @@ class ModelCatalogReview extends Model {
 		}
 
 		$sort_data = array(
-			'pd.name',
+			'a.name',
 			'r.author',
 			'r.rating',
 			'r.status',
@@ -85,10 +85,10 @@ class ModelCatalogReview extends Model {
 	}
 
 	public function getTotalReviews($data = array()) {
-		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (r.assessment_id = pd.assessment_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment a ON (r.assessment_id = a.assessment_id)";
 
 		if (!empty($data['filter_assessment'])) {
-			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_assessment']) . "%'";
+			$sql .= " AND a.name LIKE '" . $this->db->escape($data['filter_assessment']) . "%'";
 		}
 
 		if (!empty($data['filter_author'])) {

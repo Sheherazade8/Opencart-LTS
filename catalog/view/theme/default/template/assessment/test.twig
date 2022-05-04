@@ -1,101 +1,267 @@
-<div id="exam"> {% if options %}
-            <hr>
-            <h3>{{ text_option }}</h3>
-            {% for option in options %}
-            {% if option.type == 'select' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <select name="option[{{ option.exam_option_id }}]" id="input-option{{ option.exam_option_id }}" class="form-control">
-                <option value="">{{ text_select }}</option>
-                {% for option_value in option.exam_option_value %}
-                <option value="{{ option_value.exam_option_value_id }}">{{ option_value.name }}
-                {% if option_value.price %}
-                ({{ option_value.price_prefix }}{{ option_value.price }})
-                {% endif %} </option>
-                {% endfor %}
-              </select>
-            </div>
-            {% endif %}
-            {% if option.type == 'radio' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label">{{ option.name }}</label>
-              <div id="input-option{{ option.exam_option_id }}"> {% for option_value in option.exam_option_value %}
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="option[{{ option.exam_option_id }}]" value="{{ option_value.exam_option_value_id }}" />
-                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}                  
-                    {{ option_value.name }}
-                    {% if option_value.price %}
-                    ({{ option_value.price_prefix }}{{ option_value.price }})
-                    {% endif %} </label>
-                </div>
-                {% endfor %} </div>
-            </div>
-            {% endif %}
-            {% if option.type == 'checkbox' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label">{{ option.name }}</label>
-              <div id="input-option{{ option.exam_option_id }}"> {% for option_value in option.exam_option_value %}
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="option[{{ option.exam_option_id }}][]" value="{{ option_value.exam_option_value_id }}" />
-                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}
-                    {{ option_value.name }}
-                    {% if option_value.price %}
-                    ({{ option_value.price_prefix }}{{ option_value.price }})
-                    {% endif %} </label>
-                </div>
-                {% endfor %} </div>
-            </div>
-            {% endif %}
-            {% if option.type == 'text' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option{{ option.exam_option_id }}" class="form-control" />
-            </div>
-            {% endif %}
-            {% if option.type == 'textarea' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <textarea name="option[{{ option.exam_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option{{ option.exam_option_id }}" class="form-control">{{ option.value }}</textarea>
-            </div>
-            {% endif %}
-            {% if option.type == 'file' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label">{{ option.name }}</label>
-              <button type="button" id="button-upload{{ option.exam_option_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
-              <input type="hidden" name="option[{{ option.exam_option_id }}]" value="" id="input-option{{ option.exam_option_id }}" />
-            </div>
-            {% endif %}
-            {% if option.type == 'date' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group date">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                </span></div>
-            </div>
-            {% endif %}
-            {% if option.type == 'datetime' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group datetime">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD HH:mm" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
-            </div>
-            {% endif %}
-            {% if option.type == 'time' %}
-            <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group time">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="HH:mm" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
-            </div>
-            {% endif %}
-            {% endfor %}
-            {% endif %}</div>
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6 lte9 lte8 lte7" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 lte9 lte8" lang="en"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 lte9" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--><html class="" lang="de"><!--<![endif]-->
+<head>
+<meta name="" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>LTS Shop</title>
+<link rel="stylesheet" href="css/owl.carousel.min.css" />
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+
+	<!-- Navigation -->
+
+		<section class="section-4 first">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="img-contain img" style="background-image: url('./img/test.webp');"></div>
+						<h1>{{ exam }}</h1>
+						<a href=""><div class="button small" onclick="cart.add('{{ assessment.assessment_id }}', '{{ assessment.minimum }}');">{{ button_cart }}</div></a>
+					</div>
+					<div class="offset-md-2 col-md-6">
+						<div class="text-box">
+							<p class="title">Ideal für:</p>
+							<p>Einstieg in die Berufswelt</p>
+							<p>Berufsschüler und Berufstätige</p>
+						</div>
+						<div class="text-box">
+							<p class="title">Produktinformation</p>
+							<div class="list-box">
+								<div class="list-1">
+									<p>Verfügbarkeit:</p>
+									<p>Artikelnr.:</p>
+									<p>Hersteller</p>
+									<p>Bewertung</p>
+								</div>
+								<div class="list-2">
+									<p>Auf Lager</p>
+									<p>ISBN: 2342112324</p>
+									<p>ETS</p>
+									<p>Nicht bewertet</p>
+								</div>
+							</div>
+						</div>
+						<p class="price">{{ price }}</p>
+						{# <p class="old-price">45,00€</p> #}
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<p> {{ assessment.description }} </p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section-1 last">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2>Unsere TOEFL Vorbereitungsprodukte</h2>
+						<div class="slider-container">
+					    <div class="owl-carousel owl-theme material">
+				        <div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+								<div class="item">
+									<a href="">
+					          <div class="img-contain img" style="background-image: url('./img/material1.webp');">
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+									</a>
+                  <div class="text-box">
+                    <p class="title">Onlinevorbereitung</p>
+                    <p class="subline">TOEFL Primary</p>
+										<div class="price-box">
+											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+										</div>
+                    <a href=""><div class="button small">In den Warenkorb</div></a>
+                  </div>
+				        </div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+</body>
+</html>
+
+<script>
+
+$('.owl-carousel.material').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:5,
+    }
+    }
+});
+
+
+$('.owl-carousel.home').owlCarousel({
+    items:1,
+    loop:true,
+    center:false,
+    margin: 0,
+    nav: false,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+});
+
+$(window).scroll(function() {
+    if ($(document).scrollTop() > 0) {
+      $("#menu").addClass("scroll");
+    } else {
+      $("#menu").removeClass("scroll");
+    }
+  });
+
+</script>

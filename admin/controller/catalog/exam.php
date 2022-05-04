@@ -53,13 +53,19 @@ class ControllerCatalogExam extends Controller {
 		$this->load->model('catalog/assessment');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			
 			$this->model_catalog_exam->editExam($this->request->get['exam_id'], $this->request->post);
-			// Nouveau code pour updateprices
-
-			$this->model_catalog_assessment->updatePrices($this->request->get['exam_id'], $this->request->post);
 
 
 			$this->session->data['success'] = $this->language->get('text_success');
+
+			if ( $this->request->post['update_assessment'] == 'true'){
+
+				$this->model_catalog_assessment->updatePrices($this->request->get['exam_id'], $this->request->post);
+
+				$this->session->data['success'] = $this->language->get('text_success_assessment');
+
+			}
 
 			$url = '';
 

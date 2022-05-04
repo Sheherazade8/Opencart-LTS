@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6 lte9 lte8 lte7" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 lte9 lte8" lang="en"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 lte9" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--><html class="" lang="de"><!--<![endif]-->
+<head>
+<meta name="" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>LTS Shop</title>
+<link rel="stylesheet" href="css/owl.carousel.min.css" />
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+
+	<!-- Navigation -->
+	<nav class="nav desktop white" id="menu">
+	    <div class="container-fluid">
+	      <div class="row">
+	        <div class="col-md-2">
+						<div class="logo-box">
+							<div class="img-contain img"></div>
+						</div>
+					</div>
+					<div class="col-md-7">
+	            <div class="item-box">
+		            <div class="item">
+		              <a class="scrolling" href=""><p class="text">TOEFL</p></a>
+		            </div>
+								<div class="item">
+		              <a class="scrolling" href=""><p class="text">TOEIC</p></a>
+		            </div>
+								<div class="item">
+		              <a class="scrolling" href=""><p class="text">TFI</p></a>
+		            </div>
+								<div class="item">
+		              <a class="scrolling" href=""><p class="text">WIDAF</p></a>
+		            </div>
+								<div class="item">
+		              <a class="scrolling" href=""><p class="text">Über uns</p></a>
+		            </div>
+								<div class="item">
+		              <a class="scrolling" href=""><p class="text">Kontakt</p></a>
+		            </div>
+	            </div>
+	        </div>
+					<div class="col-md-3">
+						<div class="item-box-2">
+							<a href="">
+								<div class="item-shop">
+									<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+									<p>Warenkorb</p>
+								</div>
+							</a>
+							<div class="item-shop">
+								<i class="fa fa-user" aria-hidden="true"></i>
+								<p><a href="">Registrieren</a>/<a href="anmelden">Anmelden</a></p>
+							</div>
+						</div>
+					</div>
+	      </div>
+	    </div>
+	  </nav>
+		<header class="img-cover standard img" style="background-image: url('./img/success.webp');">
+			<div class="filter">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h1>Bestellung abgeschlossen</h1>
+						</div>
+					</div>
+			</div>
+		</header>
+
+		<section class="section-success">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
+								<h2>Vielen Dank für Ihre Bestellung</h2>
+								<p class="text">Ihre Bestellung ist bei uns eingegangen und Sie sollten in wenigen Minuten eine E-mail von uns über weitere Details bekommen. Wir bedanken uns bei Ihnen für Ihr Vertrauen.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="nav-section last">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<a href=""><div class="button small back">Zur Startseite</div></a>
+					</div>
+				</div>
+			</div>
+		</section>
+</body>
+</html>
+
+<script>
+
+$('.owl-carousel.material-2').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:3,
+    }
+    }
+});
+
+
+$('.owl-carousel.home').owlCarousel({
+    items:1,
+    loop:true,
+    center:false,
+    margin: 0,
+    nav: false,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+});
+
+$(window).scroll(function() {
+    if ($(document).scrollTop() > 0) {
+      $("#menu").addClass("scroll");
+    } else {
+      $("#menu").removeClass("scroll");
+    }
+  });
+
+</script>

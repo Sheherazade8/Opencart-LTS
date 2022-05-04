@@ -37,7 +37,7 @@ class ModelLocalisationLanguage extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $exam) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam['exam_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($exam['name']) . "', description = '" . $this->db->escape($exam['description']) . "', meta_title = '" . $this->db->escape($exam['meta_title']) . "', price = '" . $this->db->escape($exam['price']) . "', meta_keyword = '" . $this->db->escape($exam['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "exam_description SET exam_id = '" . (int)$exam['exam_id'] . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($exam['description']) . "'");
 		}
 
 		$this->cache->delete('exam');
@@ -129,7 +129,7 @@ class ModelLocalisationLanguage extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "assessment_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $assessment) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment['assessment_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($assessment['name']) . "', description = '" . $this->db->escape($assessment['description']) . "', tag = '" . $this->db->escape($assessment['tag']) . "', meta_title = '" . $this->db->escape($assessment['meta_title']) . "', date = '" . $this->db->escape($assessment['date']) . "', meta_keyword = '" . $this->db->escape($assessment['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "assessment_description SET assessment_id = '" . (int)$assessment['assessment_id'] . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($assessment['description']) . "'");
 		}
 
 		$this->cache->delete('assessment');

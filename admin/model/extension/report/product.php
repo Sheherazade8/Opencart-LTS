@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionReportAssessment extends Model {
 	public function getAssessmentsViewed($data = array()) {
-		$sql = "SELECT pd.name, p.model, p.viewed FROM " . DB_PREFIX . "assessment p LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.viewed > 0 ORDER BY p.viewed DESC";
+		$sql = "SELECT a.name, a.model, a.viewed FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a.viewed > 0 ORDER BY a.viewed DESC";
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {

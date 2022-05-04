@@ -24,6 +24,9 @@
       </div>
       <div class="panel-body">
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-assessment" class="form-horizontal">
+          
+          <input type="hidden" name="update_assessment" id="update-assessment" value="false" />
+
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
             <li><a href="#tab-data" data-toggle="tab">{{ tab_data }}</a></li>
@@ -51,9 +54,9 @@
                             {% for center in centers %}
 
                               {% if center.center_id == center_id %}
-                                <option value="{{ center.center_id }}" selected="selected">{{ center.name }}</option>
+                                <option value="{{ center.center_id }}" selected="selected">{{ center.name }} - {{ center.city }}</option>
                               {% else %}
-                                <option value="{{ center.center_id }}">{{ center.name }}</option>
+                                <option value="{{ center.center_id }}">{{ center.name }} - {{ center.city }}</option>
                               {% endif %}
 
                             {% endfor %}                      
@@ -64,7 +67,7 @@
                             
                             {% for center in centers %}
                               
-                              <option value="{{ center.center_id }}" >{{ center.name }}</option>
+                              <option value="{{ center.center_id }}" >{{ center.name }} - {{ center.city }}</option>
 
 
                             {% endfor %}
@@ -74,7 +77,7 @@
 
                         </select>
 
-                        <input type="hidden" name="name" id="input-name" class="form-control" value=""/>
+                        <input type="hidden" name="name" id="input-name" class="form-control" value="{{ name }}"/>
 
                         {% if error_name %}
                           <div class="text-danger">{{ error_name }}</div>
@@ -374,7 +377,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
                 <div class="col-sm-10">
-                  <input type="text" name="price" value="" placeholder="{{ entry_price }}" id="input-price" class="form-control" readonly/>
+                  <input type="text" name="price" value="{{ price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
                 </div>
               </div>
             

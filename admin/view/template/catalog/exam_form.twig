@@ -3,7 +3,7 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
-        <button type="submit" form="form-exam" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <button type="submit" onclick = "updateAssessment()" form="form-exam" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
         <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
       <h1>{{ heading_title }}</h1>
       <ul class="breadcrumb">
@@ -25,6 +25,9 @@
       </div>
       <div class="panel-body">
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-exam" class="form-horizontal">
+
+          <input type="hidden" name="update_assessment" id="update-assessment" value="false" />
+
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
             <li><a href="#tab-data" data-toggle="tab">{{ tab_data }}</a></li>
@@ -60,6 +63,8 @@
                     <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
                     <div class="col-sm-10">
                       
+                      <input type="hidden" name="test_edit_price" value="{{ price }}" id="test-edit-price" class="form-control" />
+
                       <input type="text" name="price" value="{{ price ? price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control" />
 
                       {# {% if error_price[language.language_id] %}
@@ -561,6 +566,23 @@
   <link href="view/javascript/summernote/summernote.min.css" rel="stylesheet" />
   <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
   <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  
+
+  <script>
+
+  function updateAssessment(){
+    var test = document.getElementById("test-edit-price").value;
+    var price = document.getElementById("input-price").value;
+    if ( test && price != test) {
+      if(confirm('{{ text_confirm_box }}')){
+        document.getElementById("update-assessment").value = 'true';
+      } else {
+        document.getElementById("update-assessment").value = 'false';
+      }
+    }
+  }
+
+  </script>
   
   <script type="text/javascript"><!--
 $('input[name=\'path\']').autocomplete({

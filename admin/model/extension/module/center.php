@@ -171,25 +171,6 @@ class ModelExtensionModuleCenter extends Model {
 		return $center_description;
 	}
 
-	public function getCenterDescriptionByName($name, $language_id = 1) {
-		$center_description = array();
-
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "center WHERE name = '" . $name . "' AND language_id = '" . (int)$language_id . "'");
-
-		foreach ($query->rows as $result) {
-			$center_description = array(
-				'name'         => $result['name'],
-				'city'         => $result['city'],
-				'location'     => $result['location'],
-				'capacity'     => $result['capacity'],
-				'description'  => $result['description'],
-				'image'        => $result['image']
-			);
-		}
-
-		return $center_description;
-	}
-
 
 	public function getCenterStores($center_id) {
 		$center_store_data = array();

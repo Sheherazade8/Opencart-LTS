@@ -12,7 +12,7 @@ $_['text_percent']      = 'Percentage';
 $_['text_amount']       = 'Fixed Amount';
 $_['text_keyword']      = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
-$_['text_confirm_box']  = 'Do you want to update assessment with these changes ?';
+$_['text_confirm_box']  = 'Do you want to update assessments with these changes ?';
 $_['text_success_assessment'] = 'Success: You have modified centers and the corresponding assessments!';
 
 // Column

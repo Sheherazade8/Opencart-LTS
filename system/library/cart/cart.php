@@ -227,7 +227,7 @@ class Cart {
 				}
 
 				// Nouveau code
-				$exams = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_description WHERE exam_id = '" . (int)$exam_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+				$exams = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam WHERE exam_id = '" . (int)$exam_id . "'");
 				foreach ($exams->rows as $exam) {
 					$exam_name = $exam['name'];
 				}

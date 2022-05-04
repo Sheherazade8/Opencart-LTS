@@ -1,13 +1,13 @@
 <?php
 class ModelCatalogExam extends Model {
 	public function getExam($exam_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "exam c LEFT JOIN " . DB_PREFIX . "exam_description cd ON (c.exam_id = cd.exam_id) LEFT JOIN " . DB_PREFIX . "exam_to_store c2s ON (c.exam_id = c2s.exam_id) WHERE c.exam_id = '" . (int)$exam_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "exam e LEFT JOIN " . DB_PREFIX . "exam_description ed ON (e.exam_id = ed.exam_id) LEFT JOIN " . DB_PREFIX . "exam_to_store e2s ON (e.exam_id = e2s.exam_id) WHERE e.exam_id = '" . (int)$exam_id . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "' AND e2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND e.status = '1'");
 
 		return $query->row;
 	}
 
 	public function getExams($parent_id = 0) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam c LEFT JOIN " . DB_PREFIX . "exam_description cd ON (c.exam_id = cd.exam_id) LEFT JOIN " . DB_PREFIX . "exam_to_store c2s ON (c.exam_id = c2s.exam_id) WHERE c.parent_id = '" . (int)$parent_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'  AND c.status = '1' ORDER BY c.sort_order, LCASE(cd.name)");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam e LEFT JOIN " . DB_PREFIX . "exam_description ed ON (e.exam_id = ed.exam_id) LEFT JOIN " . DB_PREFIX . "exam_to_store e2s ON (e.exam_id = e2s.exam_id) WHERE e.parent_id = '" . (int)$parent_id . "' AND ed.language_id = '" . (int)$this->config->get('config_language_id') . "' AND e2s.store_id = '" . (int)$this->config->get('config_store_id') . "'  AND e.status = '1' ORDER BY e.sort_order, LCASE(e.name)");
 
 		return $query->rows;
 	}
@@ -98,7 +98,7 @@ class ModelCatalogExam extends Model {
 	}
 
 	public function getTotalExamsByExamId($parent_id = 0) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "exam c LEFT JOIN " . DB_PREFIX . "exam_to_store c2s ON (c.exam_id = c2s.exam_id) WHERE c.parent_id = '" . (int)$parent_id . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "exam e LEFT JOIN " . DB_PREFIX . "exam_to_store e2s ON (e.exam_id = e2s.exam_id) WHERE e.parent_id = '" . (int)$parent_id . "' AND e2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND e.status = '1'");
 
 		return $query->row['total'];
 	}

@@ -56,13 +56,13 @@ class ModelCatalogReview extends Model {
 			$limit = 20;
 		}
 
-		$query = $this->db->query("SELECT r.review_id, r.author, r.rating, r.text, p.assessment_id, pd.name, pd.date, p.image, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment p ON (r.assessment_id = p.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) WHERE p.assessment_id = '" . (int)$assessment_id . "' AND p.date_available <= NOW() AND p.status = '1' AND r.status = '1' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY r.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT r.review_id, r.author, r.rating, r.text, a.assessment_id, a.name, a.date, a.image, r.date_added FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment a ON (r.assessment_id = a.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE a.assessment_id = '" . (int)$assessment_id . "' AND a.date_available <= NOW() AND a.status = '1' AND r.status = '1' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY r.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
 
 		return $query->rows;
 	}
 
 	public function getTotalReviewsByAssessmentId($assessment_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment p ON (r.assessment_id = p.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_description pd ON (p.assessment_id = pd.assessment_id) WHERE p.assessment_id = '" . (int)$assessment_id . "' AND p.date_available <= NOW() AND p.status = '1' AND r.status = '1' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r LEFT JOIN " . DB_PREFIX . "assessment a ON (r.assessment_id = a.assessment_id) LEFT JOIN " . DB_PREFIX . "assessment_description ad ON (a.assessment_id = ad.assessment_id) WHERE a.assessment_id = '" . (int)$assessment_id . "' AND a.date_available <= NOW() AND a.status = '1' AND r.status = '1' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row['total'];
 	}

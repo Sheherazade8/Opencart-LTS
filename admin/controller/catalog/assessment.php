@@ -682,8 +682,9 @@ class ControllerCatalogAssessment extends Controller {
 
 		foreach ($results as $result){ 
 			$data['centers'][] = array(
+				'center_id' => $result['center_id'],
 				'name'      => $result['name'],
-				'center_id' => $result['center_id']
+				'city'		=> $result['city']
 			);
 		}
 			

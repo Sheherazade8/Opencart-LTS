@@ -41,3 +41,6 @@ $_['error_minimum']            = 'Minimum order amount for %s is %s!';
 $_['error_required']           = '%s required!';
 $_['error_assessment']            = 'Warning: There are no assessments in your cart!';
 $_['error_recurring_required'] = 'Please select a payment recurring!';
+
+
+$_['column_action']          = 'Action';

@@ -161,7 +161,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function getMappedExam($google_assessment_exam, $store_id) {
-        $sql = "SELECT GROUP_CONCAT(cd.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, cp.exam_id FROM " . DB_PREFIX . "exam_path cp LEFT JOIN " . DB_PREFIX . "exam_description cd ON (cp.path_id = cd.exam_id) LEFT JOIN `" . DB_PREFIX . "googleshopping_exam` c2gpc ON (c2gpc.exam_id = cp.exam_id) WHERE cd.language_id=" . (int)$this->config->get('config_language_id') . " AND c2gpc.google_assessment_exam='" . $this->db->escape($google_assessment_exam) . "' AND c2gpc.store_id=" . (int)$store_id;
+        $sql = "SELECT GROUP_CONCAT(e.name ORDER BY ep.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, ep.exam_id FROM " . DB_PREFIX . "exam_path ep LEFT JOIN " . DB_PREFIX . "exam e ON (ep.path_id = e.exam_id) LEFT JOIN `" . DB_PREFIX . "googleshopping_exam` c2gpc ON (c2gpc.exam_id = ep.exam_id) WHERE c2gpc.google_assessment_exam='" . $this->db->escape($google_assessment_exam) . "' AND c2gpc.store_id=" . (int)$store_id;
 
         $result = $this->db->query($sql);
 
@@ -245,7 +245,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function getTargetCountriesByFilter($data, $store_id) {
-        $sql = "SELECT DISTINCT agt.country FROM `" . DB_PREFIX . "googleshopping_assessment_target` pagt LEFT JOIN `" . DB_PREFIX . "googleshopping_target` agt ON (agt.advertise_google_target_id = pagt.advertise_google_target_id AND agt.store_id = pagt.store_id) LEFT JOIN `" . DB_PREFIX . "assessment` p ON (pagt.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = pagt.assessment_id) WHERE pagt.store_id=" . (int)$store_id . " AND pd.language_id=" . (int)$this->config->get('config_language_id');
+        $sql = "SELECT DISTINCT agt.country FROM `" . DB_PREFIX . "googleshopping_assessment_target` pagt LEFT JOIN `" . DB_PREFIX . "googleshopping_target` agt ON (agt.advertise_google_target_id = pagt.advertise_google_target_id AND agt.store_id = pagt.store_id) LEFT JOIN `" . DB_PREFIX . "assessment` p ON (pagt.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = pagt.assessment_id) WHERE pagt.store_id=" . (int)$store_id . " AND ad.language_id=" . (int)$this->config->get('config_language_id');
 
         $this->googleshopping->applyFilter($sql, $data);
 
@@ -259,7 +259,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function getAssessmentOptionsByFilter($data) {
-        $sql = "SELECT DISTINCT po.option_id, od.name FROM `" . DB_PREFIX . "assessment_option` po LEFT JOIN `" . DB_PREFIX . "option_description` od ON (od.option_id=po.option_id AND od.language_id=" . (int)$this->config->get('config_language_id') . ") LEFT JOIN `" . DB_PREFIX . "option` o ON (o.option_id = po.option_id) LEFT JOIN `" . DB_PREFIX . "assessment` p ON (po.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = po.assessment_id) WHERE o.type IN ('select', 'radio') AND pd.language_id=" . (int)$this->config->get('config_language_id');
+        $sql = "SELECT DISTINCT po.option_id, od.name FROM `" . DB_PREFIX . "assessment_option` po LEFT JOIN `" . DB_PREFIX . "option_description` od ON (od.option_id=po.option_id AND od.language_id=" . (int)$this->config->get('config_language_id') . ") LEFT JOIN `" . DB_PREFIX . "option` o ON (o.option_id = po.option_id) LEFT JOIN `" . DB_PREFIX . "assessment` p ON (po.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = po.assessment_id) WHERE o.type IN ('select', 'radio') AND ad.language_id=" . (int)$this->config->get('config_language_id');
 
         $this->googleshopping->applyFilter($sql, $data);
 
@@ -317,7 +317,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function setAdvertisingByFilter($data, $post_target_ids, $store_id) {
-        $sql = "DELETE pagt FROM `" . DB_PREFIX . "googleshopping_assessment_target` pagt LEFT JOIN `" . DB_PREFIX . "assessment` p ON (pagt.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = p.assessment_id) WHERE pd.language_id=" . (int)$this->config->get('config_language_id');
+        $sql = "DELETE pagt FROM `" . DB_PREFIX . "googleshopping_assessment_target` pagt LEFT JOIN `" . DB_PREFIX . "assessment` p ON (pagt.assessment_id = p.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = p.assessment_id) WHERE ad.language_id=" . (int)$this->config->get('config_language_id');
 
         $this->googleshopping->applyFilter($sql, $data);
 
@@ -326,7 +326,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
         if (!empty($post_target_ids)) {
             $target_ids = array_map(array($this->googleshopping, 'integer'), $post_target_ids);
 
-            $insert_sql = "SELECT p.assessment_id, " . (int)$store_id . " as store_id, '{TARGET_ID}' as advertise_google_target_id FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = p.assessment_id) WHERE pd.language_id=" . (int)$this->config->get('config_language_id');
+            $insert_sql = "SELECT p.assessment_id, " . (int)$store_id . " as store_id, '{TARGET_ID}' as advertise_google_target_id FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = p.assessment_id) WHERE ad.language_id=" . (int)$this->config->get('config_language_id');
 
             $this->googleshopping->applyFilter($insert_sql, $data);
 
@@ -339,7 +339,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function insertNewAssessments($assessment_ids = array(), $store_id) {
-        $sql = "INSERT INTO `" . DB_PREFIX . "googleshopping_assessment` (`assessment_id`, `store_id`, `google_assessment_exam`) SELECT p.assessment_id, p2s.store_id, (SELECT c2gpc.google_assessment_exam FROM `" . DB_PREFIX . "assessment_to_exam` p2c LEFT JOIN `" . DB_PREFIX . "exam_path` cp ON (p2c.exam_id = cp.exam_id) LEFT JOIN `" . DB_PREFIX . "googleshopping_exam` c2gpc ON (c2gpc.exam_id = cp.path_id AND c2gpc.store_id = " . (int)$store_id . ") WHERE p2c.assessment_id = p.assessment_id AND c2gpc.google_assessment_exam IS NOT NULL ORDER BY cp.level DESC LIMIT 0,1) as `google_assessment_exam` FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_to_store` p2s ON (p2s.assessment_id = p.assessment_id AND p2s.store_id = " . (int)$store_id . ") LEFT JOIN `" . DB_PREFIX . "googleshopping_assessment` pag ON (pag.assessment_id = p.assessment_id AND pag.store_id=p2s.store_id) WHERE pag.assessment_id IS NULL AND p2s.store_id IS NOT NULL";
+        $sql = "INSERT INTO `" . DB_PREFIX . "googleshopping_assessment` (`assessment_id`, `store_id`, `google_assessment_exam`) SELECT p.assessment_id, p2s.store_id, (SELECT c2gpc.google_assessment_exam FROM `" . DB_PREFIX . "assessment_to_exam` p2c LEFT JOIN `" . DB_PREFIX . "exam_path` ep ON (p2c.exam_id = ep.exam_id) LEFT JOIN `" . DB_PREFIX . "googleshopping_exam` c2gpc ON (c2gpc.exam_id = ep.path_id AND c2gpc.store_id = " . (int)$store_id . ") WHERE p2c.assessment_id = p.assessment_id AND c2gpc.google_assessment_exam IS NOT NULL ORDER BY ep.level DESC LIMIT 0,1) as `google_assessment_exam` FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_to_store` p2s ON (p2s.assessment_id = p.assessment_id AND p2s.store_id = " . (int)$store_id . ") LEFT JOIN `" . DB_PREFIX . "googleshopping_assessment` pag ON (pag.assessment_id = p.assessment_id AND pag.store_id=p2s.store_id) WHERE pag.assessment_id IS NULL AND p2s.store_id IS NOT NULL";
 
         if (!empty($assessment_ids)) {
             $sql .= " AND p.assessment_id IN (" . $this->googleshopping->assessmentIdsToIntegerExpression($assessment_ids) . ")";
@@ -369,7 +369,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function updateMultipleAssessmentFields($filter_data, $data) {
-        $insert_sql = "SELECT p.assessment_id, {INSERT_DATA} FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = p.assessment_id) WHERE pd.language_id=" . (int)$this->config->get('config_language_id');
+        $insert_sql = "SELECT p.assessment_id, {INSERT_DATA} FROM `" . DB_PREFIX . "assessment` p LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = p.assessment_id) WHERE ad.language_id=" . (int)$this->config->get('config_language_id');
 
         $this->googleshopping->applyFilter($insert_sql, $filter_data);
 
@@ -411,10 +411,10 @@ class ModelExtensionAdvertiseGoogle extends Model {
     }
 
     public function getExams($data = array(), $store_id) {
-        $sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, c1.parent_id, c1.sort_order FROM " . DB_PREFIX . "exam_path cp LEFT JOIN `" . DB_PREFIX . "exam_to_store` c2s ON (c2s.exam_id = cp.exam_id AND c2s.store_id=" . (int)$store_id . ") LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd1 ON (cp.path_id = cd1.exam_id) LEFT JOIN " . DB_PREFIX . "exam_description cd2 ON (cp.exam_id = cd2.exam_id) WHERE c2s.store_id IS NOT NULL AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+        $sql = "SELECT cp.exam_id AS exam_id, GROUP_CONCAT(e1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name, c1.parent_id, c1.sort_order FROM " . DB_PREFIX . "exam_path cp LEFT JOIN `" . DB_PREFIX . "exam_to_store` c2s ON (c2s.exam_id = cp.exam_id AND c2s.store_id=" . (int)$store_id . ") LEFT JOIN " . DB_PREFIX . "exam c1 ON (cp.exam_id = c1.exam_id) LEFT JOIN " . DB_PREFIX . "exam c2 ON (cp.path_id = c2.exam_id) LEFT JOIN " . DB_PREFIX . "exam e1 ON (cp.path_id = e1.exam_id) LEFT JOIN " . DB_PREFIX . "exam e2 ON (cp.exam_id = e2.exam_id) WHERE c2s.store_id IS NOT NULL";
 
         if (!empty($data['filter_name'])) {
-            $sql .= " AND cd2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+            $sql .= " AND e2.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
         }
 
         $sql .= " GROUP BY cp.exam_id";
@@ -462,7 +462,7 @@ class ModelExtensionAdvertiseGoogle extends Model {
     public function getAssessmentIssues($assessment_id, $store_id) {
         $this->load->model('localisation/language');
 
-        $sql = "SELECT pag.color, pag.size, pd.name, p.model FROM `" . DB_PREFIX . "googleshopping_assessment` pag LEFT JOIN `" . DB_PREFIX . "assessment` p ON (p.assessment_id = pag.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` pd ON (pd.assessment_id = pag.assessment_id AND pd.language_id=" . (int)$this->config->get('config_language_id') . ") WHERE pag.assessment_id=" . (int)$assessment_id . " AND pag.store_id=" . (int)$store_id;
+        $sql = "SELECT pag.color, pag.size, p.name, p.model FROM `" . DB_PREFIX . "googleshopping_assessment` pag LEFT JOIN `" . DB_PREFIX . "assessment` p ON (p.assessment_id = pag.assessment_id) LEFT JOIN `" . DB_PREFIX . "assessment_description` ad ON (ad.assessment_id = pag.assessment_id AND ad.language_id=" . (int)$this->config->get('config_language_id') . ") WHERE pag.assessment_id=" . (int)$assessment_id . " AND pag.store_id=" . (int)$store_id;
 
         $assessment_info = $this->db->query($sql)->row;
 

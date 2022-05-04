@@ -44,8 +44,8 @@
                 <td class="text-left">{{ column_name }}</td>
                 <td class="text-left">{{ column_model }}</td>
                 <td class="text-left">{{ column_date }}</td>
-                <td class="text-left">{{ column_quantity }}</td>
-                <td class="text-right">{{ column_price }}</td>
+                <td class="text-left">{{ column_action }}</td>
+                {# <td class="text-right">{{ column_price }}</td> #}
                 <td class="text-right">{{ column_total }}</td>
               </tr>
             </thead>
@@ -67,13 +67,20 @@
                 <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ assessment.recurring }}</small> {% endif %}</td>
               <td class="text-left">{{ assessment.model }}</td>
               <td class="text-left">{{ assessment.date }}</td>
-              <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
+              {# <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
                   <input type="text" name="quantity[{{ assessment.cart_id }}]" value="{{ assessment.quantity }}" size="1" class="form-control" />
                   <span class="input-group-btn">
                   <button type="submit" data-toggle="tooltip" title="{{ button_update }}" class="btn btn-primary"><i class="fa fa-refresh"></i></button>
                   <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="cart.remove('{{ assessment.cart_id }}');"><i class="fa fa-times-circle"></i></button>
+                  </span></div></td> #}
+              {# <td class="text-right">{{ assessment.price }}</td> #}
+              
+              <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
+                  <span class="input-group-btn">
+                  <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="cart.remove('{{ assessment.cart_id }}');"><i class="fa fa-times-circle"></i></button>
                   </span></div></td>
               <td class="text-right">{{ assessment.price }}</td>
+
               <td class="text-right">{{ assessment.total }}</td>
             </tr>
             {% endfor %}
