@@ -1,0 +1,44 @@
+			<div class="col-md-7">
+	            <div class="item-box">
+                {% for exam in exams %}
+                {% if exam.children %}
+
+                  <div class="item">
+                    <a class="scrolling" href="{{ exam.href }}"><p class="text">{{ exam.name }}</p></a>
+                  </div>
+
+                {% endif %}
+                {% endfor %}
+
+								<div class="item">
+		              <a class="scrolling" href="{{ contact }}"><p class="text">{{ text_contact }}</p></a>
+		            </div>
+
+	            </div>
+	        </div>
+
+          <div class="col-md-3">
+            <div class="item-box-2">
+								<div class="item-shop">
+									<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  <p><a href="{{ shopping_cart }}" title="{{ text_shopping_cart }}">{{ text_shopping_cart }}</a>
+								</div>
+							<div class="item-shop">
+								<i class="fa fa-user" aria-hidden="true"></i>
+								<p><a href="{{ register }}">{{ text_register }}</a>/<a href="{{ login }}">{{ text_login }}</a></p>
+							</div>
+
+							<div class="item">
+		            			<a class="scrolling"><p class="text">{{ currency }}</p></a>
+							</div>
+
+              				{{ currency }}
+
+              				{{ language }}
+
+							{# <div class="item">
+		            			<a class="scrolling"><p class="text">{{ language }}</p></a>
+							</div> #}
+
+						</div>
+					</div>

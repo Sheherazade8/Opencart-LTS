@@ -1,0 +1,155 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      {% if informations %}
+      <div class="col-sm-3">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-sm-3">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <p>{{ powered }}</p>
+  </div>
+</footer>
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<!--
+OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+Please donate via PayPal to donate@opencart.com
+//-->
+</body></html>
+
+<script>
+
+$('.owl-carousel.kunde').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:3,
+    }
+    }
+});
+
+$('.owl-carousel.material').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:5,
+    }
+    }
+});
+
+$('.owl-carousel.test').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:4,
+    }
+    }
+});
+
+
+$('.owl-carousel.home').owlCarousel({
+    items:1,
+    loop:true,
+    center:false,
+    margin: 0,
+    nav: false,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+});
+
+$(window).scroll(function() {
+    if ($(document).scrollTop() > 0) {
+      $("#menu").addClass("scroll");
+    } else {
+      $("#menu").removeClass("scroll");
+    }
+  });
+
+</script>

@@ -18,7 +18,7 @@ class ControllerAssessmentExam extends Controller {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'p.sort_order';
+			$sort = 'a.sort_order';
 		}
 
 		if (isset($this->request->get['order'])) {
@@ -271,33 +271,33 @@ class ControllerAssessmentExam extends Controller {
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_default'),
-				'value' => 'p.sort_order-ASC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=p.sort_order&order=ASC' . $url)
+				'value' => 'a.sort_order-ASC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.sort_order&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_asc'),
-				'value' => 'pd.name-ASC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=ASC' . $url)
+				'value' => 'a.name-ASC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.name&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_desc'),
-				'value' => 'pd.name-DESC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=DESC' . $url)
+				'value' => 'a.name-DESC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.name&order=DESC' . $url)
 			);
 
 			// Nouveau code pour remplacer meta_description par date
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_date_asc'),
-				'value' => 'pd.date-ASC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=pd.date&order=ASC' . $url)
+				'value' => 'a.date-ASC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.date&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_date_desc'),
-				'value' => 'pd.date-DESC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=pd.date&order=DESC' . $url)
+				'value' => 'a.date-DESC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.date&order=DESC' . $url)
 			);
 
 			if ($this->config->get('config_review_status')) {
@@ -316,14 +316,14 @@ class ControllerAssessmentExam extends Controller {
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=p.model&order=ASC' . $url)
+				'value' => 'a.model-ASC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.model&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_desc'),
-				'value' => 'p.model-DESC',
-				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=p.model&order=DESC' . $url)
+				'value' => 'a.model-DESC',
+				'href'  => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . '&sort=a.model&order=DESC' . $url)
 			);
 
 			$url = '';

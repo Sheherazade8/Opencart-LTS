@@ -1,0 +1,212 @@
+{{ header }}
+<div id="assessment-search" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <label class="control-label" for="input-search">{{ entry_search }}</label>
+      <div class="row">
+        <div class="col-sm-4">
+          <input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control" />
+        </div>
+        <div class="col-sm-3">
+          <select name="exam_id" class="form-control">
+            <option value="0">{{ text_exam }}</option>
+            {% for exam_1 in exams %}
+            {% if exam_1.exam_id == exam_id %}
+            <option value="{{ exam_1.exam_id }}" selected="selected">{{ exam_1.name }}</option>
+            {% else %}
+            <option value="{{ exam_1.exam_id }}">{{ exam_1.name }}</option>
+            {% endif %}
+            {% for exam_2 in exam_1.children %}
+            {% if exam_2.exam_id == exam_id %}
+            <option value="{{ exam_2.exam_id }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ exam_2.name }}</option>
+            {% else %}
+            <option value="{{ exam_2.exam_id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ exam_2.name }}</option>
+            {% endif %}
+            {% for exam_3 in exam_2.children %}
+            {% if exam_3.exam_id == exam_id %}
+            <option value="{{ exam_3.exam_id }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ exam_3.name }}</option>
+            {% else %}
+            <option value="{{ exam_3.exam_id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ exam_3.name }}</option>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label class="checkbox-inline">
+            {% if sub_exam %}
+            <input type="checkbox" name="sub_exam" value="1" checked="checked" />
+            {% else %}
+            <input type="checkbox" name="sub_exam" value="1" />
+            {% endif %}
+            {{ text_sub_exam }}</label>
+        </div>
+      </div>
+      <p>
+        <label class="checkbox-inline">
+          {% if description %}
+          <input type="checkbox" name="description" value="1" id="description" checked="checked" />
+          {% else %}
+          <input type="checkbox" name="description" value="1" id="description" />
+          {% endif %}
+          {{ entry_description }}</label>
+      </p>
+      <input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
+      <h2>{{ text_search }}</h2>
+      {% if assessments %}
+      <div class="row">
+        <div class="col-md-2 col-sm-6 hidden-xs">
+          <div class="btn-group btn-group-sm">
+            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="form-group">
+            <a href="{{ compare }}" id="compare-total" class="btn btn-link">{{ text_compare }}</a>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+            <select id="input-sort" class="form-control" onchange="location = this.value;">
+              {% for sorts in sorts %}
+              {% if sorts.value == '%s-%s'|format(sort, order) %}
+              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+              {% else %}
+              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6">
+          <div class="form-group input-group input-group-sm">
+            <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+            <select id="input-limit" class="form-control" onchange="location = this.value;">
+              {% for limits in limits %}
+              {% if limits.value == limit %}
+              <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+              {% else %}
+              <option value="{{ limits.href }}">{{ limits.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        {% for assessment in assessments %}
+        <div class="assessment-layout assessment-list col-xs-12">
+          <div class="assessment-thumb">
+            <div class="image"><a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-responsive" /></a></div>
+            <div>
+              <div class="caption">
+                <h4><a href="{{ assessment.href }}">{{ assessment.name }}</a></h4>
+                <p>{{ assessment.description }}</p>
+                {% if assessment.price %}
+                <p class="price">
+                  {% if  not assessment.special %}
+                  {{ assessment.price }}
+                  {% else %}
+                  <span class="price-new">{{ assessment.special }}</span> <span class="price-old">{{ assessment.price }}</span>
+                  {% endif %}
+                  {% if assessment.tax %}
+                  <span class="price-tax">{{ text_tax }} {{ assessment.tax }}</span>
+                  {% endif %}
+                </p>
+                {% endif %}
+                {% if assessment.rating %}
+                <div class="rating">
+                  {% for i in 1..5 %}
+                  {% if assessment.rating < i %}
+                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% else %}
+                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+              <div class="button-group">
+                <button type="button" onclick="cart.add('{{ assessment.assessment_id }}', '{{ assessment.minimum }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+                <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ assessment.assessment_id }}');"><i class="fa fa-heart"></i></button>
+                <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ assessment.assessment_id }}');"><i class="fa fa-exchange"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% else %}
+      <p>{{ text_empty }}</p>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script type="text/javascript"><!--
+$('#button-search').bind('click', function() {
+	url = 'index.php?route=assessment/search';
+
+	var search = $('#content input[name=\'search\']').prop('value');
+
+	if (search) {
+		url += '&search=' + encodeURIComponent(search);
+	}
+
+	var exam_id = $('#content select[name=\'exam_id\']').prop('value');
+
+	if (exam_id > 0) {
+		url += '&exam_id=' + encodeURIComponent(exam_id);
+	}
+
+	var sub_exam = $('#content input[name=\'sub_exam\']:checked').prop('value');
+
+	if (sub_exam) {
+		url += '&sub_exam=true';
+	}
+
+	var filter_description = $('#content input[name=\'description\']:checked').prop('value');
+
+	if (filter_description) {
+		url += '&description=true';
+	}
+
+	location = url;
+});
+
+$('#content input[name=\'search\']').bind('keydown', function(e) {
+	if (e.keyCode == 13) {
+		$('#button-search').trigger('click');
+	}
+});
+
+$('select[name=\'exam_id\']').on('change', function() {
+	if (this.value == '0') {
+		$('input[name=\'sub_exam\']').prop('disabled', true);
+	} else {
+		$('input[name=\'sub_exam\']').prop('disabled', false);
+	}
+});
+
+$('select[name=\'exam_id\']').trigger('change');
+--></script>
+{{ footer }}

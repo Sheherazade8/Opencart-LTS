@@ -1,0 +1,73 @@
+{{ header }}
+<div id="account-wishlist" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if success %}
+  <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h2>{{ heading_title }}</h2>
+      {% if assessments %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              {# Nouveau code #}
+              <td class="text-center">{{ column_exam }}</td>
+              <td class="text-left">{{ column_name }}</td>
+              <td class="text-left">{{ column_model }}</td>
+              <td class="text-left">{{ column_date }}</td>
+              <td class="text-right">{{ column_stock }}</td>
+              <td class="text-right">{{ column_price }}</td>
+              <td class="text-right">{{ column_action }}</td>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {% for assessment in assessments %}
+          <tr>
+            {# Nouveau code #}
+            <td class="text-left">{{ assessment.exam }}</td>
+            {% if assessment.thumb %}
+              <td class="text-center">{% if assessment.thumb %}<a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" /></a>{% endif %}</td>
+            {% endif %}
+            <td class="text-left"><a href="{{ assessment.href }}">{{ assessment.name }}</a></td>
+            <td class="text-left">{{ assessment.model }}</td>
+            <td class="text-left">{{ assessment.date }}</td>
+            <td class="text-right">{{ assessment.stock }}</td>
+            <td class="text-right">{% if assessment.price %}
+              <div class="price"> {% if not assessment.special %}
+                {{ assessment.price }}
+                {% else %} <b>{{ assessment.special }}</b> <s>{{ assessment.price }}</s> {% endif %} </div>
+              {% endif %}</td>
+            <td class="text-right"><button type="button" onclick="cart.add('{{ assessment.assessment_id }}');" data-toggle="tooltip" title="{{ button_cart }}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i></button>
+              <a href="{{ assessment.remove }}" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-times"></i></a></td>
+          </tr>
+          {% endfor %}
+            </tbody>
+          
+        </table>
+      </div>
+      {% else %}
+      <p>{{ text_empty }}</p>
+      {% endif %}
+      <div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}
