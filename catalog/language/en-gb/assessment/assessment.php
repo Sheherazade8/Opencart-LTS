@@ -3,9 +3,6 @@
 $_['text_search']              = 'Search';
 $_['text_brand']               = 'Brand';
 $_['text_manufacturer']        = 'Brand:';
-$_['text_model']               = 'City:';
-$_['text_location']               = 'Location:';
-$_['text_date']               = 'Date:';
 
 
 $_['text_reward']              = 'Reward Points:';
@@ -53,3 +50,20 @@ $_['error_name']               = 'Warning: Review Name must be between 3 and 25 
 $_['error_text']               = 'Warning: Review Text must be between 25 and 1000 characters!';
 $_['error_rating']             = 'Warning: Please select a review rating!';
 $_['error_assessment']            = "Wanring: Assessment required to add the review!";
+
+$_['text_model']               = 'City:';
+$_['text_center']              = 'Test center:';
+$_['text_location']            = 'Location:';
+$_['text_date']                = 'Date:';
+$_['registration']             = 'Registration';
+$_['test_title']               = 'Test informations';
+$_['test_info']                = 'All information about your order';
+$_['total']                    = 'Total';
+$_['text_description']         = 'Center informations :';
+$_['text_payment']             = 'Payment information:';
+$_['text_no_price']            = 'Included';
+$_['text_no_option']           = 'No service';
+$_['text_information']         = 'Additional informations';
+$_['information']              = 'Please note that registrations are usually only possible up to six working days before the test date. (Working days are mo-fr, excl. public holidays).
+
+Also, please note that the testing sessions listed here are conducted as part of the Public Testing Program, which means that you will be photographed on the day of testing (the photo will later appear on your score report).';

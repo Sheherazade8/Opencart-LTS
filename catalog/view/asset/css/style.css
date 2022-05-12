@@ -1,4 +1,5 @@
 /* Copyright 1999-2012. Parallels IP Holdings GmbH. All Rights Reserved. */
+
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
@@ -60,7 +61,7 @@ p {
 font-family: 'PT Sans', sans-serif;
 }
 ul { margin: 0; padding: 0; list-style: none; }
-li { padding: 0 0 8px 14px; background: url(../img/bullet.gif) 0 5px no-repeat; }
+li { padding: 0 0 8px 14px; background: url(catalog/view/theme/shoptheme/img/bullet.gif) 0 5px no-repeat; }
 
 
 .img-cover{
@@ -119,12 +120,12 @@ nav .logo-box .img{
   width: 200px;
   height: 60px;
   margin-top: 30px;
-  background-image: url('../img/logo-black.webp');
+  background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
   transition: all ease 0.3s;
 }
 
 nav.white .logo-box .img{
-  background-image: url('../img/logo.webp');
+  background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
 }
 
 nav.scroll{
@@ -134,7 +135,7 @@ nav.scroll{
 
 nav.scroll .logo-box .img{
   margin-top: 10px;
-  background-image: url('../img/logo-black.webp');
+  background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
 }
 
 nav .item-box-2{
@@ -375,7 +376,7 @@ box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
 
 
  section.first{
-   padding-top: 250px;
+   padding-top: 100px;
  }
 
  section.last{

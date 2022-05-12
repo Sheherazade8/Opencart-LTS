@@ -89,6 +89,16 @@ class ModelCatalogAssessment extends Model {
 			}
 		}
 
+		if (!empty($data['filter_city']) ) {
+			$sql .= " AND a.model LIKE '%" . $this->db->escape($data['filter_city']) . "%'";
+		}
+
+		if (!empty($data['filter_month']) ) {
+			$sql .= " AND MONTH(a.date)= '" . (int)$this->db->escape($data['filter_month']) . "'";
+
+		}
+
+
 		if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
 			$sql .= " AND (";
 
@@ -190,6 +200,18 @@ class ModelCatalogAssessment extends Model {
 		}
 
 		return $assessment_data;
+	}
+
+	public function getcitiesByExamId($exam_id) {
+		$query = $this->db->query("SELECT DISTINCT a.model FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) WHERE a2e.exam_id = '" . (int)$exam_id . "' ORDER BY a.model ASC");
+
+		return $query->rows;
+	}
+
+	public function getdatesByExamId($exam_id) {
+		$query = $this->db->query("SELECT DISTINCT a.date FROM " . DB_PREFIX . "assessment a LEFT JOIN " . DB_PREFIX . "assessment_to_exam a2e ON (a.assessment_id = a2e.assessment_id) WHERE a2e.exam_id = '" . (int)$exam_id . "' ORDER BY a.date ASC");
+
+		return $query->rows;
 	}
 
 	public function getAssessmentSpecials($data = array()) {

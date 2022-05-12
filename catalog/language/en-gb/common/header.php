@@ -2,7 +2,7 @@
 // Text
 $_['text_home']          = 'Home';
 $_['text_wishlist']      = 'Wish List (%s)';
-$_['text_shopping_cart'] = 'Shopping Cart';
+$_['text_shopping_cart'] = 'Cart';
 $_['text_exam']      = 'Exams';
 
 $_['text_exam']      = 'Exams';

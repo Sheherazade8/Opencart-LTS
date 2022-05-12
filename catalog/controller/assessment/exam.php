@@ -46,6 +46,8 @@ class ControllerAssessmentExam extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
+		$data['parent'] = '' ;
+
 		if (isset($this->request->get['path'])) {
 			$url = '';
 
@@ -72,6 +74,10 @@ class ControllerAssessmentExam extends Controller {
 					$path = (int)$path_id;
 				} else {
 					$path .= '_' . (int)$path_id;
+				}
+
+				if ($path_id != $exam_id) {
+					$data['parent'] = $path_id ;
 				}
 
 				$exam_info = $this->model_catalog_exam->getExam($path_id);
@@ -106,7 +112,8 @@ class ControllerAssessmentExam extends Controller {
 			);
 
 			if ($exam_info['image']) {
-				$data['thumb'] = $this->model_tool_image->resize($exam_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_exam_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_exam_height'));
+				// $data['thumb'] = $this->model_tool_image->resize($exam_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_exam_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_exam_height'));
+				$data['thumb'] = $this->model_tool_image->resize($exam_info['image'], 250 , 250 );
 			} else {
 				$data['thumb'] = '';
 			}
@@ -132,8 +139,6 @@ class ControllerAssessmentExam extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			// Nouveau code pour ajouter options à Exam
-
 			$data['options'] = array();
 
 			foreach ($this->model_catalog_exam->getExamOptions($exam_id) as $option) {
@@ -142,7 +147,7 @@ class ControllerAssessmentExam extends Controller {
 				foreach ($option['exam_option_value'] as $option_value) {
 					if ($option_value['subtract'] ) {
 						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
-							$price = $this->currency->format($this->tax->calculate($option_value['price'], $exam_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
+							$price = $this->currency->format($exam_info['price'], $this->session->data['currency']);
 						} else {
 							$price = false;
 						}
@@ -169,7 +174,6 @@ class ControllerAssessmentExam extends Controller {
 				);
 			}
 
-			// Fin nouveau code
 			
 			$data['exams'] = array();
 
@@ -189,11 +193,30 @@ class ControllerAssessmentExam extends Controller {
 				);
 			}
 
+
+			$data['cities'] = array();
+			$cities = $this->model_catalog_assessment->getcitiesByExamId($exam_id);
+			foreach ($cities as $city) {
+				$data['cities'][] = $city['model'];
+			}
+
+			$data['months'] = array();
+			$dates = $this->model_catalog_assessment->getdatesByExamId($exam_id);
+			foreach ($dates as $date) {
+				$data['months'][] = array (
+				'layout' => date_format(date_create($date['date']), "F(m)"),
+				'number' => date_format(date_create($date['date']), "m")
+				);
+			}
+			
+			
+
 			$data['assessments'] = array();
 
 			$filter_data = array(
 				'filter_exam_id' => $exam_id,
-				'filter_filter'      => $filter,
+				'filter_city'      => $this->request->get['filter_city'],
+				'filter_month'      => $this->request->get['filter_month'],
 				'sort'               => $sort,
 				'order'              => $order,
 				'start'              => ($page - 1) * $limit,
@@ -254,7 +277,7 @@ class ControllerAssessmentExam extends Controller {
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
 					'href'        => $this->url->link('assessment/assessment', 'path=' . $this->request->get['path'] . '&assessment_id=' . $result['assessment_id'] . $url)
-				);
+				);				
 			}
 
 			$url = '';
@@ -408,7 +431,7 @@ class ControllerAssessmentExam extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+			$data['header2'] = $this->load->controller('common/header2');
 
 			$this->response->setOutput($this->load->view('assessment/exam', $data));
 		} else {
@@ -454,7 +477,7 @@ class ControllerAssessmentExam extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+			$data['header2'] = $this->load->controller('common/header2');
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}

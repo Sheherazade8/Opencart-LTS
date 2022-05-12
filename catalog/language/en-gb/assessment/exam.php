@@ -6,7 +6,7 @@ $_['text_error']        = 'Exam not found!';
 $_['text_empty']        = 'There are no assessments to list in this exam.';
 $_['text_quantity']     = 'Qty:';
 $_['text_manufacturer'] = 'Brand:';
-$_['text_model']        = 'Assessment Code:';
+// $_['text_model']        = 'Assessment Code:';
 $_['text_points']       = 'Reward Points:';
 $_['text_price']        = 'Price:';
 $_['text_tax']          = 'Ex Tax:';
@@ -26,3 +26,11 @@ $_['text_date_asc']    = 'Date (Earliest) ';
 $_['text_date_desc']   = 'Date (Latest)';
 
 $_['text_limit']        = 'Show:';
+
+$_['text_name']             = 'Center name:';
+$_['text_model']            = 'City:';
+$_['text_location']         = 'Location:';
+$_['text_month']            = 'Date (month) :';
+$_['text_date']             = 'Date:';
+$_['text_action']           = 'Action:';
+$_['registration']          = 'Registration';

@@ -1,248 +1,203 @@
-{{ header }}
-<div id="assessment-exam" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    {% if column_left and column_right %}
-    {% set class = 'col-sm-6' %}
-    {% elseif column_left or column_right %}
-    {% set class = 'col-sm-9' %}
-    {% else %}
-    {% set class = 'col-sm-12' %}
-    {% endif %}
-    <div id="content" class="{{ class }}">{{ content_top }}
-      <h2>{{ heading_title }}</h2>
+{{ header2 }}
 
-      {# Nouveau code pour ajouter options à Exam  #}
-
-      {# {% if options %}
-      <hr>
-      <h3>{{ text_option }}</h3>
-      {% for option in options %}
-        {% if option.type == 'select' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <select name="option[{{ option.exam_option_id }}]" id="input-option{{ option.exam_option_id }}" class="form-control">
-                <option value="">{{ text_select }}</option>
-                {% for option_value in option.exam_option_value %}
-                <option value="{{ option_value.exam_option_value_id }}">{{ option_value.name }}
-                {% if option_value.price %}
-                ({{ option_value.price_prefix }}{{ option_value.price }})
-                {% endif %} </option>
-                {% endfor %}
-              </select>
-        </div>
-        {% endif %}
-        {% if option.type == 'radio' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label">{{ option.name }}</label>
-              <div id="input-option{{ option.exam_option_id }}"> {% for option_value in option.exam_option_value %}
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="option[{{ option.exam_option_id }}]" value="{{ option_value.exam_option_value_id }}" />
-                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}                  
-                    {{ option_value.name }}
-                    {% if option_value.price %}
-                    ({{ option_value.price_prefix }}{{ option_value.price }})
-                    {% endif %} </label>
-                </div>
-                {% endfor %} </div>
-        </div>
-        {% endif %}
-        {% if option.type == 'checkbox' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label">{{ option.name }}</label>
-              <div id="input-option{{ option.exam_option_id }}"> {% for option_value in option.exam_option_value %}
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="option[{{ option.exam_option_id }}][]" value="{{ option_value.exam_option_value_id }}" />
-                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}
-                    {{ option_value.name }}
-                    {% if option_value.price %}
-                    ({{ option_value.price_prefix }}{{ option_value.price }})
-                    {% endif %} </label>
-                </div>
-                {% endfor %} </div>
-        </div>
-        {% endif %}
-        {% if option.type == 'text' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option{{ option.exam_option_id }}" class="form-control" />
-        </div>
-        {% endif %}
-        {% if option.type == 'textarea' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <textarea name="option[{{ option.exam_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option{{ option.exam_option_id }}" class="form-control">{{ option.value }}</textarea>
-        </div>
-        {% endif %}
-        {% if option.type == 'file' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-          <label class="control-label">{{ option.name }}</label>
-          <button type="button" id="button-upload{{ option.exam_option_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
-          <input type="hidden" name="option[{{ option.exam_option_id }}]" value="" id="input-option{{ option.exam_option_id }}" />
-        </div>
-        {% endif %}
-        {% if option.type == 'date' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group date">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                </span></div>
-        </div>
-        {% endif %}
-        {% if option.type == 'datetime' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group datetime">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD HH:mm" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
-        </div>
-        {% endif %}
-        {% if option.type == 'time' %}
-        <div class="form-group{% if option.required %} required {% endif %}">
-              <label class="control-label" for="input-option{{ option.exam_option_id }}">{{ option.name }}</label>
-              <div class="input-group time">
-                <input type="text" name="option[{{ option.exam_option_id }}]" value="{{ option.value }}" data-date-format="HH:mm" id="input-option{{ option.exam_option_id }}" class="form-control" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
-        </div>
-        {% endif %}
-      {% endfor %}
-      {% endif %}       #}
-            
-      {# Fin nouveau code #}
-      
-      {% if thumb or description %}
-      <div class="row"> {% if thumb %}
-        <div class="col-sm-2"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
-        {% endif %}
-        {% if description %}
-        <div class="col-sm-10">{{ description }}</div>
-        {% endif %}</div>
-      <hr>
-      {% endif %}
-      {% if exams %}
-      <h3>{{ text_refine }}</h3>
-      {% if exams|length <= 5 %}
-      <div class="row">
-        <div class="col-sm-3">
-          <ul>
-            {% for exam in exams %}
-            <li><a href="{{ exam.href }}">{{ exam.name }}</a></li>
-            {{ exam.price }}
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      {% else %}
-      <div class="row">{% for exam in exams|batch((exams|length / 4)|round(1, 'ceil')) %}
-        <div class="col-sm-3">
-          <ul>
-            {% for child in exam %}
-            <li><a href="{{ child.href }}">{{ child.name }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% endfor %}</div>
-      <br/>
-      {% endif %}
-      {% endif %}
-      {% if assessments %}
-      <div class="row">
-        <div class="col-md-2 col-sm-6 hidden-xs">
-          <div class="btn-group btn-group-sm">
-            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="form-group"><a href="{{ compare }}" id="compare-total" class="btn btn-link">{{ text_compare }}</a></div>
-        </div>
-        <div class="col-md-4 col-xs-6">
-          <div class="form-group input-group input-group-sm">
-            <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
-            <select id="input-sort" class="form-control" onchange="location = this.value;">
-              {% for sorts in sorts %}
-              {% if sorts.value == '%s-%s'|format(sort, order) %}
-              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
-              {% else %}
-              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
-              {% endif %}
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3 col-xs-6">
-          <div class="form-group input-group input-group-sm">
-            <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
-            <select id="input-limit" class="form-control" onchange="location = this.value;">
-              {% for limits in limits %}
-              {% if limits.value == limit %}
-              <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
-              {% else %}
-              <option value="{{ limits.href }}">{{ limits.text }}</option>
-              {% endif %}
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row"> {% for assessment in assessments %}
-        <div class="assessment-layout assessment-list col-xs-12">
-          <div class="assessment-thumb">
-            {# <div class="image"><a href="{{ assessment.href }}"><img src="{{ assessment.thumb }}" alt="{{ assessment.name }}" title="{{ assessment.name }}" class="img-responsive" /></a></div>
-            <div> #}
-              <div class="caption">
-                <h4><a href="{{ assessment.href }}">{{ assessment.name }}</a></h4>
-                {# Nouveau code #}
-                <h5> {{ assessment.model }}</h5>
-                <h5> {{ assessment.date }}</h5>
-                <p>{{ assessment.location }}</p>
-
-                {# <p>{{ assessment.description }}</p> #}
-
-                {% if assessment.price %}
-                <p class="price"> {% if not assessment.special %}
-                  {{ assessment.price }}
-                  {% else %} <span class="price-new">{{ assessment.special }}</span> <span class="price-old">{{ assessment.price }}</span> {% endif %}
-                  {% if assessment.tax %} <span class="price-tax">{{ text_tax }} {{ assessment.tax }}</span> {% endif %} </p>
+      {% if parent %}
+        <section class="section-4 first">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4">
+                {% if thumb %}
+                  <div class="img-contain img"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
+                {% else %}
+                  <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/test.webp');"></div>
                 {% endif %}
-                {% if assessment.rating %}
-                <div class="rating"> {% for i in 1..5 %}
-                  {% if assessment.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
-                  {% endfor %} </div>
-                {% endif %} </div>
-              <div class="button-group">
-                <button type="button" onclick="cart.add('{{ assessment.assessment_id }}', '{{ assessment.minimum }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
-                <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ assessment.assessment_id }}');"><i class="fa fa-heart"></i></button>
-                <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ assessment.assessment_id }}');"><i class="fa fa-exchange"></i></button>
+                <h1>{{ heading_title }}</h1>
+                {# <a href=""><div class="button small">Termin Buchen</div></a> #}
+              </div>
+              <div class="offset-md-2 col-md-6">
+                <div class="text-box">
+                  <p class="title">Ideal für:</p>
+                  <p>Einstieg in die Berufswelt</p>
+                  <p>Berufsschüler und Berufstätige</p>
+                </div>
+                {# <div class="text-box">
+                  <p class="title">Produktinformation</p>
+                  <div class="list-box">
+                    <div class="list-1">
+                      <p>Verfügbarkeit:</p>
+                      <p>Artikelnr.:</p>
+                      <p>Hersteller</p>
+                      <p>Bewertung</p>
+                    </div>
+                    <div class="list-2">
+                      <p>Auf Lager</p>
+                      <p>ISBN: 2342112324</p>
+                      <p>ETS</p>
+                      <p>Nicht bewertet</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="price">30,00€</p>
+                <p class="old-price">45,00€</p> #}
               </div>
             </div>
           </div>
-        </div>
-        {% endfor %} </div>
-      <div class="row">
-        <div class="col-sm-6 text-left">{{ pagination }}</div>
-        <div class="col-sm-6 text-right">{{ results }}</div>
-      </div>
+        </section>
+        {% if description %}
+        <section class="section-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <p>{{ description }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        {% endif %}
+              
       {% endif %}
+
+      {% if exams %}
+
+        {% if exams|length <= 5 %}
+        <section class="section-1 first">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2>{{ heading_title }}</h2>
+                <div class="slider-container">
+                  <div class="owl-carousel owl-theme test">
+                  {% for exam in exams %}                
+
+                    <div class="item">
+                      <a href="{{ exam.href }}">
+                        <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test2.webp');">
+                          <div class="filter">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </a>
+                      <div class="text-box">
+                        <p class="title">{{ exam.name }}</p>
+                        {# <p class="subline">Step 1</p> #}
+                        <div class="price-box">
+                          <p class="price">{{ exam.price }}</p>
+                          {# <p class="price-old">45,00€</p> #}
+                        </div>
+                        {# <a href=""><div class="button small">In den Warenkorb</div></a> #}
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {% else %}
+        {% for exam in exams|batch((exams|length / 4)|round(1, 'ceil')) %}
+        <section class="section-1 first">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2>{{ exam.name }}</h2>
+                <div class="slider-container">
+                  <div class="owl-carousel owl-theme test">
+                  {% for child in exam %}                
+
+                    <div class="item">
+                      <a href="{{child.href }}">
+                        <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test2.webp');">
+                          <div class="filter">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </a>
+                      <div class="text-box">
+                        <p class="title">{{ child.name }}</p>
+                        {# <p class="subline">Step 1</p> #}
+                        <div class="price-box">
+                          <p class="price">{{ child.price }}</p>
+                          {# <p class="price-old">45,00€</p> #}
+                        </div>
+                        {# <a href=""><div class="button small">In den Warenkorb</div></a> #}
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {% endfor %}
+        {% endif %}
+
+      {% endif %}
+
+      {% if assessments %}
+
+        <section class="section-6">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="filter">
+                  <select id="filter-city" name="filter_city" onchange="location = this.value;">
+                    <option value="default">{{ text_model }}</option>
+                    {% for city in cities %}
+                      <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                  </select>
+                  <select id="filter-month" name="filter_month" onchange="location = this.value;">
+                    <option value="default">{{ text_month }}</option>
+                    {% for month in months %}
+                      <option value="{{ month.number }}">{{ month.layout }}</option>
+                    {% endfor %}
+                  </select>
+                  {# <button type="button" class="btn" onchange="location = this.value;">
+                    {{ button_filter }}
+                  </button> #}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="table-head">
+                  <div class="col-3">{{ text_name }}</div>
+                  <div class="col-2">{{ text_model }}</div>
+                  <div class="col-2">{{ text_date }}</div>
+                  <div class="col-2">{{ text_price }}</div>
+                  <div class="col-3">{{ text_action }}</div>
+                </div>
+                {% for assessment in assessments %}
+                <div class="table-item">
+                  <div class="col-3">{{ assessment.name }}</div>
+                  <div class="col-2">{{ assessment.model }}</div>
+                  <div class="col-2">{{ assessment.date }}</div>
+                  <div class="col-2">{{ assessment.price }}4</div>
+                  <div class="col-3">
+                    <a href="{{ assessment.href }}"><div class="button small">{{ registration }}</div></a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </section>
+      {% endif %}
+
       {% if not exams and not assessments %}
-      <p>{{ text_empty }}</p>
-      <div class="buttons">
-        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      </div>
+        <section class="section-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <p>{{ text_empty }}</p>
+                <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+              </div>
+            </div>
+          </div>
+        </section>
       {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
-</div>
+
+
 {{ footer }} 
