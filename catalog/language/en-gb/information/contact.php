@@ -25,3 +25,7 @@ $_['email_subject']  = 'Enquiry %s';
 $_['error_name']     = 'Name must be between 3 and 32 characters!';
 $_['error_email']    = 'E-Mail Address does not appear to be valid!';
 $_['error_enquiry']  = 'Enquiry must be between 10 and 3000 characters!';
+
+$_['submit']          = 'Submit';
+$_['text_contact_us'] = 'Feel free to contact us with any questions';
+$_['text_we_answer']     = 'Of course we read your mails! And if you do not just want to make us a new, great, very special lemonade or send cat photos, we also write back very friendly.';

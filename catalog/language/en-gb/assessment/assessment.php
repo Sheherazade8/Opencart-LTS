@@ -56,7 +56,6 @@ $_['text_center']              = 'Test center:';
 $_['text_location']            = 'Location:';
 $_['text_date']                = 'Date:';
 $_['registration']             = 'Registration';
-$_['test_title']               = 'Test informations';
 $_['test_info']                = 'All information about your order';
 $_['total']                    = 'Total';
 $_['text_description']         = 'Center informations :';
@@ -64,6 +63,14 @@ $_['text_payment']             = 'Payment information:';
 $_['text_no_price']            = 'Included';
 $_['text_no_option']           = 'No service';
 $_['text_information']         = 'Additional informations';
-$_['information']              = 'Please note that registrations are usually only possible up to six working days before the test date. (Working days are mo-fr, excl. public holidays).
+$_['information']              = 'Please note that registrations are usually only possible up to six working days before the test date. (Working days are mo-fr, excl. public holidays).';
+$_['back']                  = 'Back';
 
-Also, please note that the testing sessions listed here are conducted as part of the Public Testing Program, which means that you will be photographed on the day of testing (the photo will later appear on your score report).';
+$_['title']                = 'Title';
+$_['title1']               = 'Title 1';
+$_['title2']               = 'Title 2';
+$_['title3']               = 'Title 3';
+$_['title1_subline']       = 'Test informations';
+$_['title2_subline']       = 'Test informations';
+$_['title3_subline']       = 'Test informations';
+

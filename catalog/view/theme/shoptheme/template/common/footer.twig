@@ -93,6 +93,30 @@ $('.owl-carousel.kunde').owlCarousel({
     }
 });
 
+$('.owl-carousel.material-2').owlCarousel({
+    loop:false,
+    center:false,
+    margin: 30,
+    nav: true,
+    dots: false,
+    URLhashListener:true,
+    autoplay:true,
+    autoplayTimeout:10000,
+    navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+    autoplayHoverPause:true,
+    startPosition: 'URLHash',
+		responsive: {
+      // breakpoint from 0 up
+    0 : {
+        items:1,
+    },
+      // breakpoint from 768 up
+    768 : {
+        items:3,
+    }
+    }
+});
+
 $('.owl-carousel.material').owlCarousel({
     loop:false,
     center:false,

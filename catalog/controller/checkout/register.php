@@ -70,6 +70,9 @@ class ControllerCheckoutRegister extends Controller {
 		}
 
 		$data['shipping_required'] = $this->cart->hasShipping();
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
 		
 		$this->response->setOutput($this->load->view('checkout/register', $data));
 	}

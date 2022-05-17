@@ -61,7 +61,7 @@ p {
 font-family: 'PT Sans', sans-serif;
 }
 ul { margin: 0; padding: 0; list-style: none; }
-li { padding: 0 0 8px 14px; background: url(catalog/view/theme/shoptheme/img/bullet.gif) 0 5px no-repeat; }
+li { padding: 0 0 8px 14px; background: url('catalog/view/theme/shoptheme/img/bullet.gif') 0 5px no-repeat; }
 
 
 .img-cover{
@@ -125,7 +125,7 @@ nav .logo-box .img{
 }
 
 nav.white .logo-box .img{
-  background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
+  background-image: url('catalog/view/theme/shoptheme/img/logo.webp');
 }
 
 nav.scroll{

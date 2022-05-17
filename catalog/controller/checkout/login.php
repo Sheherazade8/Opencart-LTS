@@ -12,6 +12,9 @@ class ControllerCheckoutLogin extends Controller {
 		}
 
 		$data['forgotten'] = $this->url->link('account/forgotten', '', true);
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
 
 		$this->response->setOutput($this->load->view('checkout/login', $data));
 	}

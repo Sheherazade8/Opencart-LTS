@@ -1,6 +1,6 @@
 {{ header }}
 
-    <input type="hidden" name="assessment_id" value="{{ assessment_id }}" />
+	<input type="hidden" name="assessment_id" value="{{ assessment_id }}" />
 
 		<header class="img-cover standard img" style="background-image: url('catalog/view/theme/shoptheme/img/header2.webp');">
 			<div class="filter">
@@ -70,63 +70,48 @@
 					</div>
 
 					<div class="col-md-8">
-						<h2>{{ title2 }}</h2>
-						<p class="subline">{{ title2_subline }}</p>
-						{% if description %}
-						<div class="scoring-box-1">
-							<p class="title">{{ text_description }}</p>
-							<p class="subline">{{ description }}</p>
-							{# <div class="row"> #}
-						</div>
-						{% endif %}
-						{% if options %}
-						<div class="scoring-box-1">
-							<p class="title">{{ text_option }}</p>
-							<div class="row">
-							{% for option in options %}
-                
-								<div class="col-md-4">
-									<input type="radio" onclick="location = this.value;" name="option[{{ option.assessment_option_id }}]" value="{{ option_value.assessment_option_value_id }}">
-										<label for="option{{ option.name }}" class="item">
-											<p class="title-1">{{ option.name }}</p>
-											{% for option_value in option.assessment_option_value %}
-												<p>{{ option_value.name }}</p>
-												{% if option_value.price and option_value.price != 0 %}
-													<div class="bottom-box">{{ option_value.price_prefix }}{{ option_value.price }}</div>
-												{% else %}
-													<div class="bottom-box">{{ text_no_price}}</div>
-												{% endif %}
-											{% endfor %}
-										</label>
-								</div>
-              
-							{% endfor %}
+						<div class="row">
+							<div class="col-md-12">
+								<h2>{{ title3 }}</h2>
+								<p class="subline">{{ title3_subline }}</p>
 							</div>
-						</div>
-						<div class="scoring-box-2">
-							<p class="title">{{ text_information }}</p>
-							<p class="subline">{{ information }}</p>
 
-							<p class="gutschein">Last sentence!</p>
+							<div class="col-md-6">
+								<div class="register-box">
+									<p class="title">{{ text_new_customer }}</p>
+									<p class="text">{{ text_register_account }}</p>
+								<a href=""><div class="button">{{ text_register }}</div></a>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="login-box">
+									<p class="title">{{ heading_title }}</p>
+									<form>
+										<input placeholder="Email" type="text">
+										<input placeholder="Passwort" type="password">
+										<a href="{{ forgotten }}" class="passwort">{{ text_forgotten}}</a>
+										<input value="anmelden" type="submit">
+									</form>
+								</div>
+							</div>
+
+
 						</div>
-						{% endif %}
 						<div class="container">
 							<div class="row">
 								<div class="col-md-6">
-									<div onclick="history.back()" class="button small back">{{ back }}</div>
-								</div>
-								<div class="col-md-6">
-									<a href="{{ login_link }}" ><div onclick="cart.add('{{ assessment.assessment_id }}', 1);" class="button small next">Continue to registration</div></a>
+									<div onclick="history.back()" class="button small back">Back</div>
 								</div>
 							</div>
 						</div>
 
 					</div>
-					
+
 					
 				</div>
 			</div>
 		</section>
+
 		{# <section class="nav-section last">
 			<div class="container">
 				<div class="row">
@@ -142,6 +127,5 @@
 
 
 
-	
 	
 {{ footer }} 

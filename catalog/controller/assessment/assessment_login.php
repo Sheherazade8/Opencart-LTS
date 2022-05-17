@@ -1,5 +1,5 @@
 <?php
-class ControllerAssessmentAssessment extends Controller {
+class ControllerAssessmentAssessmentLogin extends Controller {
 	private $error = array();
 
 	public function index() {
@@ -227,7 +227,7 @@ class ControllerAssessmentAssessment extends Controller {
 
 			$data['breadcrumbs'][] = array(
 				'text' => $assessment_info['name'],
-				'href' => $this->url->link('assessment/assessment', $url . '&assessment_id=' . $this->request->get['assessment_id'])
+				'href' => $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $this->request->get['assessment_id'])
 			);
 
 			$this->document->setTitle($assessment_info['meta_title']);
@@ -236,15 +236,15 @@ class ControllerAssessmentAssessment extends Controller {
 
 
 			$this->document->setKeywords($assessment_info['meta_keyword']);
-			$this->document->addLink($this->url->link('assessment/assessment', 'assessment_id=' . $this->request->get['assessment_id']), 'canonical');
+			$this->document->addLink($this->url->link('assessment/assessment_login', 'assessment_id=' . $this->request->get['assessment_id']), 'canonical');
 			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment-with-locales.min.js');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-			
-			$data['login_link'] = $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $this->request->get['assessment_id']);
+						
+			$data['link_register'] = $this->url->link('checkout/register');
 			
 			$data['center_name'] = $assessment_info['name'];
 
@@ -400,7 +400,7 @@ class ControllerAssessmentAssessment extends Controller {
 				$data['captcha'] = '';
 			}
 
-			$data['share'] = $this->url->link('assessment/assessment', 'assessment_id=' . (int)$this->request->get['assessment_id']);
+			$data['share'] = $this->url->link('assessment/assessment_login', 'assessment_id=' . (int)$this->request->get['assessment_id']);
 
 			$data['attribute_groups'] = $this->model_catalog_assessment->getAssessmentAttributes($this->request->get['assessment_id']);
 
@@ -462,7 +462,7 @@ class ControllerAssessmentAssessment extends Controller {
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
-					'href'        => $this->url->link('assessment/assessment', 'assessment_id=' . $result['assessment_id'])
+					'href'        => $this->url->link('assessment/assessment_login', 'assessment_id=' . $result['assessment_id'])
 				);
 			}
 
@@ -489,8 +489,11 @@ class ControllerAssessmentAssessment extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			$data['login'] = $this->load->controller('checkout/login');
 
-			$this->response->setOutput($this->load->view('assessment/assessment', $data));
+
+			$this->response->setOutput($this->load->view('assessment/assessment_login', $data));
+
 		} else {
 			$url = '';
 
@@ -544,7 +547,7 @@ class ControllerAssessmentAssessment extends Controller {
 
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_error'),
-				'href' => $this->url->link('assessment/assessment', $url . '&assessment_id=' . $assessment_id)
+				'href' => $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $assessment_id)
 			);
 
 			$this->document->setTitle($this->language->get('text_error'));
@@ -559,7 +562,8 @@ class ControllerAssessmentAssessment extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
-
+			$data['login'] = $this->load->controller('checkout/login');
+			
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}
 	}
@@ -594,7 +598,7 @@ class ControllerAssessmentAssessment extends Controller {
 		$pagination->total = $review_total;
 		$pagination->page = $page;
 		$pagination->limit = 5;
-		$pagination->url = $this->url->link('assessment/assessment/review', 'assessment_id=' . $this->request->get['assessment_id'] . '&page={page}');
+		$pagination->url = $this->url->link('assessment/assessment_login/review', 'assessment_id=' . $this->request->get['assessment_id'] . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
 

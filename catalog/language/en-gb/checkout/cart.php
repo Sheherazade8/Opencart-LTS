@@ -26,14 +26,6 @@ $_['text_payment_cancel']      = '%s every %d %s(s) until canceled';
 
 // Column
 $_['column_image']             = 'Image';
-// Nouveau code
-$_['column_exam']              = 'Exam';
-$_['column_name']              = 'Center Name';
-$_['column_model']             = 'City';
-$_['column_date']              = 'Date';
-$_['column_quantity']          = 'Quantity';
-$_['column_price']             = 'Unit Price';
-$_['column_total']             = 'Total';
 
 // Error
 $_['error_stock']              = 'Assessments marked with *** are not available in the desired quantity or not in stock!';
@@ -44,3 +36,15 @@ $_['error_recurring_required'] = 'Please select a payment recurring!';
 
 
 $_['column_action']          = 'Action';
+$_['title']                  = 'Summary';
+$_['subtitle']               = 'All information about your order';
+$_['description']            = 'Description';
+$_['price']                  = 'Price';
+$_['price_tax']                  = 'Price incl. tax';
+$_['location']             = 'Location';
+$_['date']              = 'Date';
+$_['total']             = 'Total';
+$_['terms_agreement']   = 'I have read and understood the terms and conditions.';
+$_['privacy_agreement']   = 'I have read and understood the privacy policy.';
+$_['back']                  = 'Back';
+$_['buy']                  = 'Buy now';

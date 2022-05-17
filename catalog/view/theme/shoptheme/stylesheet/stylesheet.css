@@ -119,12 +119,12 @@ html {
 	width: 200px;
 	height: 60px;
 	margin-top: 30px;
-	background-image: url('../img/logo-black.webp');
+	background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
 	transition: all ease 0.3s;
   }
   
   nav.white .logo-box .img{
-	background-image: url('../img/logo.webp');
+	background-image: url('catalog/view/theme/shoptheme/img/logo.webp');
   }
   
   nav.scroll{
@@ -134,7 +134,7 @@ html {
   
   nav.scroll .logo-box .img{
 	margin-top: 10px;
-	background-image: url('../img/logo-black.webp');
+	background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
   }
   
   nav .item-box-2{
