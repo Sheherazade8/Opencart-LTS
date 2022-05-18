@@ -244,8 +244,10 @@ class ControllerAssessmentAssessment extends Controller {
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 			
-			$data['login_link'] = $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $this->request->get['assessment_id']);
-			
+			// $data['login_link'] = $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $this->request->get['assessment_id']);
+			$data['login_link'] = $this->url->link('checkout/login');
+
+
 			$data['center_name'] = $assessment_info['name'];
 
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $assessment_info['minimum']);

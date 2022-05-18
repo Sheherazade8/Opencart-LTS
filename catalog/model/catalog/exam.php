@@ -51,6 +51,14 @@ class ModelCatalogExam extends Model {
 		return $filter_group_data;
 	}
 
+
+	public function getExamsByFilter($filter, $language_id = 1) {
+		$query = $this->db->query("SELECT *, e.name AS name, (SELECT GROUP_CONCAT(ep.path_id ORDER BY level SEPARATOR '_') FROM " . DB_PREFIX . "exam_path ep WHERE ep.exam_id = e.exam_id) AS path FROM " . DB_PREFIX . "exam e LEFT JOIN " . DB_PREFIX . "exam_description ed ON (e.exam_id = ed.exam_id) LEFT JOIN " . DB_PREFIX . "exam_filter ef ON (e.exam_id = ef.exam_id) LEFT JOIN " . DB_PREFIX . "filter_description fd ON (ef.filter_id = fd.filter_id) WHERE ed.language_id = '" . (int)$this->config->get('config_language_id') . "' AND fd.language_id = '" . (int)$language_id . "' AND fd.name = '" . $filter . "' AND e.status = '1' ORDER BY e.sort_order, LCASE(e.name)");
+
+		return $query->rows;
+	}
+
+
 	public function getExamLayoutId($exam_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "exam_to_layout WHERE exam_id = '" . (int)$exam_id . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
@@ -60,6 +68,7 @@ class ModelCatalogExam extends Model {
 			return 0;
 		}
 	}
+
 
 	public function getExamOptions($exam_id) {
 		$exam_option_data = array();

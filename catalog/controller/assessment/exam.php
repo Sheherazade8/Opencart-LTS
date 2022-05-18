@@ -215,6 +215,7 @@ class ControllerAssessmentExam extends Controller {
 
 			$filter_data = array(
 				'filter_exam_id' => $exam_id,
+				'filter_filter'  => $filter,
 				'filter_city'      => $this->request->get['filter_city'],
 				'filter_month'      => $this->request->get['filter_month'],
 				'sort'               => $sort,

@@ -40,9 +40,9 @@
 							</div>
 							<div class="item">
 								<p class="subtitle">{{ text_location }}</p>
-								<p class="title title-2">{{ location }}</p>
+								<p class="title title-2" id="location">{{ location }}</p>
 								<div class="mapouter">
-										<div class="gmap_canvas"><iframe width="100%" height="150" id="gmap_canvas" src="https://maps.google.com/maps?q=Berlin%20Greifswalderstra%C3%9Fe%2021&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net"></a>
+										<div id="gmap_canvas" class="gmap_canvas"><iframe width="100%" height="150" id="gmap_canvas"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net"></a>
 									</div>
 								</div>
 							</div>
@@ -116,7 +116,7 @@
 									<div onclick="history.back()" class="button small back">{{ back }}</div>
 								</div>
 								<div class="col-md-6">
-									<a href="{{ login_link }}" ><div onclick="cart.add('{{ assessment.assessment_id }}', 1);" class="button small next">Continue to registration</div></a>
+									<a href="{{ login_link }}" ><div class="button small next">{{ registration }}</div></a>
 								</div>
 							</div>
 						</div>
@@ -140,8 +140,21 @@
 			</div>
 		</section> #}
 
+<script>
+function initMap() {
+	const adress = document.getElementById('location');
+	const map = new google.maps.Map(document.getElementById("map_canvas"), {
+		zoom: 4,
+		center: {adress},
+  	});
+  	const marker = new google.maps.Marker({
+		position: {adress},
+		map: map,
+  	});
+}
+window.initMap = initMap;
 
+</script>
 
-	
 	
 {{ footer }} 

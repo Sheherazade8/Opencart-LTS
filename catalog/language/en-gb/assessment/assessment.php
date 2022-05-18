@@ -66,11 +66,18 @@ $_['text_information']         = 'Additional informations';
 $_['information']              = 'Please note that registrations are usually only possible up to six working days before the test date. (Working days are mo-fr, excl. public holidays).';
 $_['back']                  = 'Back';
 
-$_['title']                = 'Title';
-$_['title1']               = 'Title 1';
-$_['title2']               = 'Title 2';
-$_['title3']               = 'Title 3';
-$_['title1_subline']       = 'Test informations';
-$_['title2_subline']       = 'Test informations';
-$_['title3_subline']       = 'Test informations';
+$_['title']                = 'Assessment';
+$_['title1']               = 'Summary';
+$_['title2']               = 'Further information';
+$_['title3']               = 'Registration';
+$_['title1_subline']       = 'All the informations about the assessment';
+$_['title2_subline']       = 'Select one of the following options';
+$_['title3_subline']       = 'Login or register';
 
+
+$_['entry_email']                  = 'E-Mail Address';
+$_['entry_password']               = 'Password';
+
+$_['error_login']                  = 'Warning: No match for E-Mail Address and/or Password.';
+$_['error_attempts']               = 'Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.';
+$_['error_approved']               = 'Warning: Your account requires approval before you can login.';

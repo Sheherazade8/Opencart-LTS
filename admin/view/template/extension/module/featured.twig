@@ -40,7 +40,7 @@
               <input type="text" name="assessment_name" value="" placeholder="{{ entry_assessment }}" id="input-assessment" class="form-control" />
               <div id="featured-assessment" class="well well-sm" style="height: 150px; overflow: auto;">
                 {% for assessment in assessments %}
-                <div id="featured-assessment{{ assessment.assessment_id }}"><i class="fa fa-minus-circle"></i> {{ assessment.name }}
+                <div id="featured-assessment{{ assessment.assessment_id }}"><i class="fa fa-minus-circle"></i> {{ assessment.name }} - {{ assessment.model}}
                   <input type="hidden" name="assessment[]" value="{{ assessment.assessment_id }}" />
                 </div>
                 {% endfor %}

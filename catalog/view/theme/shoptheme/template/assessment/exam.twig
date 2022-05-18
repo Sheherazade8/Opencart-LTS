@@ -156,9 +156,9 @@
                       <option value="{{ month.number }}">{{ month.layout }}</option>
                     {% endfor %}
                   </select>
-                  {# <button type="button" class="btn" onchange="location = this.value;">
-                    {{ button_filter }}
-                  </button> #}
+                  <button type="button" class="btn" onclick="window.location.reload()">
+                    {{ text_refine }}
+                  </button>
                 </div>
               </div>
               <div class="col-md-12">
@@ -176,7 +176,7 @@
                   <div class="col-2">{{ assessment.date }}</div>
                   <div class="col-2">{{ assessment.price }}</div>
                   <div class="col-3">
-                    <a href="{{ assessment.href }}"><div class="button small">{{ registration }}</div></a>
+                    <a href="{{ assessment.href }}"><div onclick="cart.add('{{ assessment.assessment_id }}');" class="button small">{{ registration }}</div></a>
                   </div>
                 </div>
                 {% endfor %}

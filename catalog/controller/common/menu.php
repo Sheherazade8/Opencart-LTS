@@ -42,7 +42,7 @@ class ControllerCommonMenu extends Controller {
 		}
 
 		$data['contact'] = $this->url->link('information/contact');
-		$data['shopping_cart'] = $this->url->link('checkout/cart');
+		$data['cart'] = $this->url->link('checkout/cart');
 		$data['register'] = $this->url->link('checkout/register', '', true);
 		$data['login'] = $this->url->link('checkout/login', '', true);
 
@@ -51,7 +51,6 @@ class ControllerCommonMenu extends Controller {
 		$data['language'] = $this->load->controller('common/language');
 		$data['currency'] = $this->load->controller('common/currency');
 		$data['search'] = $this->load->controller('common/search');
-		$data['cart'] = $this->load->controller('common/cart');
 
 		
 		return $this->load->view('common/menu', $data);

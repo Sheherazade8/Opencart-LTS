@@ -6,7 +6,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1>Konto Eröffnung</h1>
+							<h1>{{ text_register }}</h1>
 						</div>
 					</div>
 			</div>
@@ -19,68 +19,62 @@
 					<div class="col-md-12">
 						<div class="row">
 								<div class="col-md-12">
-									<h2>Persönliche Angaben</h2>
+									<h2>{{ text_your_details }}</h2>
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Vorname">
+									<input class="register" type="text" name="firstname" value="" placeholder="{{ entry_firstname }}" id="input-payment-firstname">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Nachname">
+									<input class="register" type="text" name="lastname" value="" placeholder="{{ entry_lastname }}" id="input-payment-lastname">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Email">
+									<input class="register" type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-payment-email">
 								</div>
 								<div class="col-md-12">
-									<h2>Adresse</h2>
+									<h2>{{ text_your_address }}</h2>
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Firma">
+									<input class="register" type="text" name="address_1" value="" placeholder="{{ entry_address_1 }}" id="input-payment-address-1">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Straße">
+									<input class="register" type="text" name="address_2" value="" placeholder="{{ entry_address_2 }}" id="input-payment-address-2">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Zusatz">
+									<input class="register" type="text" name="city" value="" placeholder="{{ entry_city }}" id="input-payment-city">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="text" placeholder="Ort">
+									<input class="register" type="text" name="postcode" value="{{ postcode }}" placeholder="{{ entry_postcode }}" id="input-payment-postcode">
 								</div>
 								<div class="col-md-2">
-									<input class="register" type="text" placeholder="PLZ">
-								</div>
-								<div class="col-md-3">
-									<input class="register" type="text" placeholder="Land">
-								</div>
-								<div class="col-md-3">
-									<input class="register" type="text" placeholder="Bundesland">
+									<input class="register" name="country" value="" placeholder="{{ entry_country }}" id="input-payment-country">
 								</div>
 								<div class="col-md-12">
-									<h2>Passwort</h2>
+									<h2>{{ text_your_password }}</h2>
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="password" placeholder="Passwort">
+									<input class="register" type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-payment-password">
 								</div>
 								<div class="col-md-4">
-									<input class="register" type="password" placeholder="Passwort bestätigen">
+									<input class="register" type="password" name="confirm" value="" placeholder="{{ entry_confirm }}" id="input-payment-confirm">
 								</div>
 								<div class="col-md-12">
-									<h2>Newsletter</h2>
-									<input type="checkbox" name="checkbox" id="newsletter">
+									<h2>{{ newsletter }}</h2>
+									<input type="checkbox" name="newsletter" id="newsletter">
 										<label for="newsletter" class="item">
-											<p class="title-1">Ich möchte mich für den Newsletter anmelden.</p>
 											<div class="circle"></div>
+											<p class="title-1">{{ entry_newsletter }}</p>
 										</label>
 								</div>
 								<div class="col-md-12">
-									<h2>Datenschutzerklärung</h2>
-									<input type="checkbox" name="checkbox" id="datenschutz">
-										<label for="datenschutz" class="item">
-											<p class="title-1">Ich habe die Informationen zu Datenschutzerklärung gelesen und akzeptiert</p>
+									<h2>{{ privacy }}</h2>
+									<input type="checkbox" name="checkbox" id="privacy">
+										<label for="privacy" class="item">
 											<div class="circle"></div>
+											<p class="title-1">{{ text_agree }}</p>
 										</label>
 								</div>
 								<div class="col-md-12">
-										<input class="button small" value="registrieren" type="submit">
+										<input class="button small" value="{{ button_continue }}" id="button-register" data-loading-text="{{ text_loading }}" type="submit">
 								</div>
 						</div>
 					</div>

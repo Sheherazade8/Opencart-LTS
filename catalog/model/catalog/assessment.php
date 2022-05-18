@@ -90,11 +90,11 @@ class ModelCatalogAssessment extends Model {
 		}
 
 		if (!empty($data['filter_city']) ) {
-			$sql .= " AND a.model LIKE '%" . $this->db->escape($data['filter_city']) . "%'";
+			$sql .= " AND a.model LIKE '%" . $data['filter_city'] . "%'";
 		}
 
 		if (!empty($data['filter_month']) ) {
-			$sql .= " AND MONTH(a.date)= '" . (int)$this->db->escape($data['filter_month']) . "'";
+			$sql .= " AND MONTH(a.date)= '" . (int)$data['filter_month'] . "'";
 
 		}
 
@@ -512,6 +512,15 @@ class ModelCatalogAssessment extends Model {
 			$sql .= ")";
 		}
 
+		if (!empty($data['filter_city']) ) {
+			$sql .= " AND a.model LIKE '%" . $data['filter_city'] . "%'";
+		}
+
+		if (!empty($data['filter_month']) ) {
+			$sql .= " AND MONTH(a.date)= '" . (int)$data['filter_month'] . "'";
+
+		}
+		
 		if (!empty($data['filter_manufacturer_id'])) {
 			$sql .= " AND a.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 		}

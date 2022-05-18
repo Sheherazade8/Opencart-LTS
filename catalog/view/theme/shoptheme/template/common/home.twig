@@ -79,267 +79,109 @@
 
 	</header>
 		
+
+
     <section class="section-1">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<h2>Unsere beliebtesten Tests</h2>
+						<h2>{{ text_bestsellers }}</h2>
 						<div class="slider-container">
-					    <div class="owl-carousel owl-theme test">
-				        <div class="item">
-									<a href="">
-					          <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">TOEFL Primary</p>
-                    <p class="subline">Step 1</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
+							<div class="owl-carousel owl-theme test">
+								{% for exam in bestsellers %}
 								<div class="item">
-									<a href="">
-					          <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
+									<a href="{{ exam.href }}">
+										<div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
 											<div class="filter">
 												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 											</div>
 										</div>
 									</a>
-                  <div class="text-box">
-                    <p class="title">TOEFL Primary</p>
-                    <p class="subline">Step 2</p>
+									<div class="text-box">
+										<p class="title">{{ exam.name }}</p>
+										<p class="subline"></p>
+										{% if exam.price > 0 %}
 										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+											<p class="price">{{ exam.price }}</p><p class="price-old"></p>
 										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">TOEFL Primary</p>
-                    <p class="subline">Junior</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">TOEFL Primary</p>
-                    <p class="subline">ITP</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">TOEFL Primary</p>
-                    <p class="subline">Extra</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-					    </div>
-					  </div>
+										{% endif %}
+										<a href="{{ exam.href }}"><div class="button small">{{ select }}</div></a>
+									</div>
+								</div>
+								{% endfor %}
+
+					    	</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</section>
+	</section>
 		
     <section class="section-1">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<h2>Unsere beliebtesten Vorbereitungsprodukte</h2>
+						<h2>{{ text_prep_products }}</h2>
 						<div class="slider-container">
-					    <div class="owl-carousel owl-theme material">
-				        <div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
+					    	<div class="owl-carousel owl-theme material">
+								{% for exam in preparation_products %}
+				        		<div class="item">
+									<a href="{{ exam.href }}">
+					          			<div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
 											<div class="filter">
 												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 											</div>
 										</div>
 									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
+                  					<div class="text-box">
+                    					<p class="title">{{ exam.name }}</p>
+                    					<p class="subline"></p>
+										{% if exam.price > 0 %}
 										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
+											<p class="price">{{ exam.price }}</p><p class="price-old"></p>
 										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-								<div class="item">
-									<a href="">
-					          <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
-											<div class="filter">
-												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-											</div>
-										</div>
-									</a>
-                  <div class="text-box">
-                    <p class="title">Onlinevorbereitung</p>
-                    <p class="subline">TOEFL Primary</p>
-										<div class="price-box">
-											<p class="price">30,00€</p><p class="price-old">45,00€</p>
-										</div>
-                    <a href=""><div class="button small">In den Warenkorb</div></a>
-                  </div>
-				        </div>
-					    </div>
-					  </div>
+										{% endif %}
+                    					<a href="{{ exam.href }}"><div class="button small">{{ select }}</div></a>
+                  					</div>
+				        		</div>
+								{% endfor %}
+
+					    	</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</section>
+	</section>
 		
     <section class="section-2 last">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<h2>Kundenstimmen</h2>
+						<h2>{{ reference }}</h2>
 						<div class="slider-container">
 					    <div class="owl-carousel owl-theme kunde">
 				        <div class="item">
 									<div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/kunde1.webp');"></div>
 									<div class="text-box">
-										<p class="text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+										<p class="text">{{ reference1 }}</p>
 										<div class="line"></div>
-										<p class="name">Student, 21 Berlin</p>
+										<p class="name">{{ person1 }}</p>
 									</div>
 								</div>
 								<div class="item">
 									<div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/kunde2.webp');"></div>
 									<div class="text-box">
-										<p class="text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+										<p class="text">{{ reference2 }}</p>
 										<div class="line"></div>
-										<p class="name">Student, 21 Berlin</p>
+										<p class="name">{{ person2 }}</p>
 									</div>
 								</div>
 								<div class="item">
 									<div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/kunde3.webp');"></div>
 									<div class="text-box">
-										<p class="text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+										<p class="text">{{ reference3 }}</p>
 										<div class="line"></div>
-										<p class="name">Student, 21 Berlin</p>
+										<p class="name">{{ person3 }}</p>
 									</div>
 								</div>
 							</div>

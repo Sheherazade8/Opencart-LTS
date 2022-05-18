@@ -11,6 +11,33 @@ class ControllerCommonHome extends Controller {
 
 		$this->load->language('common/home');
 
+		$this->load->model('catalog/exam');
+
+		$bestsellers = $this->model_catalog_exam->getExamsByFilter('Bestsellers');
+		$data['bestsellers'] = array();
+
+		foreach ($bestsellers as $bestseller) {
+			$data['bestsellers'][] = array(
+				'name'     => $bestseller['name'],
+				'price'    => $bestseller['price'],
+				'href'     => $this->url->link('assessment/exam', 'path=' . $bestseller['path'])
+			);
+		}
+
+		$products = $this->model_catalog_exam->getExamsByFilter('Preparation Products');
+		$data['preparation_products'] = array();
+
+		foreach ($bproducts as $product) {
+			$data['preparation_products'][] = array(
+				'name'     => $product['name'],
+				'price'    => $product['price'],
+				'href'     => $this->url->link('assessment/exam', 'path=' . $product['path'])
+			);
+		}
+
+
+		$data['preparation_products'] = $this->model_catalog_exam->getExamsByFilter('Preparation Products');
+
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

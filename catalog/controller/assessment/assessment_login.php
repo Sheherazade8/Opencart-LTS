@@ -245,6 +245,8 @@ class ControllerAssessmentAssessmentLogin extends Controller {
 			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 						
 			$data['link_register'] = $this->url->link('checkout/register');
+			$data['link_cart'] = $this->url->link('checkout/cart');
+
 			
 			$data['center_name'] = $assessment_info['name'];
 
@@ -490,6 +492,8 @@ class ControllerAssessmentAssessmentLogin extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 			$data['login'] = $this->load->controller('checkout/login');
+			$data['forgotten'] = $this->url->link('account/forgotten', '', true);
+
 
 
 			$this->response->setOutput($this->load->view('assessment/assessment_login', $data));
@@ -563,6 +567,8 @@ class ControllerAssessmentAssessmentLogin extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 			$data['login'] = $this->load->controller('checkout/login');
+			$data['forgotten'] = $this->url->link('account/forgotten', '', true);
+
 			
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}

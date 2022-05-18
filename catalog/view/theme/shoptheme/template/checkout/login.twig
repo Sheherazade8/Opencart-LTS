@@ -5,7 +5,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1>{{ title }}</h1>
+							<h1>{{ login }}</h1>
 						</div>
 					</div>
 			</div>
@@ -20,17 +20,18 @@
 								<div class="register-box">
 									<p class="title">{{ text_new_customer }}</p>
 									<p class="text">{{ text_register_account }}</p>
-								<a href=""><div class="button">{{ text_register }}</div></a>
+								<a href="{{ link_register }}"><div class="button">{{ text_register }}</div></a>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="login-box">
 									<p class="title">{{ heading_title }}</p>
 									<form>
-										<input placeholder="Email" type="text">
-										<input placeholder="Passwort" type="password">
+										<input name="email" value="" placeholder="{{ entry_email }}" id="input-email" type="text">
+										<input name="password" value="" placeholder="{{ entry_password }}" id="input-password" type="password">
 										<a href="{{ forgotten }}" class="passwort">{{ text_forgotten}}</a>
-										<input value="anmelden" type="submit">
+										<a href="{{ link_cart }}"><input value="{{ button_login }}" id="button-login" data-loading-text="{{ text_loading }}" type="submit"></a>
+									
 									</form>
 								</div>
 							</div>
@@ -46,11 +47,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
-						<a href=""><div class="button small back">Back</div></a>
+						<div onclick="history.back()" class="button small back">{{ back }}</div>
 					</div>
-					<div class="col-md-6">
-						<a href=""><div class="button small next">Continue to registration</div></a>
-					</div>
+					{# <div class="col-md-6">
+						<a href=""><div class="button small next">{{ registration }}</div></a>
+					</div> #}
 				</div>
 			</div>
 		</section>
