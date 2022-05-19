@@ -12,6 +12,12 @@ class ControllerInformationInformation extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
+		$data['home'] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
+
 		if (isset($this->request->get['information_id'])) {
 			$information_id = (int)$this->request->get['information_id'];
 		} else {

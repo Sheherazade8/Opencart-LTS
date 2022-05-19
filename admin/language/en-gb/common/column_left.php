@@ -7,10 +7,11 @@ $_['text_attribute_group']      = 'Attribute Groups';
 $_['text_backup']               = 'Backup / Restore';
 $_['text_banner']               = 'Banners';
 $_['text_catalog']              = 'Catalog';
-$_['text_exam']             = 'Exams';
+$_['text_exam']                 = 'Exams';
+$_['text_assessment']           = 'Assessments';
+$_['text_category']             = 'Categories';
+$_['text_product']              = 'Products';
 
-$_['text_exam']             = 'Exams';
-$_['text_assessment']              = 'Assessments';
 
 $_['text_country']              = 'Countries';
 $_['text_coupon']               = 'Coupons';

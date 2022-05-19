@@ -1,9 +1,9 @@
 <?php
-class ControllerAssessmentAssessment extends Controller {
+class ControllerProductProduct extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('assessment/assessment');
+		$this->load->language('product/product');
 
 		$data['breadcrumbs'] = array();
 
@@ -12,14 +12,14 @@ class ControllerAssessmentAssessment extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
-		$this->load->model('catalog/exam');
+		$this->load->model('catalog/category');
 
 		if (isset($this->request->get['path'])) {
 			$path = '';
 
 			$parts = explode('_', (string)$this->request->get['path']);
 
-			$exam_id = (int)array_pop($parts);
+			$category_id = (int)array_pop($parts);
 
 			foreach ($parts as $path_id) {
 				if (!$path) {
@@ -28,20 +28,20 @@ class ControllerAssessmentAssessment extends Controller {
 					$path .= '_' . $path_id;
 				}
 
-				$exam_info = $this->model_catalog_exam->getExam($path_id);
+				$category_info = $this->model_catalog_category->getCategory($path_id);
 
-				if ($exam_info) {
+				if ($category_info) {
 					$data['breadcrumbs'][] = array(
-						'text' => $exam_info['name'],
-						'href' => $this->url->link('assessment/exam', 'path=' . $path)
+						'text' => $category_info['name'],
+						'href' => $this->url->link('product/category', 'path=' . $path)
 					);
 				}
 			}
 
-			// Set the last exam breadcrumb
-			$exam_info = $this->model_catalog_exam->getExam($exam_id);
+			// Set the last category breadcrumb
+			$category_info = $this->model_catalog_category->getCategory($category_id);
 
-			if ($exam_info) {
+			if ($category_info) {
 				$url = '';
 
 				if (isset($this->request->get['sort'])) {
@@ -61,8 +61,8 @@ class ControllerAssessmentAssessment extends Controller {
 				}
 
 				$data['breadcrumbs'][] = array(
-					'text' => $exam_info['name'],
-					'href' => $this->url->link('assessment/exam', 'path=' . $this->request->get['path'] . $url)
+					'text' => $category_info['name'],
+					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
 				);
 			}
 		}
@@ -72,7 +72,7 @@ class ControllerAssessmentAssessment extends Controller {
 		if (isset($this->request->get['manufacturer_id'])) {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_brand'),
-				'href' => $this->url->link('assessment/manufacturer')
+				'href' => $this->url->link('product/manufacturer')
 			);
 
 			$url = '';
@@ -98,7 +98,7 @@ class ControllerAssessmentAssessment extends Controller {
 			if ($manufacturer_info) {
 				$data['breadcrumbs'][] = array(
 					'text' => $manufacturer_info['name'],
-					'href' => $this->url->link('assessment/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
+					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
 				);
 			}
 		}
@@ -118,12 +118,12 @@ class ControllerAssessmentAssessment extends Controller {
 				$url .= '&description=' . $this->request->get['description'];
 			}
 
-			if (isset($this->request->get['exam_id'])) {
-				$url .= '&exam_id=' . $this->request->get['exam_id'];
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
 			}
 
-			if (isset($this->request->get['sub_exam'])) {
-				$url .= '&sub_exam=' . $this->request->get['sub_exam'];
+			if (isset($this->request->get['sub_category'])) {
+				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -144,37 +144,37 @@ class ControllerAssessmentAssessment extends Controller {
 
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_search'),
-				'href' => $this->url->link('assessment/search', $url)
+				'href' => $this->url->link('product/search', $url)
 			);
 		}
 
-		if (isset($this->request->get['assessment_id'])) {
-			$assessment_id = (int)$this->request->get['assessment_id'];
+		if (isset($this->request->get['product_id'])) {
+			$product_id = (int)$this->request->get['product_id'];
 		} else {
-			$assessment_id = 0;
+			$product_id = 0;
 		}
 
-		$this->load->model('catalog/assessment');
+		$this->load->model('catalog/product');
 
-		$assessment_info = $this->model_catalog_assessment->getAssessment($assessment_id);
+		$product_info = $this->model_catalog_product->getProduct($product_id);
 
-		//check assessment page open from exam page
+		//check product page open from cateory page
 		if (isset($this->request->get['path'])) {
 			$parts = explode('_', (string)$this->request->get['path']);
 						
-			if(empty($this->model_catalog_assessment->checkAssessmentExam($assessment_id, $parts))) {
-				$assessment_info = array();
+			if(empty($this->model_catalog_product->checkProductCategory($product_id, $parts))) {
+				$product_info = array();
 			}
 		}
 
-		//check assessment page open from manufacturer page
-		if (isset($this->request->get['manufacturer_id']) && !empty($assessment_info)) {
-			if($assessment_info['manufacturer_id'] !=  $this->request->get['manufacturer_id']) {
-				$assessment_info = array();
+		//check product page open from manufacturer page
+		if (isset($this->request->get['manufacturer_id']) && !empty($product_info)) {
+			if($product_info['manufacturer_id'] !=  $this->request->get['manufacturer_id']) {
+				$product_info = array();
 			}
 		}
 
-		if ($assessment_info) {
+		if ($product_info) {
 			$url = '';
 
 			if (isset($this->request->get['path'])) {
@@ -201,12 +201,12 @@ class ControllerAssessmentAssessment extends Controller {
 				$url .= '&description=' . $this->request->get['description'];
 			}
 
-			if (isset($this->request->get['exam_id'])) {
-				$url .= '&exam_id=' . $this->request->get['exam_id'];
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
 			}
 
-			if (isset($this->request->get['sub_exam'])) {
-				$url .= '&sub_exam=' . $this->request->get['sub_exam'];
+			if (isset($this->request->get['sub_category'])) {
+				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -226,78 +226,63 @@ class ControllerAssessmentAssessment extends Controller {
 			}
 
 			$data['breadcrumbs'][] = array(
-				'text' => $assessment_info['name'],
-				'href' => $this->url->link('assessment/assessment', $url . '&assessment_id=' . $this->request->get['assessment_id'])
+				'text' => $product_info['name'],
+				'href' => $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id'])
 			);
 
-			$this->document->setTitle($assessment_info['meta_title']);
-			// Nouveau code
-			$this->document->setDescription($assessment_info['date']);
-
-
-			$this->document->setKeywords($assessment_info['meta_keyword']);
-			$this->document->addLink($this->url->link('assessment/assessment', 'assessment_id=' . $this->request->get['assessment_id']), 'canonical');
+			$this->document->setTitle($product_info['meta_title']);
+			$this->document->setDescription($product_info['meta_description']);
+			$this->document->setKeywords($product_info['meta_keyword']);
+			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
 			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment-with-locales.min.js');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-			
-			$data['login_link'] = $this->url->link('assessment/assessment_login', $url . '&assessment_id=' . $this->request->get['assessment_id']);
-			// $data['login_link'] = $this->url->link('checkout/login');
 
+			$data['heading_title'] = $product_info['name'];
 
-			$data['center_name'] = $assessment_info['name'];
-
-			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $assessment_info['minimum']);
+			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', true), $this->url->link('account/register', '', true));
 
 			$this->load->model('catalog/review');
 
-			$data['tab_review'] = sprintf($this->language->get('tab_review'), $assessment_info['reviews']);
+			$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
 
-			$data['assessment_id'] = (int)$this->request->get['assessment_id'];
-			// Nouveau code
-			$data['exam'] = $assessment_info['exam'];
-			$data['date'] = $assessment_info['date'];
+			$data['product_id'] = (int)$this->request->get['product_id'];
+			$data['manufacturer'] = $product_info['manufacturer'];
+			$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
+			$data['model'] = $product_info['model'];
+			$data['reward'] = $product_info['reward'];
+			$data['points'] = $product_info['points'];
+			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 
-			$data['manufacturer'] = $assessment_info['manufacturer'];
-			$data['manufacturers'] = $this->url->link('assessment/manufacturer/info', 'manufacturer_id=' . $assessment_info['manufacturer_id']);
-			$data['model'] = $assessment_info['model'];
-			$data['location'] = $assessment_info['location'];
-			$data['reward'] = $assessment_info['reward'];
-			$data['points'] = $assessment_info['points'];
-
-			// Nouveau code
-			$data['description'] = html_entity_decode($assessment_info['description'], ENT_QUOTES, 'UTF-8');
-
-
-			if ($assessment_info['quantity'] <= 0) {
-				$data['stock'] = $assessment_info['stock_status'];
+			if ($product_info['quantity'] <= 0) {
+				$data['stock'] = $product_info['stock_status'];
 			} elseif ($this->config->get('config_stock_display')) {
-				$data['stock'] = $assessment_info['quantity'];
+				$data['stock'] = $product_info['quantity'];
 			} else {
 				$data['stock'] = $this->language->get('text_instock');
 			}
 
 			$this->load->model('tool/image');
 
-			if ($assessment_info['image']) {
-				$data['popup'] = $this->model_tool_image->resize($assessment_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
+			if ($product_info['image']) {
+				$data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
 			} else {
 				$data['popup'] = '';
 			}
 
-			if ($assessment_info['image']) {
-				$data['thumb'] = $this->model_tool_image->resize($assessment_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+			if ($product_info['image']) {
+				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 			} else {
 				$data['thumb'] = '';
 			}
 
 			$data['images'] = array();
 
-			$results = $this->model_catalog_assessment->getAssessmentImages($this->request->get['assessment_id']);
+			$results = $this->model_catalog_product->getProductImages($this->request->get['product_id']);
 
 			foreach ($results as $result) {
 				$data['images'][] = array(
@@ -307,17 +292,17 @@ class ControllerAssessmentAssessment extends Controller {
 			}
 
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-				$data['price'] = $this->currency->format($this->tax->calculate($assessment_info['price'], $assessment_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 			} else {
 				$data['price'] = false;
 			}
 
-			if (!is_null($assessment_info['special']) && (float)$assessment_info['special'] >= 0) {
-				$data['special'] = $this->currency->format($this->tax->calculate($assessment_info['special'], $assessment_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-				$tax_price = (float)$assessment_info['special'];
+			if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
+				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$tax_price = (float)$product_info['special'];
 			} else {
 				$data['special'] = false;
-				$tax_price = (float)$assessment_info['price'];
+				$tax_price = (float)$product_info['price'];
 			}
 
 			if ($this->config->get('config_tax')) {
@@ -326,32 +311,32 @@ class ControllerAssessmentAssessment extends Controller {
 				$data['tax'] = false;
 			}
 
-			$discounts = $this->model_catalog_assessment->getAssessmentDiscounts($this->request->get['assessment_id']);
+			$discounts = $this->model_catalog_product->getProductDiscounts($this->request->get['product_id']);
 
 			$data['discounts'] = array();
 
 			foreach ($discounts as $discount) {
 				$data['discounts'][] = array(
 					'quantity' => $discount['quantity'],
-					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $assessment_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
+					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
 				);
 			}
 
 			$data['options'] = array();
 
-			foreach ($this->model_catalog_assessment->getAssessmentOptions($this->request->get['assessment_id']) as $option) {
-				$assessment_option_value_data = array();
+			foreach ($this->model_catalog_product->getProductOptions($this->request->get['product_id']) as $option) {
+				$product_option_value_data = array();
 
-				foreach ($option['assessment_option_value'] as $option_value) {
-					if ($option_value['subtract']) {
+				foreach ($option['product_option_value'] as $option_value) {
+					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
 						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
-							$price = $this->currency->format($this->tax->calculate($option_value['price'], $assessment_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
+							$price = $this->currency->format($this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
 						} else {
 							$price = false;
-						}		
-		
-						$assessment_option_value_data[] = array(
-							'assessment_option_value_id' => $option_value['assessment_option_value_id'],
+						}
+
+						$product_option_value_data[] = array(
+							'product_option_value_id' => $option_value['product_option_value_id'],
 							'option_value_id'         => $option_value['option_value_id'],
 							'name'                    => $option_value['name'],
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
@@ -362,8 +347,8 @@ class ControllerAssessmentAssessment extends Controller {
 				}
 
 				$data['options'][] = array(
-					'assessment_option_id'    => $option['assessment_option_id'],
-					'assessment_option_value' => $assessment_option_value_data,
+					'product_option_id'    => $option['product_option_id'],
+					'product_option_value' => $product_option_value_data,
 					'option_id'            => $option['option_id'],
 					'name'                 => $option['name'],
 					'type'                 => $option['type'],
@@ -372,8 +357,8 @@ class ControllerAssessmentAssessment extends Controller {
 				);
 			}
 
-			if ($assessment_info['minimum']) {
-				$data['minimum'] = $assessment_info['minimum'];
+			if ($product_info['minimum']) {
+				$data['minimum'] = $product_info['minimum'];
 			} else {
 				$data['minimum'] = 1;
 			}
@@ -392,8 +377,8 @@ class ControllerAssessmentAssessment extends Controller {
 				$data['customer_name'] = '';
 			}
 
-			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$assessment_info['reviews']);
-			$data['rating'] = (int)$assessment_info['rating'];
+			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
+			$data['rating'] = (int)$product_info['rating'];
 
 			// Captcha
 			if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
@@ -402,13 +387,13 @@ class ControllerAssessmentAssessment extends Controller {
 				$data['captcha'] = '';
 			}
 
-			$data['share'] = $this->url->link('assessment/assessment', 'assessment_id=' . (int)$this->request->get['assessment_id']);
+			$data['share'] = $this->url->link('product/product', 'product_id=' . (int)$this->request->get['product_id']);
 
-			$data['attribute_groups'] = $this->model_catalog_assessment->getAssessmentAttributes($this->request->get['assessment_id']);
+			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
 
-			$data['assessments'] = array();
+			$data['products'] = array();
 
-			$results = $this->model_catalog_assessment->getAssessmentRelated($this->request->get['assessment_id']);
+			$results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
 
 			foreach ($results as $result) {
 				if ($result['image']) {
@@ -443,47 +428,36 @@ class ControllerAssessmentAssessment extends Controller {
 					$rating = false;
 				}
 
-				// Nouveau code
-				$axams = $this->model_catalog_assessment->getAssessmentExam($this->request->get['assessment_id']);
-
-				foreach ($exams as $exam_) {
-					$exam = $this->model_catalog_exam->getExam($exam_['exam_id']);
-					}
-
-				$data['assessments'][] = array(
-					'assessment_id'  => $result['assessment_id'],
+				$data['products'][] = array(
+					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
-					// Nouveau code
-					'date' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_assessment_description_length')) . '..',
-					// 'exam' => ($this->model_catalog_exam->getExam($this->request->get['exam_id'])),
-					'exam' => $exam,
-
+					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
-					'href'        => $this->url->link('assessment/assessment', 'assessment_id=' . $result['assessment_id'])
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
 			}
 
 			$data['tags'] = array();
 
-			if ($assessment_info['tag']) {
-				$tags = explode(',', $assessment_info['tag']);
+			if ($product_info['tag']) {
+				$tags = explode(',', $product_info['tag']);
 
 				foreach ($tags as $tag) {
 					$data['tags'][] = array(
 						'tag'  => trim($tag),
-						'href' => $this->url->link('assessment/search', 'tag=' . trim($tag))
+						'href' => $this->url->link('product/search', 'tag=' . trim($tag))
 					);
 				}
 			}
 
-			$data['recurrings'] = $this->model_catalog_assessment->getProfiles($this->request->get['assessment_id']);
+			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
-			$this->model_catalog_assessment->updateViewed($this->request->get['assessment_id']);
+			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
 			
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -492,7 +466,7 @@ class ControllerAssessmentAssessment extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-			$this->response->setOutput($this->load->view('assessment/assessment', $data));
+			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
 			$url = '';
 
@@ -520,12 +494,12 @@ class ControllerAssessmentAssessment extends Controller {
 				$url .= '&description=' . $this->request->get['description'];
 			}
 
-			if (isset($this->request->get['exam_id'])) {
-				$url .= '&exam_id=' . $this->request->get['exam_id'];
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
 			}
 
-			if (isset($this->request->get['sub_exam'])) {
-				$url .= '&sub_exam=' . $this->request->get['sub_exam'];
+			if (isset($this->request->get['sub_category'])) {
+				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -546,7 +520,7 @@ class ControllerAssessmentAssessment extends Controller {
 
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_error'),
-				'href' => $this->url->link('assessment/assessment', $url . '&assessment_id=' . $assessment_id)
+				'href' => $this->url->link('product/product', $url . '&product_id=' . $product_id)
 			);
 
 			$this->document->setTitle($this->language->get('text_error'));
@@ -567,7 +541,7 @@ class ControllerAssessmentAssessment extends Controller {
 	}
 
 	public function review() {
-		$this->load->language('assessment/assessment');
+		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
 
@@ -579,9 +553,9 @@ class ControllerAssessmentAssessment extends Controller {
 
 		$data['reviews'] = array();
 
-		$review_total = $this->model_catalog_review->getTotalReviewsByAssessmentId($this->request->get['assessment_id']);
+		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
 
-		$results = $this->model_catalog_review->getReviewsByAssessmentId($this->request->get['assessment_id'], ($page - 1) * 5, 5);
+		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
 
 		foreach ($results as $result) {
 			$data['reviews'][] = array(
@@ -596,21 +570,21 @@ class ControllerAssessmentAssessment extends Controller {
 		$pagination->total = $review_total;
 		$pagination->page = $page;
 		$pagination->limit = 5;
-		$pagination->url = $this->url->link('assessment/assessment/review', 'assessment_id=' . $this->request->get['assessment_id'] . '&page={page}');
+		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($review_total - 5)) ? $review_total : ((($page - 1) * 5) + 5), $review_total, ceil($review_total / 5));
 
-		$this->response->setOutput($this->load->view('assessment/review', $data));
+		$this->response->setOutput($this->load->view('product/review', $data));
 	}
 
 	public function write() {
-		$this->load->language('assessment/assessment');
+		$this->load->language('product/product');
 
 		$json = array();
 
-		if (isset($this->request->get['assessment_id']) && $this->request->get['assessment_id']) {
+		if (isset($this->request->get['product_id']) && $this->request->get['product_id']) {
 			if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 				if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
 					$json['error'] = $this->language->get('error_name');
@@ -636,13 +610,13 @@ class ControllerAssessmentAssessment extends Controller {
 				if (!isset($json['error'])) {
 					$this->load->model('catalog/review');
 
-					$this->model_catalog_review->addReview($this->request->get['assessment_id'], $this->request->post);
+					$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
 
 					$json['success'] = $this->language->get('text_success');
 				}
 			}
 		} else {
-			$json['error'] = $this->language->get('error_assessment');
+			$json['error'] = $this->language->get('error_product');
 		} 
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -650,13 +624,13 @@ class ControllerAssessmentAssessment extends Controller {
 	}
 
 	public function getRecurringDescription() {
-		$this->load->language('assessment/assessment');
-		$this->load->model('catalog/assessment');
+		$this->load->language('product/product');
+		$this->load->model('catalog/product');
 
-		if (isset($this->request->post['assessment_id'])) {
-			$assessment_id = $this->request->post['assessment_id'];
+		if (isset($this->request->post['product_id'])) {
+			$product_id = $this->request->post['product_id'];
 		} else {
-			$assessment_id = 0;
+			$product_id = 0;
 		}
 
 		if (isset($this->request->post['recurring_id'])) {
@@ -671,13 +645,13 @@ class ControllerAssessmentAssessment extends Controller {
 			$quantity = 1;
 		}
 
-		$assessment_info = $this->model_catalog_assessment->getAssessment($assessment_id);
+		$product_info = $this->model_catalog_product->getProduct($product_id);
 		
-		$recurring_info = $this->model_catalog_assessment->getProfile($assessment_id, $recurring_id);
+		$recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 
 		$json = array();
 
-		if ($assessment_info && $recurring_info) {
+		if ($product_info && $recurring_info) {
 			if (!$json) {
 				$frequencies = array(
 					'day'        => $this->language->get('text_day'),
@@ -688,13 +662,13 @@ class ControllerAssessmentAssessment extends Controller {
 				);
 
 				if ($recurring_info['trial_status'] == 1) {
-					$price = $this->currency->format($this->tax->calculate($recurring_info['trial_price'] * $quantity, $assessment_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+					$price = $this->currency->format($this->tax->calculate($recurring_info['trial_price'] * $quantity, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 					$trial_text = sprintf($this->language->get('text_trial_description'), $price, $recurring_info['trial_cycle'], $frequencies[$recurring_info['trial_frequency']], $recurring_info['trial_duration']) . ' ';
 				} else {
 					$trial_text = '';
 				}
 
-				$price = $this->currency->format($this->tax->calculate($recurring_info['price'] * $quantity, $assessment_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				$price = $this->currency->format($this->tax->calculate($recurring_info['price'] * $quantity, $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 
 				if ($recurring_info['duration']) {
 					$text = $trial_text . sprintf($this->language->get('text_payment_description'), $price, $recurring_info['cycle'], $frequencies[$recurring_info['frequency']], $recurring_info['duration']);

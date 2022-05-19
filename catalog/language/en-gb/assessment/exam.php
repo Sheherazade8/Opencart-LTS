@@ -34,3 +34,6 @@ $_['text_month']            = 'Date (month) :';
 $_['text_date']             = 'Date:';
 $_['text_action']           = 'Action:';
 $_['registration']          = 'Registration';
+$_['text_prep_products']    = 'Our preparation products';
+$_['select']                = 'Select';
+$_['text_search']           = 'Still deciding which test is right for you?';

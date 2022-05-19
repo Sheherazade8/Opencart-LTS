@@ -281,6 +281,23 @@ class ControllerAssessmentExam extends Controller {
 				);				
 			}
 
+			$this->load->model('catalog/product');
+
+			$products = $this->model_catalog_product->getProducts();
+			$data['products'] = array();
+	
+			foreach ($products as $product) {
+				$data['products'][] = array(
+					'name'     => $product['name'],
+					'price'    => $product['price'],
+					'model'	   => $product['model'],
+					'image'	   => $product['image'],
+					'href'     => $this->url->link('assessment/exam', 'path=' . $product['product_id'])
+				);
+			}
+				
+			$data['search'] = $this->load->controller('common/search');
+
 			$url = '';
 
 			if (isset($this->request->get['filter'])) {

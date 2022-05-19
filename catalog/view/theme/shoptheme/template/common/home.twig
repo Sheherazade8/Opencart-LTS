@@ -91,7 +91,7 @@
 								{% for exam in bestsellers %}
 								<div class="item">
 									<a href="{{ exam.href }}">
-										<div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/test1.webp');">
+										<div class="img-cover img" style="background-image: url('catalog/view/theme/shoptheme/img/bestseller.jpg');">
 											<div class="filter">
 												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 											</div>
@@ -124,24 +124,32 @@
 						<h2>{{ text_prep_products }}</h2>
 						<div class="slider-container">
 					    	<div class="owl-carousel owl-theme material">
-								{% for exam in preparation_products %}
+								{% for product in products %}
 				        		<div class="item">
-									<a href="{{ exam.href }}">
+									<a href="{{ product.href }}">
+										{% if product.image %}
+										<div class="img-contain img"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></div>
+											<div class="filter">
+												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											</div>
+										</div>
+										{% else %}
 					          			<div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
 											<div class="filter">
 												<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 											</div>
 										</div>
+										{% endif %}
 									</a>
                   					<div class="text-box">
-                    					<p class="title">{{ exam.name }}</p>
-                    					<p class="subline"></p>
-										{% if exam.price > 0 %}
+                    					<p class="title">{{ product.name }}</p>
+                    					<p class="subline">{{ product.model }}</p>
+										{% if product.price > 0 %}
 										<div class="price-box">
-											<p class="price">{{ exam.price }}</p><p class="price-old"></p>
+											<p class="price">{{ product.price }}</p><p class="price-old"></p>
 										</div>
 										{% endif %}
-                    					<a href="{{ exam.href }}"><div class="button small">{{ select }}</div></a>
+                    					<a href="{{ product.href }}"><div class="button small">{{ select }}</div></a>
                   					</div>
 				        		</div>
 								{% endfor %}

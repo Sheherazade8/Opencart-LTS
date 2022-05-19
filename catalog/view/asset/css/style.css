@@ -1,5 +1,4 @@
 /* Copyright 1999-2012. Parallels IP Holdings GmbH. All Rights Reserved. */
-
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
@@ -61,7 +60,7 @@ p {
 font-family: 'PT Sans', sans-serif;
 }
 ul { margin: 0; padding: 0; list-style: none; }
-li { padding: 0 0 8px 14px; background: url('catalog/view/theme/shoptheme/img/bullet.gif') 0 5px no-repeat; }
+li { padding: 0 0 8px 14px; background: url(catalog/view/theme/shoptheme/img/bullet.gif) 0 5px no-repeat; }
 
 
 .img-cover{
@@ -98,6 +97,7 @@ nav .item-box .item{
   color: black;
   font-weight: 700;
   transition: all ease 0.3s;
+  position: relative;
 }
 
 nav.white .item-box .item a p{
@@ -114,6 +114,10 @@ nav.scroll .item-box .item{
 
 nav.scroll .item-box .item a p{
   color: black;
+}
+
+nav .item-box .item:hover a p{
+  color: #E71053;
 }
 
 nav .logo-box .img{
@@ -206,6 +210,62 @@ nav .item-box-2 .item-shop{
   margin: 0px 10px;
 }
 
+nav .item-box .item:hover .sub-box{
+  display: block;
+}
+
+nav .sub-box{
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  padding-top: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  display: none;
+}
+
+nav .item-box .item .sub-box .sub-item a p{
+  color: black;
+}
+
+nav .sub-box .sub-item{
+  padding: 10px;
+  background-color: white;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  transition: all ease 0.3s;
+}
+
+nav .sub-box .sub-item:hover{
+  background-color: #E71053;
+  color: white;
+}
+
+nav .sub-box .sub-item.last{
+  border: none;
+}
+
+nav .sub-box p{
+  font-size: 12px;
+  color: black;
+  transition: all ease 0.3s;
+  text-align: center;
+}
+
+nav .item-box .item .sub-box .sub-item:hover a p{
+  color: white;
+}
+
+nav .item-shop p a:hover{
+  color: #E71053;
+}
+
+nav .item-shop.ware:hover i{
+  color: #E71053;
+}
+
+nav .item-shop.ware:hover p{
+  color: #E71053;
+}
 
 header{
   position: relative;
@@ -376,7 +436,7 @@ box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
 
 
  section.first{
-   padding-top: 100px;
+   padding-top: 250px;
  }
 
  section.last{
@@ -1086,6 +1146,10 @@ input[type=radio]:checked + label.item{
   text-align: center;
 }
 
+.table-item .mobile{
+  display: none;
+}
+
 .login-box{
   border-radius: 10px;
   background-color: #F5F5F5;
@@ -1404,4 +1468,284 @@ margin-top: 10px;
 
 .section-kontakt .item .text .title{
 font-weight: 700;
+}
+
+footer{
+  padding: 30px 0px;
+  background-color: #E71053;
+  color: white;
+}
+
+footer a{
+  color: white;
+}
+
+.mobile-menu{
+  display: none;
+}
+
+.mobile-view{
+  display: none;
+}
+
+
+footer a:hover{
+  text-decoration: underline;
+  color: white;
+}
+
+@media (max-width: 1200px) {
+  nav .item-box .item{
+    padding: 50px 25px 5px;
+  }
+  nav.scroll .item-box .item{
+    padding: 25px 25px 5px;
+  }
+}
+
+@media (max-width: 991px) {
+  header .mask .box p{
+    font-size: 25px;
+  }
+  nav .item-box .item{
+    padding: 50px 20px 5px;
+  }
+  nav.scroll .item-box .item{
+    padding: 25px 20px 5px;
+  }
+  .section-bestellung .item .title{
+    font-synthesis: 18px;
+  }
+
+  .section-bestellung .item p{
+    font-size: 18px;
+  }
+  .mat-box-1 .img{
+    margin-top: 30px;
+  }
+  .section-7 .scoring-box-1 .item{
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  header .mask .box{
+    display: block;
+  }
+  header .mask .box .btn{
+    display: table;
+    margin: 0px auto;
+  }
+
+  .mobile-menu{
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    transition: all ease 0.3s;
+  }
+
+  nav.scroll .mobile-menu{
+    top: 30px;
+  }
+
+  nav .logo-box .img{
+    width: 100px;
+  }
+
+  nav.white .logo-box .img{
+    background-image: url('catalog/view/theme/shoptheme/img/logo-black.webp');
+  }
+
+  nav.white .item-box-2 i{
+    color: black;
+  }
+
+  .mobile-menu .line{
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background-color: black;
+  }
+
+  .mobile-menu .line-1{
+    top: 0px;
+    left: 0px;
+  }
+
+  .mobile-menu .line-2{
+    top: 10px;
+    left: 0px;
+  }
+
+  .mobile-menu .line-3{
+    top: 20px;
+    left: 0px;
+  }
+
+  nav{
+    background-color: white!important;
+    color: black!important;
+
+  }
+
+  nav .item-box{
+   opacity: 0;
+   height: 0px;
+   overflow: hidden;
+   pointer-events: none;
+ }
+
+    nav.active .item-box{
+      height: auto;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+  nav.scroll .mobile-menu .line{
+    background-color: black;
+  }
+  nav .item-box{
+    display: block;
+    background-color: white;
+    padding-bottom: 30px;
+  }
+
+  nav .item-box .item{
+    padding: 15px 0px;
+  }
+
+  nav .mobile-gutter{
+    padding: 0px;
+  }
+  nav .sub-box{
+    position: relative;
+    display: block;
+  }
+
+  nav .sub-box .sub-item{
+    border: none;
+  }
+
+  nav .item-box .item a p{
+    text-align: center;
+    color: black;
+  }
+
+  nav.white .item-box .item a p{
+    text-align: center;
+    color: black;
+  }
+
+  nav.scroll .item-box .item a p{
+    text-align: center;
+  }
+
+  nav .mobile-ware{
+    position: absolute;
+    top: 0px;
+    right: 50px;
+  }
+
+  nav .mobile-display{
+    display: none;
+  }
+
+  nav .item-box-2 .item-shop{
+    padding-top: 5px;
+    padding-right: 20px;
+  }
+  .mobile-menu .line{
+  transition: all ease 0.3s;
+}
+
+.mobile-menu.active .line-1{
+  transform: rotateZ(45deg);
+  position: absolute;
+  margin-top: 10px;
+  width: 30px;
+}
+
+.mobile-menu.active .line-2{
+  position: absolute;
+  transform: rotateZ(-45deg);
+  margin-top: 0px;
+  width: 30px;
+}
+
+.mobile-menu.active .line-3{
+  display: none;
+}
+
+nav.scroll .item-box-2 .item-shop{
+  padding-top: 10px;
+}
+
+.section-register h2{
+  padding-top: 30px;
+}
+
+.section-register .box{
+  display: none;
+}
+
+.mobile-view{
+  position: absolute;
+  display: block;
+  font-style: italic;
+  top: 30px;
+  right: 20px;
+  color: #E71053;
+}
+
+.section-register .box.active{
+  display: block;
+}
+
+.section-bestellung .item p{
+  font-size: 13px;
+}
+
+.section-bestellung .item .title{
+  font-size: 13px;
+}
+
+.section-form .button{
+  margin-bottom: 30px;
+}
+
+.section-4 .button{
+  margin-bottom: 30px;
+}
+.section-6 .table-head{
+  display: none;
+}
+.section-6 .table-item{
+  display: block;
+}
+.table-item .mobile{
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.table-item .element{
+  padding: 0px;
+  padding-bottom: 10px;
+}
+
+header .mask .box p{
+  display: inline-block;
+  width: 39%;
+  vertical-align: top;
+}
+
+header select{
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 15px;
+}
 }

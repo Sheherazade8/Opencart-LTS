@@ -1,59 +1,29 @@
+<link rel="stylesheet" href="catalog/view/asset/css/style.css" />
+
+
 <footer>
-  {# <div class="container">
-    <div class="row">
-      {% if informations %}
-      <div class="col-sm-3">
-        <h5>{{ text_information }}</h5>
-        <ul class="list-unstyled">
-         {% for information in informations %}
-          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-      <div class="col-sm-3">
-        <h5>{{ text_service }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-          <li><a href="{{ return }}">{{ text_return }}</a></li>
-          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
-        </ul>
-      </div>
-      <div class="col-sm-3">
-        <h5>{{ text_extra }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
-          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-          <li><a href="{{ special }}">{{ text_special }}</a></li>
-        </ul>
-      </div>
-      <div class="col-sm-3">
-        <h5>{{ text_account }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ account }}">{{ text_account }}</a></li>
-          <li><a href="{{ order }}">{{ text_order }}</a></li>
-          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
-        </ul>
-      </div>
-    </div>
-    <hr>
-    <p>{{ powered }}</p>
-  </div> #}
 
-          <section class="section-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <hr>
-                <p>{{ powered }}</p>
-              </div>
-            </div>
-          </div>
-        </section>
+  
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-8">
+        {% for information in informations %}
+				  <a href="{{ information.href }}">{{ information.title }}</a> &nbsp | &nbsp 
+        {% endfor %}
+			</div>
 
+      <div class="col-md-4">
+				<a href="https://www.language-testing-service.de/" target="_blank">{{ powered }}</a>
+				{# <p class="text">{{ powered }}</p> #}
+			</div>
+
+		</div>
+	</div>
+  
 </footer>
+
+
 
 {# {% for style in styles %}
 <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />

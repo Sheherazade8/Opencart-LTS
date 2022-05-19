@@ -24,19 +24,31 @@ class ControllerCommonHome extends Controller {
 			);
 		}
 
-		$products = $this->model_catalog_exam->getExamsByFilter('Preparation Products');
-		$data['preparation_products'] = array();
+		// $products = $this->model_catalog_exam->getExamsByFilter('Preparation Products');
+		// $data['preparation_products'] = array();
 
-		foreach ($bproducts as $product) {
-			$data['preparation_products'][] = array(
+		// foreach ($products as $product) {
+		// 	$data['preparation_products'][] = array(
+		// 		'name'     => $product['name'],
+		// 		'price'    => $product['price'],
+		// 		'href'     => $this->url->link('assessment/exam', 'path=' . $product['path'])
+		// 	);
+		// }
+
+		$this->load->model('catalog/product');
+
+		$products = $this->model_catalog_product->getProducts();
+		$data['products'] = array();
+
+		foreach ($products as $product) {
+			$data['products'][] = array(
 				'name'     => $product['name'],
 				'price'    => $product['price'],
-				'href'     => $this->url->link('assessment/exam', 'path=' . $product['path'])
+				'model'	   => $product['model'],
+				'image'	   => $product['image'],
+				'href'     => $this->url->link('assessment/exam', 'path=' . $product['product_id'])
 			);
 		}
-
-
-		$data['preparation_products'] = $this->model_catalog_exam->getExamsByFilter('Preparation Products');
 
 
 		$data['column_left'] = $this->load->controller('common/column_left');

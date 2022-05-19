@@ -184,7 +184,67 @@
             </div>
           </div>
         </section>
+
       {% endif %}
+
+      <section class="section-1">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2>{{ text_prep_products }}</h2>
+                <div class="slider-container">
+                    <div class="owl-carousel owl-theme material">
+                    {% for product in products %}
+                        <div class="item">
+                      <a href="{{ product.href }}">
+                        {% if product.image %}
+                        <div class="img-contain img"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></div>
+                          <div class="filter">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                        {% else %}
+                              <div class="img-contain img" style="background-image: url('catalog/view/theme/shoptheme/img/material1.webp');">
+                          <div class="filter">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                        {% endif %}
+                      </a>
+                                <div class="text-box">
+                                  <p class="title">{{ product.name }}</p>
+                                  <p class="subline">{{ product.model }}</p>
+                        {% if product.price > 0 %}
+                        <div class="price-box">
+                          <p class="price">{{ product.price }}</p><p class="price-old"></p>
+                        </div>
+                        {% endif %}
+                                  <a href="{{ product.href }}"><div class="button small">{{ select }}</div></a>
+                                </div>
+                        </div>
+                    {% endfor %}
+
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+
+      <section class="section-3 last">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2>{{ text_search }}</h2>
+
+              {{ search }}
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       {% if not exams and not assessments %}
         <section class="section-5">

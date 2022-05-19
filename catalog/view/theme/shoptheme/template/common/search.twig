@@ -1,42 +1,36 @@
-{# <div id="search" class="input-group">
-  <input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="form-control input-lg" />
-  <span class="input-group-btn">
-    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-  </span>
-</div> #}
-
-			<div class="mask">
-				<div class="container">
-					<div class="row justify-content-md-center">
-						<div class="col-md-8">
-							<div class="box" id="search">
-								<input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="form-control input-lg" />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-                </span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
 
 			{# <div class="mask">
 				<div class="container">
 					<div class="row justify-content-md-center">
 						<div class="col-md-8">
+							<div class="box" id="search">
+								<input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="form-control input-lg" />
+								<span class="input-group-btn">
+								<button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> #}
+
+
+			<div class="mask">
+				<div class="container">
+					<div class="row justify-content-md-center">
+						<div class="col-md-8">
 							<div class="box">
-								<p>Ich bin</p>
+								<p>{{ text_select1 }}</p>
 								<select id="position" name="position">
-								  <option value="default">auswählen...</option>
-							    <option value="student">Student</option>
-							    <option value="angestellter">Angestellter</option>
+								  <option value="default">{{ text_default }}</option>
+							    <option value="option11">{{ option11 }}</option>
+							    <option value="option12">{{ option12 }}</option>
 							  </select>
-								<p>und ich suche</p>
+								<p>{{ text_select2 }}</p>
 								<select id="search" name="search">
-								  <option value="default2">auswählen...</option>
-							    <option value="ausbildung">Ausbildung</option>
-							    <option value="Option2">Option2</option>
+								  <option value="default2">{{ text_default }}</option>
+							    <option value="option21">{{ option21 }}</option>
+							    <option value="option22">{{ option22 }}</option>
 							  </select>
 								<button type="submit" class="btn header">
 									<i class="fa fa-search" aria-hidden="true"></i>
@@ -45,4 +39,4 @@
 						</div>
 					</div>
 				</div>
-			</div> #}
+			</div>
