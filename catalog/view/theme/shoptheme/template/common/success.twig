@@ -1,25 +1,38 @@
 {{ header }}
-<div id="common-success" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    {% if column_left and column_right %}
-    {% set class = 'col-sm-6' %}
-    {% elseif column_left or column_right %}
-    {% set class = 'col-sm-9' %}
-    {% else %}
-    {% set class = 'col-sm-12' %}
-    {% endif %}
-    <div id="content" class="{{ class }}">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      {{ text_message }}
-      <div class="buttons">
-        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      </div>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
-</div>
+
+		<header class="img-cover standard img" style="background-image: url('catalog/view/theme/shoptheme/img/success.webp');">
+			<div class="filter">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h1>{{ title }}</h1>
+						</div>
+					</div>
+			</div>
+		</header>
+
+		<section class="section-success">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
+								<h2>{{ subtitle }}</h2>
+								<p class="text">{{ text_email }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="nav-section last">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<a href="{{ home_link }}"><div class="button small back">{{ text_home }}</div></a>
+					</div>
+				</div>
+			</div>
+		</section>
+
 {{ footer }}

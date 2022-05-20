@@ -245,6 +245,8 @@ class ControllerCheckoutCart extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			$data['link_payment'] = $this->url->link('checkout/payment_method');
+
 
 			$this->response->setOutput($this->load->view('checkout/cart', $data));
 
@@ -261,6 +263,8 @@ class ControllerCheckoutCart extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			$data['link_payment'] = $this->url->link('checkout/payment_method');
+
 
 			// $this->response->setOutput($this->load->view('error/not_found', $data));
 			$this->response->setOutput($this->load->view('checkout/cart', $data));

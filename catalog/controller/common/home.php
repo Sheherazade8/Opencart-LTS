@@ -46,7 +46,7 @@ class ControllerCommonHome extends Controller {
 				'price'    => $product['price'],
 				'model'	   => $product['model'],
 				'image'	   => $product['image'],
-				'href'     => $this->url->link('assessment/exam', 'path=' . $product['product_id'])
+				'href'     => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			);
 		}
 

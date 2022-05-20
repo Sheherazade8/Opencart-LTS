@@ -121,6 +121,10 @@ class ControllerCheckoutPaymentMethod extends Controller {
 			$data['agree'] = '';
 		}
 
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+
 		$this->response->setOutput($this->load->view('checkout/payment_method', $data));
 	}
 

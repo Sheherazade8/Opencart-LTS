@@ -22,6 +22,8 @@ class ControllerCheckoutSuccess extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
+		$data['home_link'] = $this->url->link('common/home');
+
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(

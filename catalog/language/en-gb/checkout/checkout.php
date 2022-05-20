@@ -97,4 +97,7 @@ $_['login']                          = 'Login';
 $_['back']                           = 'Back';
 $_['newsletter']                     = 'Newsletter';
 $_['privacy']                        = 'Privacy policy';
+$_['payment']                        = 'Payment information';
+$_['payment_method']                 = 'Payment method';
+
 

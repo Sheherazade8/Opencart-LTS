@@ -36,4 +36,6 @@ $_['text_action']           = 'Action:';
 $_['registration']          = 'Registration';
 $_['text_prep_products']    = 'Our preparation products';
 $_['select']                = 'Select';
+$_['back']                  = 'Back';
 $_['text_search']           = 'Still deciding which test is right for you?';
+

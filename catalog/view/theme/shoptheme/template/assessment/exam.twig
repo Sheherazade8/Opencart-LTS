@@ -187,6 +187,23 @@
 
       {% endif %}
 
+      {% if not exams and not assessments %}
+        <section class="section-1">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2>{{ text_assessment }}</h2>
+                <p class="text">{{ text_empty }}</p>
+              </div>
+              <div class="col-md-6">
+                <div onclick="history.back()" class="button small back">{{ back }}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      {% endif %}
+
+
       <section class="section-1">
           <div class="container">
             <div class="row">
@@ -243,21 +260,6 @@
           </div>
         </div>
       </section>
-
-
-
-      {% if not exams and not assessments %}
-        <section class="section-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <p>{{ text_empty }}</p>
-                <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      {% endif %}
 
 
 {{ footer }} 

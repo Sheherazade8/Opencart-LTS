@@ -10,6 +10,16 @@
         {% endif %}
         {% endfor %}
 
+		{# {% for category in categories %}
+        {% if category.children %}
+
+            <div class="item">
+                <a class="scrolling" href="{{ category.href }}"><p class="text">{{ category.name }}</p></a>
+            </div>
+
+        {% endif %}
+        {% endfor %} #}
+
 		<div class="item">
 		    <a class="scrolling" href="{{ contact }}"><p class="text">{{ text_contact }}</p></a>
 		</div>
